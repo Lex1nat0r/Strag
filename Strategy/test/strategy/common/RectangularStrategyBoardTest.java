@@ -54,7 +54,9 @@ public class RectangularStrategyBoardTest {
 
 	@Test
 	public void testIsOccupied() {
-		fail("Not yet implemented");
+		assertFalse(board.isOccupied(new Position(0, 0)));
+		board.putPieceAt(new Position(0, 0), new Piece(PieceType.BOMB, PlayerColor.RED));
+		assertTrue(board.isOccupied(new Position(0, 0)));
 	}
 
 	@Test
