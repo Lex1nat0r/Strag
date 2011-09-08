@@ -17,11 +17,16 @@ import strategy.*;
 
 /**
  *
- * @author gpollice
- * @version Sep 2, 2011
+ * @author gpollice, alextc, andrewdhurle
+ * @version Sep 8, 2011
  */
 public class RectangularStrategyBoard implements StrategyBoard
 {
+	
+	private Piece[][] pieces;
+	private int numRows;
+	private int numCols;
+	
 	/**
 	 * Constructor for a rectangular board.
 	 * 
@@ -30,6 +35,9 @@ public class RectangularStrategyBoard implements StrategyBoard
 	 */
 	public RectangularStrategyBoard(int rows, int columns)
 	{
+		pieces = new Piece[rows][columns];
+		numRows = rows;
+		numCols = columns;
 		
 	}
 	
@@ -39,8 +47,7 @@ public class RectangularStrategyBoard implements StrategyBoard
 	@Override
 	public Iterator<Piece> iterator()
 	{
-		// TODO Auto-generated method stub
-		return null;
+		return new BoardIterator(pieces);
 	}
 
 	/*
@@ -88,7 +95,11 @@ public class RectangularStrategyBoard implements StrategyBoard
 	 */
 	public void initializeBoard()
 	{
-		
+		for (int i = 0; i < numRows; i++) {
+			for (int j = 0; j < numCols; j++) {
+				pieces[i][j] = Piece.NULL_PIECE;
+			}
+		}
 	}
 	
 	@Override
