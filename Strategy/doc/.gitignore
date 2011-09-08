@@ -1,0 +1,5 @@
+#ignore everything but this file and any Visual Paradigm projects
+*
+
+!.gitignore
+!*.vpp
