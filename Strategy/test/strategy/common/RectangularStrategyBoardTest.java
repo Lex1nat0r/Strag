@@ -42,12 +42,14 @@ public class RectangularStrategyBoardTest {
 
 	@Test
 	public void testGetPieceAt() {
-		fail("Not yet implemented");
+		assertTrue(Piece.NULL_PIECE == board.getPieceAt(new Position(0, 0)));
 	}
 
 	@Test
 	public void testPutPieceAt() {
-		fail("Not yet implemented");
+		Piece redBomb = new Piece(PieceType.BOMB, PlayerColor.RED);
+		board.putPieceAt(new Position(0, 0), redBomb);
+		assertTrue(redBomb == board.getPieceAt(new Position(0, 0)));
 	}
 
 	@Test

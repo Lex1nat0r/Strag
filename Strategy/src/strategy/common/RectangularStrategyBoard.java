@@ -56,8 +56,7 @@ public class RectangularStrategyBoard implements StrategyBoard
 	@Override
 	public Piece getPieceAt(Position position)
 	{
-		// TODO Auto-generated method stub
-		return null;
+		return pieces[position.getRow()][position.getColumn()];
 	}
 
 	/*
@@ -66,8 +65,7 @@ public class RectangularStrategyBoard implements StrategyBoard
 	@Override
 	public void putPieceAt(Position position, Piece piece)
 	{
-		// TODO Auto-generated method stub
-
+		pieces[position.getRow()][position.getColumn()] = piece;
 	}
 
 	/*
