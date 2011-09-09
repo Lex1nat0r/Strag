@@ -13,6 +13,7 @@
 package strategy.common;
 
 import java.util.Iterator;
+import java.util.Random;
 import strategy.*;
 
 /**
@@ -92,6 +93,34 @@ public class RectangularStrategyBoard implements StrategyBoard
 	public void initializeBoard()
 	{
 		clearBoard();
+		randomlyPlaceRed();
+	}
+	
+	private void randomlyPlaceRed() {
+		randomlyPlacePiece(PieceType.MARSHAL, PlayerColor.RED);
+		randomlyPlacePiece(PieceType.GENERAL, PlayerColor.RED);
+		randomlyPlacePiece(PieceType.COLONEL, PlayerColor.RED);
+		randomlyPlacePiece(PieceType.MAJOR, PlayerColor.RED);
+		randomlyPlacePiece(PieceType.CAPTAIN, PlayerColor.RED);
+		randomlyPlacePiece(PieceType.LIEUTENANT, PlayerColor.RED);
+		randomlyPlacePiece(PieceType.SERGEANT, PlayerColor.RED);
+		randomlyPlacePiece(PieceType.MINER, PlayerColor.RED);
+		randomlyPlacePiece(PieceType.SCOUT, PlayerColor.RED);
+		randomlyPlacePiece(PieceType.SPY, PlayerColor.RED);
+		randomlyPlacePiece(PieceType.BOMB, PlayerColor.RED);
+		randomlyPlacePiece(PieceType.FLAG, PlayerColor.RED);
+	}
+	
+	private void randomlyPlacePiece(PieceType type, PlayerColor color) {
+		Random randGen = new Random();
+		Position randPos = new Position(randGen.nextInt(numRows / 2), randGen.nextInt(numCols));
+		Piece tempPiece = new Piece(type, PlayerColor.RED);
+		
+		while (isOccupied(randPos)) {
+			randPos = new Position(randGen.nextInt(numRows / 2), randGen.nextInt(numCols));
+		}
+		
+		putPieceAt(randPos, tempPiece);
 	}
 	
 	/**

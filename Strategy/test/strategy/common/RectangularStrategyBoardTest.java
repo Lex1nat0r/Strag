@@ -20,6 +20,7 @@ public class RectangularStrategyBoardTest {
 
 	@Test
 	public void testRectangularStrategyBoard() {
+		board.clearBoard();
 		Iterator<Piece> iter = board.iterator();
 
 		while (iter.hasNext()) {
@@ -42,6 +43,7 @@ public class RectangularStrategyBoardTest {
 
 	@Test
 	public void testGetPieceAt() {
+		board.clearBoard();
 		assertTrue(Piece.NULL_PIECE == board.getPieceAt(new Position(0, 0)));
 	}
 
@@ -54,6 +56,7 @@ public class RectangularStrategyBoardTest {
 
 	@Test
 	public void testIsOccupied() {
+		board.clearBoard();
 		assertFalse(board.isOccupied(new Position(0, 0)));
 		board.putPieceAt(new Position(0, 0), new Piece(PieceType.BOMB, PlayerColor.RED));
 		assertTrue(board.isOccupied(new Position(0, 0)));
@@ -65,12 +68,30 @@ public class RectangularStrategyBoardTest {
 	}
 
 	@Test
-	public void testInitializeBoard() {
-		fail("Not yet implemented");
+	public void testInitializeBoardPlacesRedPiecesRandomly() {
+		RectangularStrategyBoard mockBoard = new RectangularStrategyBoard(6, 6);
+		mockBoard.initializeBoard();
+		board.initializeBoard();
+		assertFalse(mockBoard.toString().equals(board.toString()));
+	}
+	
+	@Test
+	public void testInitializeBoardPlacesCorrectNumberOfPieces() {
+		Iterator<Piece >iter = board.iterator();
+		int numPieces = 0;
+		
+		while (iter.hasNext()) {
+			if (iter.next() != Piece.NULL_PIECE) {
+				numPieces++;
+			}
+		}
+		
+		assertEquals(12, numPieces);
 	}
 
 	@Test
 	public void testToString() {
+		board.clearBoard();
 		assertEquals("NNNNNN\n" + 
 				"NNNNNN\n" +
 				"NNNNNN\n" +
