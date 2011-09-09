@@ -6,6 +6,8 @@ import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
 
+import strategy.StrategyException;
+
 /**
  * Test case for the BetaStrategy game.
  * 
@@ -34,7 +36,7 @@ public class BetaStrategyGameTest {
 	}
 	
 	@Test
-	public void testInitializeGameCreatesRandomArrangementOfPieces() {
+	public void testInitializeGameCreatesRandomArrangementOfPieces() throws StrategyException {
 		BetaStrategyGame secondGame = new BetaStrategyGame();
 		secondGame.initializeGame();
 		assertFalse(secondGame.equals(game));

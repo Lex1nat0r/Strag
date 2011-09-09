@@ -20,8 +20,9 @@ public interface StrategyGame
 {
 	/**
 	 * Initialize (reset) the game.
+	 * @throws StrategyException if something goes wrong when initializing
 	 */
-	void initializeGame();
+	void initializeGame() throws StrategyException;
 
 	/**
 	 * @param source

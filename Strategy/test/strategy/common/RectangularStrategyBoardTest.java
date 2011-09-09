@@ -42,24 +42,34 @@ public class RectangularStrategyBoardTest {
 	}
 
 	@Test
-	public void testGetPieceAt() {
+	public void testGetPieceAt() throws StrategyException {
 		board.clearBoard();
 		assertTrue(Piece.NULL_PIECE == board.getPieceAt(new Position(0, 0)));
 	}
+	
+	@Test(expected=StrategyException.class)
+	public void testGetPieceAtInvalidPosition() throws StrategyException {
+		board.getPieceAt(new Position(-1, 0));
+	}
 
 	@Test
-	public void testPutPieceAt() {
+	public void testPutPieceAt() throws StrategyException {
 		Piece redBomb = new Piece(PieceType.BOMB, PlayerColor.RED);
 		board.putPieceAt(new Position(0, 0), redBomb);
 		assertTrue(redBomb == board.getPieceAt(new Position(0, 0)));
 	}
 
 	@Test
-	public void testIsOccupied() {
+	public void testIsOccupied() throws StrategyException {
 		board.clearBoard();
 		assertFalse(board.isOccupied(new Position(0, 0)));
 		board.putPieceAt(new Position(0, 0), new Piece(PieceType.BOMB, PlayerColor.RED));
 		assertTrue(board.isOccupied(new Position(0, 0)));
+	}
+	
+	@Test(expected=StrategyException.class)
+	public void testIsOccupiedInvalidPosition() throws StrategyException {
+		board.isOccupied(new Position(-1, 0));
 	}
 
 	@Test
@@ -75,6 +85,36 @@ public class RectangularStrategyBoardTest {
 	@Test(expected=StrategyException.class)
 	public void testGetDistanceDiagonally() throws StrategyException {
 		board.getDistance(new Position(0,0), new Position(1,1));
+	}
+	
+	@Test
+	public void testValidatePositionSuccessfully() throws StrategyException
+	{
+		board.validatePosition(new Position(0, 0));
+	}
+	
+	@Test(expected=StrategyException.class)
+	public void testValidatePositionRowOverflow() throws StrategyException
+	{
+		board.validatePosition(new Position(6, 0));
+	}
+	
+	@Test(expected=StrategyException.class)
+	public void testValidatePositionRowUnderflow() throws StrategyException
+	{
+		board.validatePosition(new Position(-1, 0));
+	}
+	
+	@Test(expected=StrategyException.class)
+	public void testValidatePositionColumnOverflow() throws StrategyException
+	{
+		board.validatePosition(new Position(0, 6));
+	}
+	
+	@Test(expected=StrategyException.class)
+	public void testValidatePositionColumnUnderflow() throws StrategyException
+	{
+		board.validatePosition(new Position(0, -1));
 	}
 
 	@Test

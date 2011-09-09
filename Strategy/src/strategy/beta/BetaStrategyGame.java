@@ -37,7 +37,7 @@ public class BetaStrategyGame implements StrategyGame
 	}
 	
 	@Override
-	public void initializeGame()
+	public void initializeGame() throws StrategyException
 	{
 		placePiecesByColor(PlayerColor.RED);
 		placePiecesByColor(PlayerColor.BLUE);
@@ -85,7 +85,7 @@ public class BetaStrategyGame implements StrategyGame
 		return numPieces;
 	}
 	
-	private void placePiecesByColor(PlayerColor pieceColor) {
+	private void placePiecesByColor(PlayerColor pieceColor) throws StrategyException {
 		randomlyPlacePiece(PieceType.MARSHAL, pieceColor);
 		randomlyPlacePiece(PieceType.GENERAL, pieceColor);
 		randomlyPlacePiece(PieceType.COLONEL, pieceColor);
@@ -100,7 +100,7 @@ public class BetaStrategyGame implements StrategyGame
 		randomlyPlacePiece(PieceType.FLAG, pieceColor);
 	}
 	
-	private void randomlyPlacePiece(PieceType type, PlayerColor color) {
+	private void randomlyPlacePiece(PieceType type, PlayerColor color) throws StrategyException {
 		final Random randGen = new Random();
 		final Piece tempPiece = new Piece(type, color);
 		Position randPos = null;

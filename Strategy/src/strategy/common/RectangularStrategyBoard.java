@@ -53,8 +53,9 @@ public class RectangularStrategyBoard implements StrategyBoard
 	 * @see strategy.StrategyBoard#getPieceAt(strategy.Position)
 	 */
 	@Override
-	public Piece getPieceAt(Position position)
+	public Piece getPieceAt(Position position) throws StrategyException
 	{
+		validatePosition(position);
 		return pieces[position.getRow()][position.getColumn()];
 	}
 
@@ -71,7 +72,7 @@ public class RectangularStrategyBoard implements StrategyBoard
 	 * @see strategy.StrategyBoard#isOccupied(strategy.Position)
 	 */
 	@Override
-	public boolean isOccupied(Position position)
+	public boolean isOccupied(Position position) throws StrategyException
 	{
 		return (getPieceAt(position) != Piece.NULL_PIECE);
 	}
@@ -91,6 +92,19 @@ public class RectangularStrategyBoard implements StrategyBoard
 		}
 		
 		return (int) Math.sqrt(Math.pow(colDiff, 2) + Math.pow(rowDiff, 2));
+	}
+	
+	/**
+	 * @see strategy.StrategyBoard#validatePosition(Position)
+	 */
+	public void validatePosition(Position pos) throws StrategyException
+	{
+		if(pos.getRow() >= numRows || pos.getRow() < 0) {
+			throw new StrategyException("row must be greater than 0 and less than " + numRows);
+		}
+		if(pos.getColumn() >= numCols || pos.getColumn() < 0) {
+			throw new StrategyException("col must be greater than 0 and less than " + numCols);
+		}
 	}
 	
 	/**
