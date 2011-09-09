@@ -3,6 +3,7 @@ package strategy.beta;
 import static org.junit.Assert.*;
 
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 
 import strategy.Piece;
@@ -21,11 +22,13 @@ public class PieceTest {
 	}
 
 	@Test
+	@Ignore
 	public void testHashCode() {
 		fail("Not yet implemented");
 	}
 
 	@Test
+	@Ignore
 	public void testPiece() {
 		fail("Not yet implemented");
 	}
@@ -53,6 +56,7 @@ public class PieceTest {
 	}
 
 	@Test
+	@Ignore
 	public void testIsMoveable() {
 		fail("Not yet implemented");
 	}

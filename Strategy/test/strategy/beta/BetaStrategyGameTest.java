@@ -3,6 +3,7 @@ package strategy.beta;
 import static org.junit.Assert.*;
 
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 
 /**
@@ -22,6 +23,7 @@ public class BetaStrategyGameTest {
 	}
 
 	@Test
+	@Ignore
 	public void testBetaStrategyGame() {
 		fail("Not yet implemented");
 	}
@@ -39,21 +41,25 @@ public class BetaStrategyGameTest {
 	}
 
 	@Test
+	@Ignore
 	public void testMove() {
 		fail("Not yet implemented");
 	}
 
 	@Test
+	@Ignore
 	public void testIsGameOver() {
 		fail("Not yet implemented");
 	}
 
 	@Test
+	@Ignore
 	public void testGetWinner() {
 		fail("Not yet implemented");
 	}
 
 	@Test
+	@Ignore
 	public void testGetPieceAt() {
 		fail("Not yet implemented");
 	}
