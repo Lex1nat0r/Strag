@@ -3,12 +3,9 @@
  */
 package strategy.common;
 
-import java.lang.reflect.Array;
-import java.util.Arrays;
 import java.util.Iterator;
 
 import strategy.Piece;
-import strategy.StrategyException;
 
 /**
  * @author alextc, andrewdhurle

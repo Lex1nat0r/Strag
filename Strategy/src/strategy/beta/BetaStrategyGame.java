@@ -12,7 +12,11 @@
  *******************************************************************************/
 package strategy.beta;
 
+import java.util.Iterator;
+import java.util.Random;
+
 import strategy.*;
+import strategy.common.RectangularStrategyBoard;
 
 /**
  * Implementation of the BetaStrategy game.
@@ -21,18 +25,22 @@ import strategy.*;
  */
 public class BetaStrategyGame implements StrategyGame
 {
+	private RectangularStrategyBoard board;
+	
 	/**
 	 * Default constructor. Initializes the game.
 	 */
 	public BetaStrategyGame()
 	{
-		
+		board = new RectangularStrategyBoard(6, 6);
+		board.initializeBoard();
 	}
 	
 	@Override
 	public void initializeGame()
 	{
-		
+		placePiecesByColor(PlayerColor.RED);
+		placePiecesByColor(PlayerColor.BLUE);
 	}
 	
 	@Override
@@ -59,6 +67,68 @@ public class BetaStrategyGame implements StrategyGame
 		return null;
 	}
 	
+	/**
+	 * Get the number of pieces of both colors currently on the board
+	 * 
+	 * @return numPieces
+	 */
+	public int getNumPiecesOnBoard() {
+		int numPieces = 0;
+		final Iterator<Piece> iter = board.iterator();
+		
+		while(iter.hasNext()) {
+			if (!iter.next().equals(Piece.NULL_PIECE)) {
+				numPieces++;
+			}
+		}
+		
+		return numPieces;
+	}
+	
+	private void placePiecesByColor(PlayerColor pieceColor) {
+		randomlyPlacePiece(PieceType.MARSHAL, pieceColor);
+		randomlyPlacePiece(PieceType.GENERAL, pieceColor);
+		randomlyPlacePiece(PieceType.COLONEL, pieceColor);
+		randomlyPlacePiece(PieceType.MAJOR, pieceColor);
+		randomlyPlacePiece(PieceType.CAPTAIN, pieceColor);
+		randomlyPlacePiece(PieceType.LIEUTENANT, pieceColor);
+		randomlyPlacePiece(PieceType.SERGEANT, pieceColor);
+		randomlyPlacePiece(PieceType.MINER, pieceColor);
+		randomlyPlacePiece(PieceType.SCOUT, pieceColor);
+		randomlyPlacePiece(PieceType.SPY, pieceColor);
+		randomlyPlacePiece(PieceType.BOMB, pieceColor);
+		randomlyPlacePiece(PieceType.FLAG, pieceColor);
+	}
+	
+	private void randomlyPlacePiece(PieceType type, PlayerColor color) {
+		final Random randGen = new Random();
+		final Piece tempPiece = new Piece(type, color);
+		Position randPos = null;
+		
+		
+		if (color == PlayerColor.RED) {
+			 randPos = new Position(randGen.nextInt(2), randGen.nextInt(board.getNumCols()));
+			while (board.isOccupied(randPos)) {
+				randPos = new Position(randGen.nextInt(2), randGen.nextInt(board.getNumCols()));
+			}
+		}
+		else {
+			randPos = new Position((board.getNumRows() - 1) - randGen.nextInt(2), 
+					randGen.nextInt(board.getNumCols()));
+			while (board.isOccupied(randPos)) {
+				randPos = new Position((board.getNumRows() - 1) - randGen.nextInt(2), 
+						randGen.nextInt(board.getNumCols()));
+			}
+		}
+			
+		board.putPieceAt(randPos, tempPiece);
+	}
+	
+	/**
+	 * Set the current StrategyBoard to the given StrategyBoard
+	 * 
+	 * @param board
+	 */
 	protected void setBoard(StrategyBoard board)
 	{
 		

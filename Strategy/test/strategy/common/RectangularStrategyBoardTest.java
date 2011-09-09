@@ -63,30 +63,18 @@ public class RectangularStrategyBoardTest {
 	}
 
 	@Test
-	public void testGetDistance() {
-		fail("Not yet implemented");
-	}
-
-	@Test
-	public void testInitializeBoardPlacesRedPiecesRandomly() {
-		RectangularStrategyBoard mockBoard = new RectangularStrategyBoard(6, 6);
-		mockBoard.initializeBoard();
-		board.initializeBoard();
-		assertFalse(mockBoard.toString().equals(board.toString()));
+	public void testGetDistance() throws StrategyException {
+		assertEquals(board.getDistance(new Position(0,0), new Position(0,0)), 0);
+		assertEquals(board.getDistance(new Position(0,0), new Position(0,1)), 1);
+		assertEquals(board.getDistance(new Position(0,0), new Position(1,0)), 1);
+		assertEquals(board.getDistance(new Position(0,1), new Position(0,0)), 1);
+		assertEquals(board.getDistance(new Position(1,0), new Position(0,0)), 1);
+		assertEquals(board.getDistance(new Position(2,2), new Position(4,2)), 2);
 	}
 	
-	@Test
-	public void testInitializeBoardPlacesCorrectNumberOfPieces() {
-		Iterator<Piece >iter = board.iterator();
-		int numPieces = 0;
-		
-		while (iter.hasNext()) {
-			if (iter.next() != Piece.NULL_PIECE) {
-				numPieces++;
-			}
-		}
-		
-		assertEquals(12, numPieces);
+	@Test(expected=StrategyException.class)
+	public void testGetDistanceDiagonally() throws StrategyException {
+		board.getDistance(new Position(0,0), new Position(1,1));
 	}
 
 	@Test

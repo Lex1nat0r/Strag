@@ -21,8 +21,8 @@ import strategy.*;
 public class AlphaStrategyGame
 {
 
-	private final static int width = 2;
-	private final static int height = 2;
+	private static final int width = 2;
+	private static final int height = 2;
 	private Piece[][] board = new Piece[height][width];
 	private PlayerColor winner;
 	private PlayerColor turnColor;

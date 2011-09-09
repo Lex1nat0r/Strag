@@ -10,9 +10,6 @@
  *******************************************************************************/
 package strategy;
 
-import strategy.PieceType;
-import strategy.PlayerColor;
-
 /**
  * The Piece class represents a piece in the game. One instance of this class is created for each
  * piece on the board.

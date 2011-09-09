@@ -18,6 +18,7 @@ public class BetaStrategyGameTest {
 	@Before
 	public void setUp() throws Exception {
 		game = new BetaStrategyGame();
+		game.initializeGame();
 	}
 
 	@Test
@@ -26,8 +27,15 @@ public class BetaStrategyGameTest {
 	}
 
 	@Test
-	public void testInitializeGame() {
-		fail("Not yet implemented");
+	public void testInitializeGamePlacesCorrectNumberOfPieces() {
+		assertEquals(24, game.getNumPiecesOnBoard());
+	}
+	
+	@Test
+	public void testInitializeGameCreatesRandomArrangementOfPieces() {
+		BetaStrategyGame secondGame = new BetaStrategyGame();
+		secondGame.initializeGame();
+		assertFalse(secondGame.equals(game));
 	}
 
 	@Test

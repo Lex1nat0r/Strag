@@ -13,7 +13,6 @@
 package strategy.common;
 
 import java.util.Iterator;
-import java.util.Random;
 import strategy.*;
 
 /**
@@ -25,8 +24,8 @@ public class RectangularStrategyBoard implements StrategyBoard
 {
 	
 	private Piece[][] pieces;
-	private int numRows;
-	private int numCols;
+	final private int numRows;
+	final private int numCols;
 	
 	/**
 	 * Constructor for a rectangular board.
@@ -77,14 +76,21 @@ public class RectangularStrategyBoard implements StrategyBoard
 		return (getPieceAt(position) != Piece.NULL_PIECE);
 	}
 
-	/*
+	/**
 	 * @see strategy.StrategyBoard#getDistance(strategy.Position, strategy.Position)
+	 * @throws StrategyException if displacement occurs on both axes
 	 */
 	@Override
-	public int getDistance(Position from, Position to)
+	public int getDistance(Position from, Position to) throws StrategyException
 	{
-		// TODO Auto-generated method stub
-		return 0;
+		final int colDiff = from.getColumn() - to.getColumn();
+		final int rowDiff = from.getRow() - to.getRow();
+		
+		if(colDiff != 0 && rowDiff != 0) {
+			throw new StrategyException("Displacement must occur horizontally OR vertically");
+		}
+		
+		return (int) Math.sqrt(Math.pow(colDiff, 2) + Math.pow(rowDiff, 2));
 	}
 	
 	/**
@@ -93,34 +99,24 @@ public class RectangularStrategyBoard implements StrategyBoard
 	public void initializeBoard()
 	{
 		clearBoard();
-		randomlyPlaceRed();
 	}
 	
-	private void randomlyPlaceRed() {
-		randomlyPlacePiece(PieceType.MARSHAL, PlayerColor.RED);
-		randomlyPlacePiece(PieceType.GENERAL, PlayerColor.RED);
-		randomlyPlacePiece(PieceType.COLONEL, PlayerColor.RED);
-		randomlyPlacePiece(PieceType.MAJOR, PlayerColor.RED);
-		randomlyPlacePiece(PieceType.CAPTAIN, PlayerColor.RED);
-		randomlyPlacePiece(PieceType.LIEUTENANT, PlayerColor.RED);
-		randomlyPlacePiece(PieceType.SERGEANT, PlayerColor.RED);
-		randomlyPlacePiece(PieceType.MINER, PlayerColor.RED);
-		randomlyPlacePiece(PieceType.SCOUT, PlayerColor.RED);
-		randomlyPlacePiece(PieceType.SPY, PlayerColor.RED);
-		randomlyPlacePiece(PieceType.BOMB, PlayerColor.RED);
-		randomlyPlacePiece(PieceType.FLAG, PlayerColor.RED);
+	/**
+	 * Returns the number of rows this RectangularStrategyBoard has
+	 * 
+	 * @return numRows
+	 */
+	public int getNumRows() {
+		return numRows;
 	}
-	
-	private void randomlyPlacePiece(PieceType type, PlayerColor color) {
-		Random randGen = new Random();
-		Position randPos = new Position(randGen.nextInt(numRows / 2), randGen.nextInt(numCols));
-		Piece tempPiece = new Piece(type, PlayerColor.RED);
-		
-		while (isOccupied(randPos)) {
-			randPos = new Position(randGen.nextInt(numRows / 2), randGen.nextInt(numCols));
-		}
-		
-		putPieceAt(randPos, tempPiece);
+
+	/**
+	 * Returns the number of columns this RectangularStrategyBoard has
+	 * 
+	 * @return numCols
+	 */
+	public int getNumCols() {
+		return numCols;
 	}
 	
 	/**
@@ -140,7 +136,7 @@ public class RectangularStrategyBoard implements StrategyBoard
 	public String toString()
 	{
 		String boardString = "";
-		String boardArr[] = {"","","","","",""};
+		String[] boardArr = {"", "", "", "", "", ""};
 		BoardIterator iter = new BoardIterator(pieces);
 		Piece tempPiece = null;
 		
@@ -148,17 +144,17 @@ public class RectangularStrategyBoard implements StrategyBoard
 		int row = 0;
 		
 		while (iter.hasNext()) {
-			if ((tempPiece = iter.next()) != Piece.NULL_PIECE) {
-				boardString = boardString + tempPiece.getType().getId();
+			if (!(tempPiece = iter.next()).equals(Piece.NULL_PIECE)) {
+				boardString += tempPiece.getType().getId();
 			}
 			else {
-				boardString = boardString + "N";
+				boardString += "N";
 			}
 			
 			colCount++;
 			
 			if (colCount > numCols - 1) {
-				boardString = boardString + "\n";
+				boardString += "\n";
 				colCount = 0;
 				boardArr[row] = boardString;
 				boardString = "";
