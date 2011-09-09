@@ -86,18 +86,9 @@ public class BetaStrategyGame implements StrategyGame
 	}
 	
 	private void placePiecesByColor(PlayerColor pieceColor) throws StrategyException {
-		randomlyPlacePiece(PieceType.MARSHAL, pieceColor);
-		randomlyPlacePiece(PieceType.GENERAL, pieceColor);
-		randomlyPlacePiece(PieceType.COLONEL, pieceColor);
-		randomlyPlacePiece(PieceType.MAJOR, pieceColor);
-		randomlyPlacePiece(PieceType.CAPTAIN, pieceColor);
-		randomlyPlacePiece(PieceType.LIEUTENANT, pieceColor);
-		randomlyPlacePiece(PieceType.SERGEANT, pieceColor);
-		randomlyPlacePiece(PieceType.MINER, pieceColor);
-		randomlyPlacePiece(PieceType.SCOUT, pieceColor);
-		randomlyPlacePiece(PieceType.SPY, pieceColor);
-		randomlyPlacePiece(PieceType.BOMB, pieceColor);
-		randomlyPlacePiece(PieceType.FLAG, pieceColor);
+		for (PieceType type : PieceType.values()) {
+			randomlyPlacePiece(type, pieceColor);
+		}
 	}
 	
 	private void randomlyPlacePiece(PieceType type, PlayerColor color) throws StrategyException {
@@ -132,6 +123,34 @@ public class BetaStrategyGame implements StrategyGame
 	protected void setBoard(StrategyBoard board)
 	{
 		
+	}
+	
+	/**
+	 * Return this BetaStrategyGame's RectangularStrategyBoard
+	 * 
+	 * @return board
+	 */
+	protected RectangularStrategyBoard getBoard() {
+		return board;
+	}
+	
+	@Override
+	public boolean equals(Object other)
+	{
+		if(this == other) {
+			return true;
+		}
+		if (other instanceof BetaStrategyGame) {
+			final BetaStrategyGame that = (BetaStrategyGame) other;
+			return board.equals(that.getBoard());
+		}
+		return false;
+	}
+	
+	@Override
+	public int hashCode()
+	{
+		return 1;
 	}
 
 }

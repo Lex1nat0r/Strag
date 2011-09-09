@@ -24,8 +24,8 @@ public class RectangularStrategyBoard implements StrategyBoard
 {
 	
 	private Piece[][] pieces;
-	final private int numRows;
-	final private int numCols;
+	private final int numRows;
+	private final int numCols;
 	
 	/**
 	 * Constructor for a rectangular board.
@@ -75,7 +75,7 @@ public class RectangularStrategyBoard implements StrategyBoard
 	@Override
 	public boolean isOccupied(Position position) throws StrategyException
 	{
-		return (getPieceAt(position) != Piece.NULL_PIECE);
+		return (!getPieceAt(position).equals(Piece.NULL_PIECE));
 	}
 
 	/**
@@ -182,5 +182,36 @@ public class RectangularStrategyBoard implements StrategyBoard
 		}
 		
 		return boardString;
+	}
+	
+	@Override
+	public boolean equals(Object other) {
+		if(this == other) {
+			return true;
+		}
+		if (other instanceof RectangularStrategyBoard) {
+			final RectangularStrategyBoard that = (RectangularStrategyBoard) other;
+			if (that.getNumCols() != numCols || that.getNumRows() != numRows) {
+				return false;
+			}
+			boolean same = true;
+			final Iterator<Piece> thatIter = that.iterator();
+			final Iterator<Piece> myIter = iterator();
+			
+			while(myIter.hasNext() && thatIter.hasNext()) {
+				if (!myIter.next().equals(thatIter.next())) {
+					same = false;
+				}
+			}
+			
+			return same;
+		}
+		return false;
+	}
+	
+	@Override
+	public int hashCode()
+	{
+		return 1;
 	}
 }

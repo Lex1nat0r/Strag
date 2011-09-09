@@ -53,6 +53,8 @@ public class PieceTest {
 		assertFalse(bluScout.equals(redMajor));
 		assertFalse(bluScout.equals(null));
 		assertFalse(bluScout.equals(new Object()));
+		assertTrue(Piece.NULL_PIECE.equals(Piece.NULL_PIECE));
+		assertFalse(Piece.NULL_PIECE.equals(bluScout));
 	}
 
 	@Test

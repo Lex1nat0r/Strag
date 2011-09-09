@@ -146,5 +146,15 @@ public class RectangularStrategyBoardTest {
 				"NNNNNN\n" +
 				"bNNNNN\n", board.toString());
 	}
+	
+	@Test
+	public void testEqualsObject() throws StrategyException {
+		RectangularStrategyBoard mockBoard = new RectangularStrategyBoard(6, 6);
+		mockBoard.initializeBoard();
+		assertTrue(board.equals(board));
+		assertTrue(board.equals(mockBoard));
+		mockBoard.putPieceAt(new Position(0, 0), new Piece(PieceType.SCOUT, PlayerColor.RED));
+		assertFalse(board.equals(mockBoard));
+	}
 
 }

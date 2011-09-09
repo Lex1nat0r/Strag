@@ -60,6 +60,9 @@ public class Piece
 		}
 		if (other instanceof Piece) {
 			final Piece that = (Piece) other;
+			if ((myType == null && myColor == null) && !that.equals(NULL_PIECE)) {
+				return false;
+			}
 			return myColor.equals(that.getColor()) && myType.equals(that.getType());
 		}
 		return false;
