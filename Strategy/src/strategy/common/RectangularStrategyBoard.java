@@ -63,8 +63,9 @@ public class RectangularStrategyBoard implements StrategyBoard
 	 * @see strategy.StrategyBoard#putPieceAt(strategy.Position, strategy.Piece)
 	 */
 	@Override
-	public void putPieceAt(Position position, Piece piece)
+	public void putPieceAt(Position position, Piece piece) throws StrategyException
 	{
+		validatePosition(position);
 		pieces[position.getRow()][position.getColumn()] = piece;
 	}
 

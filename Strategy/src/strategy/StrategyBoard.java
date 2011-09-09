@@ -35,8 +35,9 @@ public interface StrategyBoard extends Iterable<Piece>
 	 *            the coordinate for the position
 	 * @param piece
 	 * 			  the piece to put at the specified position
+	 * @throws StrategyException if the position is invalid
 	 */
-	void putPieceAt(Position position, Piece piece);
+	void putPieceAt(Position position, Piece piece) throws StrategyException;
 
 	/**
 	 * @param position

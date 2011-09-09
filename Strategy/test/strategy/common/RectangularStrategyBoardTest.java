@@ -58,6 +58,11 @@ public class RectangularStrategyBoardTest {
 		board.putPieceAt(new Position(0, 0), redBomb);
 		assertTrue(redBomb == board.getPieceAt(new Position(0, 0)));
 	}
+	
+	@Test(expected=StrategyException.class)
+	public void testPutPieceAtInvalidPosition() throws StrategyException {
+		board.putPieceAt(new Position(-1, 0), new Piece(PieceType.SCOUT, PlayerColor.RED));
+	}
 
 	@Test
 	public void testIsOccupied() throws StrategyException {
@@ -118,7 +123,7 @@ public class RectangularStrategyBoardTest {
 	}
 
 	@Test
-	public void testToString() {
+	public void testToString() throws StrategyException {
 		board.clearBoard();
 		assertEquals("NNNNNN\n" + 
 				"NNNNNN\n" +
