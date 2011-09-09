@@ -48,6 +48,7 @@ public interface StrategyBoard extends Iterable<Piece>
 	 * @param from the first coordinate
 	 * @param to the second coordinate
 	 * @return the distance between the two coordinates, according to the game rules
+	 * @throws StrategyException if comparison between two points is invalid
 	 */
-	int getDistance(Position from, Position to);
+	int getDistance(Position from, Position to) throws StrategyException;
 }

@@ -60,8 +60,18 @@ public class RectangularStrategyBoardTest {
 	}
 
 	@Test
-	public void testGetDistance() {
-		fail("Not yet implemented");
+	public void testGetDistance() throws StrategyException {
+		assertEquals(board.getDistance(new Position(0,0), new Position(0,0)), 0);
+		assertEquals(board.getDistance(new Position(0,0), new Position(0,1)), 1);
+		assertEquals(board.getDistance(new Position(0,0), new Position(1,0)), 1);
+		assertEquals(board.getDistance(new Position(0,1), new Position(0,0)), 1);
+		assertEquals(board.getDistance(new Position(1,0), new Position(0,0)), 1);
+		assertEquals(board.getDistance(new Position(2,2), new Position(4,2)), 2);
+	}
+	
+	@Test(expected=StrategyException.class)
+	public void testGetDistanceDiagonally() throws StrategyException {
+		board.getDistance(new Position(0,0), new Position(1,1));
 	}
 
 	@Test

@@ -76,14 +76,21 @@ public class RectangularStrategyBoard implements StrategyBoard
 		return (getPieceAt(position) != Piece.NULL_PIECE);
 	}
 
-	/*
+	/**
 	 * @see strategy.StrategyBoard#getDistance(strategy.Position, strategy.Position)
+	 * @throws StrategyException if displacement occurs on both axes
 	 */
 	@Override
-	public int getDistance(Position from, Position to)
+	public int getDistance(Position from, Position to) throws StrategyException
 	{
-		// TODO Auto-generated method stub
-		return 0;
+		final int colDiff = from.getColumn() - to.getColumn();
+		final int rowDiff = from.getRow() - to.getRow();
+		
+		if(colDiff != 0 && rowDiff != 0) {
+			throw new StrategyException("Displacement must occur horizontally OR vertically");
+		}
+		
+		return (int) Math.sqrt(Math.pow(colDiff, 2) + Math.pow(rowDiff, 2));
 	}
 	
 	/**
