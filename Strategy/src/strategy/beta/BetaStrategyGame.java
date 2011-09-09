@@ -62,9 +62,9 @@ public class BetaStrategyGame implements StrategyGame
 	}
 
 	@Override
-	public Piece getPieceAt(Position position)
+	public Piece getPieceAt(Position position) throws StrategyException
 	{
-		return null;
+		return board.getPieceAt(position);
 	}
 	
 	/**

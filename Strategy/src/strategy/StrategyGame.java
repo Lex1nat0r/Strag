@@ -56,6 +56,7 @@ public interface StrategyGame
 	 * Get the piece currently at the specified position
 	 * @param position
 	 * @return the piece at that position
+	 * @throws StrategyException if the position is invalid
 	 */
-	Piece getPieceAt(Position position);
+	Piece getPieceAt(Position position) throws StrategyException;
 }

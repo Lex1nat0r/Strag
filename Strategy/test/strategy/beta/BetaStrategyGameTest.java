@@ -6,6 +6,8 @@ import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
 
+import strategy.Piece;
+import strategy.Position;
 import strategy.StrategyException;
 
 /**
@@ -61,9 +63,10 @@ public class BetaStrategyGameTest {
 	}
 
 	@Test
-	@Ignore
-	public void testGetPieceAt() {
-		fail("Not yet implemented");
+	public void testGetPieceAt() throws StrategyException {
+		//this method just delegates to the board, where it is more thoroughly tested
+		//just a very basic test here
+		assertTrue(game.getPieceAt(new Position(0,0)) instanceof Piece);
 	}
 
 }
