@@ -10,6 +10,9 @@
  *******************************************************************************/
 package strategy;
 
+import strategy.PieceType;
+import strategy.PlayerColor;
+
 /**
  * The Piece class represents a piece in the game. One instance of this class is created for each
  * piece on the board.
@@ -19,6 +22,9 @@ package strategy;
  */
 public class Piece
 {
+	private final PieceType myType;
+	private final PlayerColor myColor;
+	
 	public static final Piece NULL_PIECE = new Piece(null, null);
 
 	/**
@@ -29,7 +35,8 @@ public class Piece
 	 */
 	public Piece(PieceType type, PlayerColor color)
 	{
-		
+		myType = type;
+		myColor = color;
 	}
 
 	/**
@@ -37,7 +44,7 @@ public class Piece
 	 */
 	public PieceType getType()
 	{
-		return null;
+		return myType;
 	}
 
 	/**
@@ -45,13 +52,18 @@ public class Piece
 	 */
 	public PlayerColor getColor()
 	{
-		return null;
+		return myColor;
 	}
 
 	@Override
 	public boolean equals(Object other)
 	{
-		return false;
+		if (other.getClass() == Piece.class) {
+			return (myColor.equals(((Piece) other).getColor()) && myType.equals(((Piece) other).getType()));
+		}
+		else {
+			return false;
+		}
 	}
 
 	@Override

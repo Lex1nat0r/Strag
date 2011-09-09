@@ -58,5 +58,10 @@ public class BetaStrategyGame implements StrategyGame
 	{
 		return null;
 	}
+	
+	protected void setBoard(StrategyBoard board)
+	{
+		
+	}
 
 }
