@@ -45,8 +45,11 @@ public class PieceTest {
 	@Test
 	public void testEqualsObject() {
 		Piece mockBluScout = new Piece(PieceType.SCOUT, PlayerColor.BLUE);
+		assertTrue(bluScout.equals(bluScout));
 		assertTrue(bluScout.equals(mockBluScout));
 		assertFalse(bluScout.equals(redMajor));
+		assertFalse(bluScout.equals(null));
+		assertFalse(bluScout.equals(new Object()));
 	}
 
 	@Test

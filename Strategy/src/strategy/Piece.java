@@ -58,12 +58,14 @@ public class Piece
 	@Override
 	public boolean equals(Object other)
 	{
-		if (other.getClass() == Piece.class) {
-			return (myColor.equals(((Piece) other).getColor()) && myType.equals(((Piece) other).getType()));
+		if(this == other) {
+			return true;
 		}
-		else {
-			return false;
+		if (other instanceof Piece) {
+			final Piece that = (Piece) other;
+			return myColor.equals(that.getColor()) && myType.equals(that.getType());
 		}
+		return false;
 	}
 
 	@Override
