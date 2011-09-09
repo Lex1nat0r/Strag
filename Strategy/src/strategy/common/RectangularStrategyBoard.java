@@ -38,7 +38,6 @@ public class RectangularStrategyBoard implements StrategyBoard
 		pieces = new Piece[rows][columns];
 		numRows = rows;
 		numCols = columns;
-		
 	}
 	
 	/*
@@ -111,6 +110,37 @@ public class RectangularStrategyBoard implements StrategyBoard
 	@Override
 	public String toString()
 	{
-		return null;
+		String boardString = "";
+		String boardArr[] = {"","","","","",""};
+		BoardIterator iter = new BoardIterator(pieces);
+		Piece tempPiece = null;
+		
+		int colCount = 0;
+		int row = 0;
+		
+		while (iter.hasNext()) {
+			if ((tempPiece = iter.next()) != Piece.NULL_PIECE) {
+				boardString = boardString + tempPiece.getType().getId();
+			}
+			else {
+				boardString = boardString + "N";
+			}
+			
+			colCount++;
+			
+			if (colCount > numCols - 1) {
+				boardString = boardString + "\n";
+				colCount = 0;
+				boardArr[row] = boardString;
+				boardString = "";
+				row++;
+			}
+		}
+		
+		for (int i = 1; i <= 6; i++) {
+			boardString += boardArr[numRows - i];
+		}
+		
+		return boardString;
 	}
 }

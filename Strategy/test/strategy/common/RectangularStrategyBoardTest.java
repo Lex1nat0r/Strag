@@ -71,7 +71,26 @@ public class RectangularStrategyBoardTest {
 
 	@Test
 	public void testToString() {
-		fail("Not yet implemented");
+		assertEquals("NNNNNN\n" + 
+				"NNNNNN\n" +
+				"NNNNNN\n" +
+				"NNNNNN\n" + 
+				"NNNNNN\n" +
+				"NNNNNN\n", board.toString());
+		board.putPieceAt(new Position(0, 0), new Piece(PieceType.BOMB, PlayerColor.RED));
+		assertEquals("NNNNNN\n" + 
+				"NNNNNN\n" +
+				"NNNNNN\n" +
+				"NNNNNN\n" + 
+				"NNNNNN\n" +
+				"bNNNNN\n", board.toString());
+		board.putPieceAt(new Position(2, 2), new Piece(PieceType.BOMB, PlayerColor.RED));
+		assertEquals("NNNNNN\n" + 
+				"NNNNNN\n" +
+				"NNNNNN\n" +
+				"NNbNNN\n" + 
+				"NNNNNN\n" +
+				"bNNNNN\n", board.toString());
 	}
 
 }

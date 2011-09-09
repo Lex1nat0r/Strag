@@ -19,15 +19,16 @@ package strategy;
  */
 public enum PieceType
 {
-	MARSHAL(1, 'm'), 
-	COLONEL(2, 'c'), 
-	MAJOR(3, 'j'), 
-	CAPTAIN(4, 'p'), 
-	LIEUTENANT(5, 't'), 
-	SERGEANT(6, 'g'), 
-	MINER(7, 'r'), 
-	SCOUT(8, 's'), 
-	SPY(9, 'y'), 
+	MARSHAL(1, 'm'),
+	GENERAL(2, 'g'),
+	COLONEL(3, 'c'), 
+	MAJOR(4, 'j'), 
+	CAPTAIN(5, 'p'), 
+	LIEUTENANT(6, 't'), 
+	SERGEANT(7, 'g'), 
+	MINER(8, 'r'), 
+	SCOUT(9, 's'), 
+	SPY(10, 'y'), 
 	BOMB(0, 'b'), 
 	FLAG(0, 'f');
 
