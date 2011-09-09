@@ -102,6 +102,19 @@ public class RectangularStrategyBoard implements StrategyBoard
 	}
 	
 	/**
+	 * Sets every space on the board to the NULL_PIECE
+	 * Mostly used for testing
+	 */
+	protected void clearBoard()
+	{
+		for (int i = 0; i < numRows; i++) {
+			for (int j = 0; j < numCols; j++) {
+				pieces[i][j] = Piece.NULL_PIECE;
+			}
+		}
+	}
+	
+	/**
 	 * Returns the number of rows this RectangularStrategyBoard has
 	 * 
 	 * @return numRows
@@ -117,19 +130,6 @@ public class RectangularStrategyBoard implements StrategyBoard
 	 */
 	public int getNumCols() {
 		return numCols;
-	}
-	
-	/**
-	 * Sets every space on the board to the NULL_PIECE
-	 * Mostly used for testing
-	 */
-	protected void clearBoard()
-	{
-		for (int i = 0; i < numRows; i++) {
-			for (int j = 0; j < numCols; j++) {
-				pieces[i][j] = Piece.NULL_PIECE;
-			}
-		}
 	}
 	
 	@Override
