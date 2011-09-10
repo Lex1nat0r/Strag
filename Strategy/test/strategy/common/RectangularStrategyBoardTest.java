@@ -161,10 +161,19 @@ public class RectangularStrategyBoardTest {
 	public void testEqualsObject() throws StrategyException {
 		RectangularStrategyBoard mockBoard = new RectangularStrategyBoard(6, 6);
 		mockBoard.initializeBoard();
+		RectangularStrategyBoard differentlySizedBoard = new RectangularStrategyBoard(6, 5);
 		assertTrue(board.equals(board));
 		assertTrue(board.equals(mockBoard));
 		mockBoard.putPieceAt(new Position(0, 0), new Piece(PieceType.SCOUT, PlayerColor.RED));
 		assertFalse(board.equals(mockBoard));
+		assertFalse(board.equals(differentlySizedBoard));
+		assertFalse(board.equals(new Object()));
+	}
+	
+	@Test
+	public void testHashCode() {
+		int hash = board.hashCode();
+		assertEquals(hash, board.hashCode());  //test consistency
 	}
 
 }

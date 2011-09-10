@@ -23,7 +23,7 @@ import strategy.*;
 public class RectangularStrategyBoard implements StrategyBoard
 {
 	
-	private Piece[][] pieces;
+	private final Piece[][] pieces;
 	private final int numRows;
 	private final int numCols;
 	
@@ -187,8 +187,8 @@ public class RectangularStrategyBoard implements StrategyBoard
 	public String toString()
 	{
 		String boardString = "";
-		String[] boardArr = {"", "", "", "", "", ""};
-		BoardIterator iter = new BoardIterator(pieces);
+		final String[] boardArr = {"", "", "", "", "", ""};
+		final BoardIterator iter = new BoardIterator(pieces);
 		Piece tempPiece = null;
 		
 		int colCount = 0;
