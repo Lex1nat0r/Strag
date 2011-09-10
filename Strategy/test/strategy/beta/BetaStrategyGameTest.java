@@ -23,6 +23,7 @@ public class BetaStrategyGameTest {
 
 	private BetaStrategyGame game;
 	private BetaStrategyGame movementTestGame;
+	private BetaStrategyGame battleTestGame;
 	
 	@Before
 	public void setUp() throws Exception {
@@ -39,6 +40,18 @@ public class BetaStrategyGameTest {
 		movementTestBoard.putPieceAt(new Position(0,4), new Piece(PieceType.BOMB, PlayerColor.RED));
 		movementTestBoard.putPieceAt(new Position(0,5), new Piece(PieceType.SPY, PlayerColor.RED));
 		movementTestGame.setBoard(movementTestBoard);
+		
+		battleTestGame = new BetaStrategyGame();
+		battleTestGame.initializeGame();
+		RectangularStrategyBoard battleTestBoard = new RectangularStrategyBoard(6, 6);
+		battleTestBoard.initializeBoard();
+		battleTestBoard.putPieceAt(new Position(0,0), new Piece(PieceType.LIEUTENANT, PlayerColor.RED));
+		battleTestBoard.putPieceAt(new Position(1,0), new Piece(PieceType.SERGEANT, PlayerColor.BLUE));
+		battleTestBoard.putPieceAt(new Position(1,1), new Piece(PieceType.LIEUTENANT, PlayerColor.BLUE));
+		battleTestBoard.putPieceAt(new Position(0,1), new Piece(PieceType.SERGEANT, PlayerColor.RED));
+		battleTestBoard.putPieceAt(new Position(1,2), new Piece(PieceType.SERGEANT, PlayerColor.BLUE));
+		battleTestBoard.putPieceAt(new Position(0,2), new Piece(PieceType.SERGEANT, PlayerColor.RED));
+		battleTestGame.setBoard(battleTestBoard);
 	}
 
 	@Test
@@ -121,6 +134,32 @@ public class BetaStrategyGameTest {
 		assertEquals(originalPiece, destinationPiece);
 		assertEquals(originalPiece, movementTestGame.getPieceAt(new Position(1,5)));
 		assertFalse(movementTestGame.getBoard().isOccupied(new Position(0,5)));
+	}
+	
+	@Test
+	public void testBattleLieutenantAttacksSergeantAndWins() throws StrategyException {
+		Piece lieutenant = battleTestGame.getPieceAt(new Position(0,0));
+		Piece returnedPiece = battleTestGame.move(new Position(0,0), new Position(1,0));
+		assertEquals(lieutenant, returnedPiece);
+		assertEquals(lieutenant, battleTestGame.getPieceAt(new Position(1,0)));
+		assertFalse(battleTestGame.getBoard().isOccupied(new Position(0,0)));
+	}
+	
+	@Test
+	public void testBattleSergeantAttacksLieutenantAndLoses() throws StrategyException {
+		Piece lieutenant = battleTestGame.getPieceAt(new Position(1,1));
+		Piece returnedPiece = battleTestGame.move(new Position(0,1), new Position(1,1));
+		assertEquals(lieutenant, returnedPiece);
+		assertEquals(lieutenant, battleTestGame.getPieceAt(new Position(1,1)));
+		assertFalse(battleTestGame.getBoard().isOccupied(new Position(0,1)));
+	}
+	
+	@Test
+	public void testBattleSergeantAttacksSergeantAndDraws() throws StrategyException {
+		Piece returnedPiece = battleTestGame.move(new Position(0,2), new Position(1,2));
+		assertEquals(Piece.NULL_PIECE, returnedPiece);
+		assertEquals(Piece.NULL_PIECE, battleTestGame.getPieceAt(new Position(1,2)));
+		assertFalse(battleTestGame.getBoard().isOccupied(new Position(0,2)));
 	}
 
 	@Test

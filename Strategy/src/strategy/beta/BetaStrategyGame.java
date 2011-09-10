@@ -28,6 +28,13 @@ public class BetaStrategyGame implements StrategyGame
 	private RectangularStrategyBoard board;
 	
 	/**
+	 * The possible results of a battle.
+	 */
+	private enum BattleResult {
+		DEFEAT, VICTORY, DRAW
+	}
+	
+	/**
 	 * Default constructor. Initializes the game.
 	 */
 	public BetaStrategyGame()
@@ -70,12 +77,45 @@ public class BetaStrategyGame implements StrategyGame
 			throw new StrategyException("Cannot move through occupied spaces");
 		}
 		
-		board.putPieceAt(destination, sourcePiece);
-		board.putPieceAt(source, Piece.NULL_PIECE);
+		BattleResult result = BattleResult.VICTORY;
+		if(board.isOccupied(destination)) {
+			result = resolveBattle(sourcePiece, destinationPiece);
+		}
 		
-		return sourcePiece;
+		switch(result) {
+		case VICTORY:
+			board.putPieceAt(destination, sourcePiece);
+			board.putPieceAt(source, Piece.NULL_PIECE);
+			break;
+		case DRAW:
+			board.putPieceAt(destination, Piece.NULL_PIECE);
+			//fallthrough
+		case DEFEAT:
+			board.putPieceAt(source, Piece.NULL_PIECE);
+			break;
+		}
+		
+		return getPieceAt(destination);
 	}
 
+	/**
+	 * Determines the outcome of a battle between two Pieces.
+	 * 
+	 * @param attacker The attacking Piece
+	 * @param defender The defending Piece
+	 * @return VICTORY if the attacker wins, DEFEAT if the defender wins,
+	 * 		DRAW if both pieces lose
+	 */
+	private static BattleResult resolveBattle(Piece attacker, Piece defender) {
+		if(attacker.getType().getRank() < defender.getType().getRank()) {
+			return BattleResult.VICTORY;
+		}
+		if(attacker.getType().getRank() == defender.getType().getRank()) {
+			return BattleResult.DRAW;
+		}
+		return BattleResult.DEFEAT;
+	}
+	
 	@Override
 	public boolean isGameOver()
 	{

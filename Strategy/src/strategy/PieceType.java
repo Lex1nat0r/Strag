@@ -19,6 +19,8 @@ package strategy;
  */
 public enum PieceType
 {
+	//note that lower numbered ranks are "stronger" and defeat higher numbered ranks
+	//don't really agree with that design decision as it's confusing
 	MARSHAL(1, 'm'),
 	GENERAL(2, 'n'),
 	COLONEL(3, 'c'), 
