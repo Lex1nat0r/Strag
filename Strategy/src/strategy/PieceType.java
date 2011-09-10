@@ -20,7 +20,7 @@ package strategy;
 public enum PieceType
 {
 	MARSHAL(1, 'm'),
-	GENERAL(2, 'g'),
+	GENERAL(2, 'n'),
 	COLONEL(3, 'c'), 
 	MAJOR(4, 'j'), 
 	CAPTAIN(5, 'p'), 
