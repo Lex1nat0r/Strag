@@ -96,6 +96,42 @@ public class RectangularStrategyBoard implements StrategyBoard
 	}
 	
 	/**
+	 * Checks each space between source and destination to see if at least one is occupied.
+	 * Does not include source and destination, so adjacent spaces will always return false.
+	 * 
+	 * @param source The position to start checking after
+	 * @param destination The position to stop checking before
+	 * @return true if at least one space between the positions is occupied, false otherwise
+	 * @throws StrategyException if it checks a position that is invalid
+	 */
+	public boolean isOccupiedSpaceBetweenPositions(Position source, Position destination)
+		throws StrategyException
+	{
+		int horizontalStep = destination.getColumn() - source.getColumn();
+		int verticalStep = destination.getRow() - source.getRow();
+		if(horizontalStep != 0) {
+			horizontalStep /= Math.abs(horizontalStep);
+		}
+		if(verticalStep != 0) {
+			verticalStep /= Math.abs(verticalStep);
+		}
+		
+		Position currentPoint = new Position(source.getRow(), source.getColumn());
+		boolean keepGoing = true;
+		while(keepGoing) {
+			currentPoint = new Position(currentPoint.getRow() + verticalStep,
+										currentPoint.getColumn() + horizontalStep);
+			if(currentPoint.equals(destination)) {
+				keepGoing = false;
+			}
+			else if(isOccupied(currentPoint)) {
+				return true;
+			}
+		}
+		return false;
+	}
+	
+	/**
 	 * @see strategy.StrategyBoard#validatePosition(Position)
 	 */
 	public void validatePosition(Position pos) throws StrategyException

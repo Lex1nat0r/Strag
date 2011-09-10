@@ -93,6 +93,16 @@ public class RectangularStrategyBoardTest {
 	}
 	
 	@Test
+	public void testOccupiedSpaceBetweenPositions() throws StrategyException {
+		board.clearBoard();
+		assertFalse(board.isOccupiedSpaceBetweenPositions(new Position(3,0), new Position(3,5)));
+		assertFalse(board.isOccupiedSpaceBetweenPositions(new Position(0,3), new Position(5,3)));
+		board.putPieceAt(new Position(3,3), new Piece(PieceType.BOMB, PlayerColor.RED));
+		assertTrue(board.isOccupiedSpaceBetweenPositions(new Position(3,0), new Position(3,5)));
+		assertTrue(board.isOccupiedSpaceBetweenPositions(new Position(0,3), new Position(5,3)));
+	}
+	
+	@Test
 	public void testValidatePositionSuccessfully() throws StrategyException
 	{
 		board.validatePosition(new Position(0, 0));

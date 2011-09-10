@@ -27,13 +27,14 @@ public enum PieceType
 	LIEUTENANT(6, 't'), 
 	SERGEANT(7, 'g'), 
 	MINER(8, 'r'), 
-	SCOUT(9, 's'), 
+	SCOUT(9, 's', -1), 
 	SPY(10, 'y'), 
-	BOMB(0, 'b'), 
-	FLAG(0, 'f');
+	BOMB(0, 'b', 0), 
+	FLAG(0, 'f', 0);
 
 	private final int rank;
 	private final char id;
+	private final int range;
 
 	/**
 	 * Constructor for the instances of PieceType.
@@ -41,8 +42,14 @@ public enum PieceType
 	 */
 	private PieceType(int rank, char id)
 	{
+		this(rank, id, 1);
+	}
+	
+	private PieceType(int rank, char id, int range)
+	{
 		this.rank = rank;
 		this.id = id;
+		this.range = range;
 	}
 
 	/**
@@ -62,10 +69,19 @@ public enum PieceType
 	}
 	
 	/**
+	 * @return the movement range for this piece type (-1 for infinite)
+	 */
+	public int getRange()
+	{
+		return range;
+	}
+	
+	/**
 	 * @return true if pieces of this type can move
 	 */
 	public boolean isMoveable()
 	{
-		return rank != 0;
+		return range != 0;
 	}
+
 }

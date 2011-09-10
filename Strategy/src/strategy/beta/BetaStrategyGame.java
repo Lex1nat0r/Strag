@@ -46,7 +46,34 @@ public class BetaStrategyGame implements StrategyGame
 	@Override
 	public Piece move(Position source, Position destination) throws StrategyException
 	{
-		return null;
+		if(source.equals(destination)) {
+			throw new StrategyException("destination must be different from source");
+		}
+		if(!board.isOccupied(source)) {
+			throw new StrategyException("source must be occupied by a piece");
+		}
+		
+		final Piece sourcePiece = getPieceAt(source);
+		final Piece destinationPiece = getPieceAt(destination);
+		
+		final int distance = board.getDistance(source, destination); //checks for diagonal
+		final int range = sourcePiece.getType().getRange();
+		if(range >= 0 && distance > range) {
+			throw new StrategyException("Cannot move piece farther than its range");
+		}
+		
+		if(sourcePiece.getColor().equals(destinationPiece.getColor())) {
+			throw new StrategyException("Cannot move onto a friendly piece");
+		}
+		
+		if(board.isOccupiedSpaceBetweenPositions(source, destination)) {
+			throw new StrategyException("Cannot move through occupied spaces");
+		}
+		
+		board.putPieceAt(destination, sourcePiece);
+		board.putPieceAt(source, Piece.NULL_PIECE);
+		
+		return sourcePiece;
 	}
 
 	@Override
@@ -122,7 +149,7 @@ public class BetaStrategyGame implements StrategyGame
 	 */
 	protected void setBoard(StrategyBoard board)
 	{
-		
+		this.board = (RectangularStrategyBoard) board;
 	}
 	
 	/**
