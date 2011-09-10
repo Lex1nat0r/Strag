@@ -32,7 +32,7 @@ public enum PieceType
 	SCOUT(9, 's', -1), 
 	SPY(10, 'y'), 
 	BOMB(0, 'b', 0), 
-	FLAG(0, 'f', 0);
+	FLAG(11, 'f', 0);
 
 	private final int rank;
 	private final char id;

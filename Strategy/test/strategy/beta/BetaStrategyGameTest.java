@@ -51,6 +51,10 @@ public class BetaStrategyGameTest {
 		battleTestBoard.putPieceAt(new Position(0,1), new Piece(PieceType.SERGEANT, PlayerColor.RED));
 		battleTestBoard.putPieceAt(new Position(1,2), new Piece(PieceType.SERGEANT, PlayerColor.BLUE));
 		battleTestBoard.putPieceAt(new Position(0,2), new Piece(PieceType.SERGEANT, PlayerColor.RED));
+		battleTestBoard.putPieceAt(new Position(1,3), new Piece(PieceType.BOMB, PlayerColor.BLUE));
+		battleTestBoard.putPieceAt(new Position(0,3), new Piece(PieceType.MINER, PlayerColor.RED));
+		battleTestBoard.putPieceAt(new Position(1,4), new Piece(PieceType.MARSHAL, PlayerColor.BLUE));
+		battleTestBoard.putPieceAt(new Position(0,4), new Piece(PieceType.SPY, PlayerColor.RED));
 		battleTestGame.setBoard(battleTestBoard);
 	}
 
@@ -161,6 +165,22 @@ public class BetaStrategyGameTest {
 		assertEquals(Piece.NULL_PIECE, battleTestGame.getPieceAt(new Position(1,2)));
 		assertFalse(battleTestGame.getBoard().isOccupied(new Position(0,2)));
 	}
+	
+	@Test
+	public void testBattleMinerAttacksBombAndWins() throws StrategyException {
+		Piece miner = battleTestGame.getPieceAt(new Position(0,3));
+		Piece returnedPiece = battleTestGame.move(new Position(0,3), new Position(1,3));
+		assertEquals(miner, returnedPiece);
+	}
+	
+	@Test
+	public void testBattleSpyAttacksMarshalAndWins() throws StrategyException {
+		Piece spy = battleTestGame.getPieceAt(new Position(0,4));
+		Piece returnedPiece = battleTestGame.move(new Position(0,4), new Position(1,4));
+		assertEquals(spy, returnedPiece);
+	}
+	
+	
 
 	@Test
 	@Ignore

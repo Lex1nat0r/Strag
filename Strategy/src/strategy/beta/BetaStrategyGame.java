@@ -107,6 +107,15 @@ public class BetaStrategyGame implements StrategyGame
 	 * 		DRAW if both pieces lose
 	 */
 	private static BattleResult resolveBattle(Piece attacker, Piece defender) {
+		if(attacker.getType().equals(PieceType.MINER)
+				&& defender.getType().equals(PieceType.BOMB)) {
+			return BattleResult.VICTORY;
+		}
+		if(attacker.getType().equals(PieceType.SPY)
+				&& defender.getType().equals(PieceType.MARSHAL)) {
+			return BattleResult.VICTORY;
+		}
+		
 		if(attacker.getType().getRank() < defender.getType().getRank()) {
 			return BattleResult.VICTORY;
 		}
