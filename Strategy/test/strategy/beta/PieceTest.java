@@ -22,9 +22,11 @@ public class PieceTest {
 	}
 
 	@Test
-	@Ignore
 	public void testHashCode() {
-		fail("Not yet implemented");
+		Piece otherBluScout = new Piece(PieceType.SCOUT, PlayerColor.BLUE);
+		int hash = bluScout.hashCode();
+		assertEquals(hash, otherBluScout.hashCode());
+		assertEquals(hash, bluScout.hashCode());
 	}
 
 	@Test

@@ -71,7 +71,11 @@ public class Piece
 	@Override
 	public int hashCode()
 	{
-		return 1;
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + myType.hashCode();
+		result = prime * result + myColor.hashCode();
+		return result;
 	}
 
 	/**

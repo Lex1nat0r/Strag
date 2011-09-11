@@ -12,9 +12,10 @@
  *******************************************************************************/
 package strategy.beta;
 
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Random;
-import java.util.ArrayList;
+import java.util.Set;
 
 import strategy.*;
 import strategy.common.RectangularStrategyBoard;
@@ -28,8 +29,7 @@ public class BetaStrategyGame implements StrategyGame
 {
 	private RectangularStrategyBoard board;
 	private boolean playerCanPlacePiece;
-	private ArrayList<PieceType> placedRedPieces;
-	private ArrayList<PieceType> placedBluePieces;
+	private Set<Piece> placedPieces;
 	
 	/**
 	 * The possible results of a battle.
@@ -60,12 +60,10 @@ public class BetaStrategyGame implements StrategyGame
 		if (!playerCanPlacePiece) {
 			placePiecesByColor(PlayerColor.RED);
 			placePiecesByColor(PlayerColor.BLUE);
-			placedRedPieces = null;
-			placedBluePieces = null;
+			placedPieces = null;
 		}
 		else {
-			placedRedPieces = new ArrayList<PieceType>();
-			placedBluePieces = new ArrayList<PieceType>();
+			placedPieces = new HashSet<Piece>();
 		}
 	}
 	
@@ -246,37 +244,17 @@ public class BetaStrategyGame implements StrategyGame
 	}
 
 	public void playerPlacePiece(Position position, Piece piece) throws StrategyException {
-		if (playerCanPlacePiece) {
-			if (!board.isOccupied(position)) {
-				placePiece(position, piece);
-			}
-			else {
-				throw new StrategyException("Player is Not Allowed to Place a Piece in an Occupied Space");
-			}
+		if (!playerCanPlacePiece) {
+			throw new StrategyException("Player not allowed to place Piece");
 		}
-		else {
-			throw new StrategyException("Player is Not Allowed to Place a Piece");
+		if (board.isOccupied(position)) {
+			throw new StrategyException("Player not allowed to place Piece in an occupied space");
 		}
+		if(!placedPieces.add(piece)) {
+			throw new StrategyException("That Piece has already been placed");
+		}
+		
+		board.putPieceAt(position, piece);
 	}
-	
-	private void placePiece(Position position, Piece piece) throws StrategyException {
-		if (piece.getColor() == PlayerColor.RED) {
-			if (!placedRedPieces.contains(piece.getType())) {
-				board.putPieceAt(position, piece);
-				placedRedPieces.add(piece.getType());
-			}
-			else {
-				throw new StrategyException("A Red Piece of That Type Has Already Been Placed.");
-			}
-		}
-		else {
-			if (!placedBluePieces.contains(piece.getType())) {
-				board.putPieceAt(position, piece);
-				placedBluePieces.add(piece.getType());
-			}
-			else {
-				throw new StrategyException("A Blue Piece of That Type Has Already Been Placed.");
-			}
-		}
-	}
+
 }
