@@ -22,7 +22,7 @@ import strategy.common.RectangularStrategyBoard;
 
 /**
  * Implementation of the BetaStrategy game.
- * @author gpollice
+ * @author gpollice, alextc, andrewdhurle, sternrobbinsgabe
  * @version Aug 1, 2011
  */
 public class BetaStrategyGame implements StrategyGame
