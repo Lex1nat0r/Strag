@@ -44,34 +44,29 @@ public class BetaStrategyGame implements StrategyGame
 	 */
 	public BetaStrategyGame() throws StrategyException
 	{
-		board = new RectangularStrategyBoard(6, 6);
-		playerCanPlacePiece = false;
-		initializeGame();
-		placedRedPieces = null;
-		placedBluePieces = null;
+		this(false);
 	}
 	
 	public BetaStrategyGame(boolean playerPlacePiece) throws StrategyException {
 		board = new RectangularStrategyBoard(6, 6);
 		playerCanPlacePiece = playerPlacePiece;
-		if (!playerPlacePiece) {
-			initializeGame();
-			placedRedPieces = null;
-			placedBluePieces = null;
-		}
-		else {
-			board.initializeBoard();
-			placedRedPieces = new ArrayList<PieceType>();
-			placedBluePieces = new ArrayList<PieceType>();
-		}
+		initializeGame();
 	}
 	
 	@Override
 	public void initializeGame() throws StrategyException
 	{
 		board.initializeBoard();
-		placePiecesByColor(PlayerColor.RED);
-		placePiecesByColor(PlayerColor.BLUE);
+		if (!playerCanPlacePiece) {
+			placePiecesByColor(PlayerColor.RED);
+			placePiecesByColor(PlayerColor.BLUE);
+			placedRedPieces = null;
+			placedBluePieces = null;
+		}
+		else {
+			placedRedPieces = new ArrayList<PieceType>();
+			placedBluePieces = new ArrayList<PieceType>();
+		}
 	}
 	
 	@Override
