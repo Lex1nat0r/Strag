@@ -163,32 +163,29 @@ public class BetaStrategyGame implements StrategyGame
 	
 	private void placePiecesByColor(PlayerColor pieceColor) throws StrategyException {
 		for (PieceType type : PieceType.values()) {
-			randomlyPlacePiece(type, pieceColor);
+			Piece pieceToPlace = new Piece(type, pieceColor);
+			randomlyPlacePiece(pieceToPlace);
 		}
 	}
 	
-	private void randomlyPlacePiece(PieceType type, PlayerColor color) throws StrategyException {
+	private void randomlyPlacePiece(Piece pieceToPlace) throws StrategyException {
 		final Random randGen = new Random();
-		final Piece tempPiece = new Piece(type, color);
 		Position randPos = null;
 		
 		
-		if (color == PlayerColor.RED) {
-			 randPos = new Position(randGen.nextInt(2), randGen.nextInt(board.getNumCols()));
-			while (board.isOccupied(randPos)) {
+		if (pieceToPlace.getColor() == PlayerColor.RED) {
+			do {
 				randPos = new Position(randGen.nextInt(2), randGen.nextInt(board.getNumCols()));
-			}
+			} while (board.isOccupied(randPos));
 		}
 		else {
-			randPos = new Position((board.getNumRows() - 1) - randGen.nextInt(2), 
-					randGen.nextInt(board.getNumCols()));
-			while (board.isOccupied(randPos)) {
+			do {
 				randPos = new Position((board.getNumRows() - 1) - randGen.nextInt(2), 
 						randGen.nextInt(board.getNumCols()));
-			}
+			} while (board.isOccupied(randPos));
 		}
 			
-		board.putPieceAt(randPos, tempPiece);
+		board.putPieceAt(randPos, pieceToPlace);
 	}
 	
 	/**
