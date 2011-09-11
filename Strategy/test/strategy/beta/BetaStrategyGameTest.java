@@ -209,8 +209,8 @@ public class BetaStrategyGameTest {
 	public void testPlayerCannotPlaceMultipleOfSamePiece() throws StrategyException {
 		Piece scout = new Piece(PieceType.SCOUT, PlayerColor.RED);
 		playerPlaceTestGame.playerPlacePiece(new Position(0, 0), scout);
-		Piece marshal = new Piece(PieceType.SCOUT, PlayerColor.RED);
-		playerPlaceTestGame.playerPlacePiece(new Position(1, 0), marshal);
+		Piece anotherScout = new Piece(PieceType.SCOUT, PlayerColor.RED);
+		playerPlaceTestGame.playerPlacePiece(new Position(1, 0), anotherScout);
 	}
 	
 	@Test
