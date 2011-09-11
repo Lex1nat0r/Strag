@@ -23,7 +23,7 @@ public class AlphaStrategyGame
 
 	private static final int width = 2;
 	private static final int height = 2;
-	private Piece[][] board = new Piece[height][width];
+	private final Piece[][] board = new Piece[height][width];
 	private PlayerColor winner;
 	private PlayerColor turnColor;
 	
@@ -86,8 +86,8 @@ public class AlphaStrategyGame
 			throw new StrategyException("Must move to a different space");
 		}
 		
-		Piece from = getPieceAt(fromRow, fromCol);
-		Piece to = getPieceAt(toRow, toCol);
+		final Piece from = getPieceAt(fromRow, fromCol);
+		final Piece to = getPieceAt(toRow, toCol);
 		
 		//check for null piece here when necessary
 		
@@ -95,14 +95,14 @@ public class AlphaStrategyGame
 			throw new StrategyException("Cannot move out of turn");
 		}
 		
-		int displacement;
+		final int displacement;
 		try {
 			displacement = getDisplacement(fromRow, fromCol, toRow, toCol);
 		} catch(StrategyException e) {
 			throw new StrategyException("Cannot move diagonally");
 		}
 		
-		int range = from.getType().getRange();
+		final int range = from.getType().getRange();
 		if(range != -1 && displacement > range) {
 			throw new StrategyException("Cannot move farther than piece's range");
 		}
@@ -111,7 +111,7 @@ public class AlphaStrategyGame
 			throw new StrategyException("Cannot move to a space containing a friendly unit");
 		}
 		
-		if(to == null || resolveBattle(fromRow, fromCol, toRow, toCol)) {
+		if(to == null || canWinAndResolveBattle(fromRow, fromCol, toRow, toCol)) {
 			board[toRow][toCol] = from;
 			board[fromRow][fromCol] = null;
 		}
@@ -128,8 +128,8 @@ public class AlphaStrategyGame
 	private static int getDisplacement(int fromRow, int fromCol, int toRow, int toCol)
 		throws StrategyException
 	{
-		boolean horizontal = fromCol != toCol;
-		boolean vertical = fromRow != toRow;
+		final boolean horizontal = fromCol != toCol;
+		final boolean vertical = fromRow != toRow;
 		if(horizontal && vertical) {
 			throw new StrategyException("Diagonal displacement is unsupported");
 		}
@@ -157,11 +157,11 @@ public class AlphaStrategyGame
 	 * @return True if the attacking piece should be moved onto the defending space after battle
 	 * @throws StrategyException if coordinates are invalid
 	 */
-	private boolean resolveBattle(int fromRow, int fromCol, int toRow, int toCol)
+	private boolean canWinAndResolveBattle(int fromRow, int fromCol, int toRow, int toCol)
 		throws StrategyException
 	{
-		Piece attacker = getPieceAt(fromRow, fromCol);
-		Piece defender = getPieceAt(toRow, toCol);
+		final Piece attacker = getPieceAt(fromRow, fromCol);
+		final Piece defender = getPieceAt(toRow, toCol);
 		
 		/* 
 		 * many more things to check for the final version, but this is
@@ -185,7 +185,7 @@ public class AlphaStrategyGame
 	 */
 	public boolean isOver()
 	{
-		return getWinner() != null;
+		return winner != null;
 	}
 
 	/**
