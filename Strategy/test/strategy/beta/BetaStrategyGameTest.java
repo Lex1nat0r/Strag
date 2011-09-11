@@ -24,6 +24,7 @@ public class BetaStrategyGameTest {
 	private BetaStrategyGame game;
 	private BetaStrategyGame movementTestGame;
 	private BetaStrategyGame battleTestGame;
+	private BetaStrategyGame playerPlaceTestGame;
 	
 	@Before
 	public void setUp() throws Exception {
@@ -56,6 +57,8 @@ public class BetaStrategyGameTest {
 		battleTestBoard.putPieceAt(new Position(1,4), new Piece(PieceType.MARSHAL, PlayerColor.BLUE));
 		battleTestBoard.putPieceAt(new Position(0,4), new Piece(PieceType.SPY, PlayerColor.RED));
 		battleTestGame.setBoard(battleTestBoard);
+		
+		playerPlaceTestGame = new BetaStrategyGame(true);
 	}
 
 	@Test
@@ -180,8 +183,36 @@ public class BetaStrategyGameTest {
 		assertEquals(spy, returnedPiece);
 	}
 	
-	
+	@Test
+	public void testPlayerCanPlacePiece() throws StrategyException {
+		Piece scout = new Piece(PieceType.SCOUT, PlayerColor.RED);
+		playerPlaceTestGame.playerPlacePiece(new Position(0, 0), scout);
+		assertEquals(scout, playerPlaceTestGame.getPieceAt(new Position(0, 0)));
+		
+	}
 
+	@Test (expected=StrategyException.class)
+	public void testPlayerPlacePieceWhenPlayerNotAllowedToPlacePiece() throws StrategyException {
+		Piece scout = new Piece(PieceType.SCOUT, PlayerColor.RED);
+		game.playerPlacePiece(new Position(0, 0), scout);
+	}
+	
+	@Test (expected=StrategyException.class)
+	public void testPlayerPlacePieceInOccupiedSpace() throws StrategyException {
+		Piece scout = new Piece(PieceType.SCOUT, PlayerColor.RED);
+		playerPlaceTestGame.playerPlacePiece(new Position(0, 0), scout);
+		Piece marshal = new Piece(PieceType.MARSHAL, PlayerColor.RED);
+		playerPlaceTestGame.playerPlacePiece(new Position(0, 0), marshal);
+	}
+	
+	@Test (expected=StrategyException.class)
+	public void testPlayerCannotPlaceMultipleOfSamePiece() throws StrategyException {
+		Piece scout = new Piece(PieceType.SCOUT, PlayerColor.RED);
+		playerPlaceTestGame.playerPlacePiece(new Position(0, 0), scout);
+		Piece marshal = new Piece(PieceType.SCOUT, PlayerColor.RED);
+		playerPlaceTestGame.playerPlacePiece(new Position(1, 0), marshal);
+	}
+	
 	@Test
 	@Ignore
 	public void testIsGameOver() {

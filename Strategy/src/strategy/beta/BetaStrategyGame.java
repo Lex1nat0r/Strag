@@ -14,6 +14,7 @@ package strategy.beta;
 
 import java.util.Iterator;
 import java.util.Random;
+import java.util.ArrayList;
 
 import strategy.*;
 import strategy.common.RectangularStrategyBoard;
@@ -26,6 +27,9 @@ import strategy.common.RectangularStrategyBoard;
 public class BetaStrategyGame implements StrategyGame
 {
 	private RectangularStrategyBoard board;
+	private boolean playerCanPlacePiece;
+	private ArrayList<PieceType> placedRedPieces;
+	private ArrayList<PieceType> placedBluePieces;
 	
 	/**
 	 * The possible results of a battle.
@@ -36,16 +40,36 @@ public class BetaStrategyGame implements StrategyGame
 	
 	/**
 	 * Default constructor. Initializes the game.
+	 * @throws StrategyException 
 	 */
-	public BetaStrategyGame()
+	public BetaStrategyGame() throws StrategyException
 	{
 		board = new RectangularStrategyBoard(6, 6);
-		board.initializeBoard();
+		playerCanPlacePiece = false;
+		initializeGame();
+		placedRedPieces = null;
+		placedBluePieces = null;
+	}
+	
+	public BetaStrategyGame(boolean playerPlacePiece) throws StrategyException {
+		board = new RectangularStrategyBoard(6, 6);
+		playerCanPlacePiece = playerPlacePiece;
+		if (!playerPlacePiece) {
+			initializeGame();
+			placedRedPieces = null;
+			placedBluePieces = null;
+		}
+		else {
+			board.initializeBoard();
+			placedRedPieces = new ArrayList<PieceType>();
+			placedBluePieces = new ArrayList<PieceType>();
+		}
 	}
 	
 	@Override
 	public void initializeGame() throws StrategyException
 	{
+		board.initializeBoard();
 		placePiecesByColor(PlayerColor.RED);
 		placePiecesByColor(PlayerColor.BLUE);
 	}
@@ -226,4 +250,38 @@ public class BetaStrategyGame implements StrategyGame
 		return 1;
 	}
 
+	public void playerPlacePiece(Position position, Piece piece) throws StrategyException {
+		if (playerCanPlacePiece) {
+			if (!board.isOccupied(position)) {
+				placePiece(position, piece);
+			}
+			else {
+				throw new StrategyException("Player is Not Allowed to Place a Piece in an Occupied Space");
+			}
+		}
+		else {
+			throw new StrategyException("Player is Not Allowed to Place a Piece");
+		}
+	}
+	
+	private void placePiece(Position position, Piece piece) throws StrategyException {
+		if (piece.getColor() == PlayerColor.RED) {
+			if (!placedRedPieces.contains(piece.getType())) {
+				board.putPieceAt(position, piece);
+				placedRedPieces.add(piece.getType());
+			}
+			else {
+				throw new StrategyException("A Red Piece of That Type Has Already Been Placed.");
+			}
+		}
+		else {
+			if (!placedBluePieces.contains(piece.getType())) {
+				board.putPieceAt(position, piece);
+				placedBluePieces.add(piece.getType());
+			}
+			else {
+				throw new StrategyException("A Blue Piece of That Type Has Already Been Placed.");
+			}
+		}
+	}
 }

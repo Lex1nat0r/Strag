@@ -154,9 +154,8 @@ public class RectangularStrategyBoard implements StrategyBoard
 	
 	/**
 	 * Sets every space on the board to the NULL_PIECE
-	 * Mostly used for testing
 	 */
-	protected void clearBoard()
+	public void clearBoard()
 	{
 		for (int i = 0; i < numRows; i++) {
 			for (int j = 0; j < numCols; j++) {
