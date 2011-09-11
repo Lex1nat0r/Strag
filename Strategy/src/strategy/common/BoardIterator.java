@@ -1,6 +1,13 @@
-/**
+/*******************************************************************************
+ * This file is used in CS4233, Object-oriented Analysis and Design
  * 
- */
+ * Copyright (c) 2011 Worcester Polytechnic Institute. All rights reserved. This program and the
+ * accompanying materials are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ * 
+ * Author: gpollice, alextc, andrewdhurle
+ *******************************************************************************/
 package strategy.common;
 
 import java.util.Iterator;
@@ -9,17 +16,17 @@ import strategy.Piece;
 
 /**
  * @author alextc, andrewdhurle
- *
+ * @version Sep 11, 2011
  */
 public class BoardIterator implements Iterator<Piece> {
 
 	private Piece next;
-	private Piece[][] pieces;
+	private final Piece[][] pieces;
 	private int row;
 	private int col;
 	
 	/**
-	 * 
+	 * @param board The board to iterate through
 	 */
 	public BoardIterator(Piece board[][]) {
 		pieces = board;
@@ -28,13 +35,14 @@ public class BoardIterator implements Iterator<Piece> {
 		next = pieces[0][0];
 	}
 	
+	@Override
 	public boolean hasNext() {
 		return next != null;
 	}
 
 	@Override
 	public Piece next() {
-		Piece current = next;
+		final Piece current = next;
 		
 		if (col >= pieces[row].length - 1) {
 			col = 0;
@@ -57,10 +65,6 @@ public class BoardIterator implements Iterator<Piece> {
 	@Override
 	//this should never be called as the size of the board is immutable
 	public void remove() {
-		return;
-		
 	}
-	
-	
 
 }
