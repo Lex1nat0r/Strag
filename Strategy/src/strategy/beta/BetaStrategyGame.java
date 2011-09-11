@@ -30,6 +30,8 @@ public class BetaStrategyGame implements StrategyGame
 	private RectangularStrategyBoard board;
 	private boolean playerCanPlacePiece;
 	private Set<Piece> placedPieces;
+	private static boolean isOver;
+	private static PlayerColor winnerColor;
 	
 	/**
 	 * The possible results of a battle.
@@ -139,19 +141,23 @@ public class BetaStrategyGame implements StrategyGame
 		if(attacker.getType().getRank() == defender.getType().getRank()) {
 			return BattleResult.DRAW;
 		}
+		if(defender.getType().equals(PieceType.FLAG)){
+			isOver = true;
+			winnerColor=attacker.getColor();
+		}
 		return BattleResult.DEFEAT;
 	}
 	
 	@Override
 	public boolean isGameOver()
 	{
-		return false;
+		return isOver;
 	}
 
 	@Override
 	public PlayerColor getWinner()
 	{
-		return null;
+		return winnerColor;
 	}
 
 	@Override

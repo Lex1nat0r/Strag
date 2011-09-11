@@ -56,6 +56,11 @@ public class BetaStrategyGameTest {
 		battleTestBoard.putPieceAt(new Position(0,3), new Piece(PieceType.MINER, PlayerColor.RED));
 		battleTestBoard.putPieceAt(new Position(1,4), new Piece(PieceType.MARSHAL, PlayerColor.BLUE));
 		battleTestBoard.putPieceAt(new Position(0,4), new Piece(PieceType.SPY, PlayerColor.RED));
+		//put a scout and flag next to eachother to test a win
+		battleTestBoard.putPieceAt(new Position(4,4), new Piece(PieceType.SCOUT, PlayerColor.RED));
+		battleTestBoard.putPieceAt(new Position(4,5), new Piece(PieceType.FLAG, PlayerColor.BLUE));
+		battleTestBoard.putPieceAt(new Position(5,4), new Piece(PieceType.SCOUT, PlayerColor.BLUE));
+		battleTestBoard.putPieceAt(new Position(5,5), new Piece(PieceType.FLAG, PlayerColor.RED));
 		battleTestGame.setBoard(battleTestBoard);
 		
 		playerPlaceTestGame = new BetaStrategyGame(true);
@@ -213,10 +218,24 @@ public class BetaStrategyGameTest {
 		playerPlaceTestGame.playerPlacePiece(new Position(1, 0), anotherScout);
 	}
 	
+	@Test 
+	public void testRedCapsBlueFlag() throws StrategyException {
+		//4,4 attacks 4,5
+		Piece scout = battleTestGame.getPieceAt(new Position(4,4));
+		Piece returnedPiece = battleTestGame.move(new Position(4,4), new Position(4,5));
+		assertEquals(scout, returnedPiece);
+		assertEquals(scout, battleTestGame.getPieceAt(new Position(4,5)));
+		assertFalse(battleTestGame.getBoard().isOccupied(new Position(4,4)));
+	}
+	
 	@Test
-	@Ignore
-	public void testIsGameOver() {
-		fail("Not yet implemented");
+	public void testIsGameOver() throws StrategyException {
+		Piece scout = battleTestGame.getPieceAt(new Position(4,4));
+		Piece returnedPiece = battleTestGame.move(new Position(4,4), new Position(4,5));
+		assertEquals(scout, returnedPiece);
+		assertEquals(scout, battleTestGame.getPieceAt(new Position(4,5)));
+		assertFalse(battleTestGame.getBoard().isOccupied(new Position(4,4)));
+		assertEquals(true,battleTestGame.isGameOver());
 	}
 
 	@Test
