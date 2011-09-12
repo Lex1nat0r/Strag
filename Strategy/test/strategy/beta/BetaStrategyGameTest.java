@@ -294,6 +294,17 @@ public class BetaStrategyGameTest {
 		gameOverGame.move(new Position(5,4), new Position(5,3));
 		assertEquals(true,gameOverGame.isGameOver());
 	}
+	
+	@Test (expected=StrategyException.class)
+	public void testDoubleMove() throws StrategyException {
+		gameOverGame.move(new Position(4,4), new Position(4,3));
+		gameOverGame.move(new Position(4,3), new Position(4,4));
+	}
+	
+	@Test (expected=StrategyException.class)
+	public void testBlueFirst() throws StrategyException {
+		gameOverGame.move(new Position(5,4), new Position(5,3));
+	}
 
 	@Test
 	public void testGetPieceAt() throws StrategyException {

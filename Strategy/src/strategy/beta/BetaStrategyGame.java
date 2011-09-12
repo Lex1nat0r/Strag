@@ -33,6 +33,7 @@ public class BetaStrategyGame implements StrategyGame
 	private boolean isOver = false;
 	private PlayerColor winnerColor;
 	private int moves=0;
+	private PlayerColor turnColor=PlayerColor.RED;
 	
 	
 	/**
@@ -84,6 +85,18 @@ public class BetaStrategyGame implements StrategyGame
 			throw new StrategyException("Game is already over");
 		}
 		
+		//change turn/dont double move
+		if(getPieceAt(source).getColor()!=turnColor){
+			throw new StrategyException("not your turn");
+		}
+		
+		if(turnColor==PlayerColor.RED){
+			turnColor=PlayerColor.BLUE;
+		}
+		else{
+			turnColor=PlayerColor.RED;
+		}
+		
 		final Piece sourcePiece = getPieceAt(source);
 		final Piece destinationPiece = getPieceAt(destination);
 		
@@ -118,7 +131,11 @@ public class BetaStrategyGame implements StrategyGame
 			board.putPieceAt(source, Piece.NULL_PIECE);
 			break;
 		}
+		//if moves>10 end game
 		moves++;
+		if(moves>=10){
+			isOver=true;
+		}
 		return getPieceAt(destination);
 	}
 
@@ -160,9 +177,6 @@ public class BetaStrategyGame implements StrategyGame
 	@Override
 	public boolean isGameOver()
 	{
-		if(moves>=10){
-			isOver=true;
-		}
 		return isOver;
 	}
 
