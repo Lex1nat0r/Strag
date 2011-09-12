@@ -32,7 +32,7 @@ public class BetaStrategyGame implements StrategyGame
 	private Set<Piece> placedPieces;
 	private boolean isOver = false;
 	private PlayerColor winnerColor;
-	private int moves=0;
+	private int numMoves=0;
 	private PlayerColor turnColor=PlayerColor.RED;
 	
 	
@@ -53,7 +53,8 @@ public class BetaStrategyGame implements StrategyGame
 	}
 	
 	/**
-	 * Constructor that accepts a boolean indicating whether players can place their pieces in this game or not.
+	 * Constructor that accepts a boolean indicating whether players
+	 * can place their pieces in this game or not.
 	 * 
 	 * @param playerPlacePiece
 	 * @throws StrategyException
@@ -92,11 +93,11 @@ public class BetaStrategyGame implements StrategyGame
 		}
 		
 		//change turn/dont double move
-		if(getPieceAt(source).getColor()!=turnColor){
+		if(getPieceAt(source).getColor() != turnColor){
 			throw new StrategyException("not your turn");
 		}
 		
-		if(turnColor==PlayerColor.RED){
+		if(turnColor == PlayerColor.RED){
 			turnColor=PlayerColor.BLUE;
 		}
 		else{
@@ -138,8 +139,8 @@ public class BetaStrategyGame implements StrategyGame
 			break;
 		}
 		//if moves>10 end game
-		moves++;
-		if(moves>=10){
+		numMoves++;
+		if(numMoves >= 10){
 			isOver=true;
 		}
 		return getPieceAt(destination);
