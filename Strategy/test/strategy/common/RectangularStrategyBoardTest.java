@@ -21,12 +21,10 @@ public class RectangularStrategyBoardTest {
 	@Before
 	public void setUp() throws Exception {
 		board = new RectangularStrategyBoard(6, 6);
-		board.initializeBoard();
 	}
 
 	@Test
 	public void testRectangularStrategyBoard() {
-		board.clearBoard();
 		Iterator<Piece> iter = board.iterator();
 
 		while (iter.hasNext()) {
@@ -49,7 +47,6 @@ public class RectangularStrategyBoardTest {
 
 	@Test
 	public void testGetPieceAt() throws StrategyException {
-		board.clearBoard();
 		assertTrue(Piece.NULL_PIECE == board.getPieceAt(new Position(0, 0)));
 	}
 	
@@ -72,7 +69,6 @@ public class RectangularStrategyBoardTest {
 
 	@Test
 	public void testIsOccupied() throws StrategyException {
-		board.clearBoard();
 		assertFalse(board.isOccupied(new Position(0, 0)));
 		board.putPieceAt(new Position(0, 0), new Piece(PieceType.BOMB, PlayerColor.RED));
 		assertTrue(board.isOccupied(new Position(0, 0)));
@@ -100,7 +96,6 @@ public class RectangularStrategyBoardTest {
 	
 	@Test
 	public void testOccupiedSpaceBetweenPositions() throws StrategyException {
-		board.clearBoard();
 		assertFalse(board.isOccupiedSpaceBetweenPositions(new Position(3,0), new Position(3,5)));
 		assertFalse(board.isOccupiedSpaceBetweenPositions(new Position(0,3), new Position(5,3)));
 		board.putPieceAt(new Position(3,3), new Piece(PieceType.BOMB, PlayerColor.RED));
@@ -140,7 +135,6 @@ public class RectangularStrategyBoardTest {
 
 	@Test
 	public void testToString() throws StrategyException {
-		board.clearBoard();
 		assertEquals("NNNNNN\n" + 
 				"NNNNNN\n" +
 				"NNNNNN\n" +
@@ -166,7 +160,6 @@ public class RectangularStrategyBoardTest {
 	@Test
 	public void testEqualsObject() throws StrategyException {
 		RectangularStrategyBoard mockBoard = new RectangularStrategyBoard(6, 6);
-		mockBoard.initializeBoard();
 		RectangularStrategyBoard differentlySizedBoard = new RectangularStrategyBoard(6, 5);
 		assertTrue(board.equals(board));
 		assertTrue(board.equals(mockBoard));

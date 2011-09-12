@@ -30,14 +30,15 @@ public class RectangularStrategyBoard implements StrategyBoard
 	/**
 	 * Constructor for a rectangular board.
 	 * 
-	 * @param rows
-	 * @param columns
+	 * @param rows The number of rows the board should have
+	 * @param columns The number of columns the board should have
 	 */
 	public RectangularStrategyBoard(int rows, int columns)
 	{
 		pieces = new Piece[rows][columns];
 		numRows = rows;
 		numCols = columns;
+		initializeBoard();
 	}
 	
 	/*
@@ -146,16 +147,9 @@ public class RectangularStrategyBoard implements StrategyBoard
 	
 	/**
 	 * Initialize the board to the starting configuration.
-	 */
-	public void initializeBoard()
-	{
-		clearBoard();
-	}
-	
-	/**
 	 * Sets every space on the board to the NULL_PIECE
 	 */
-	public void clearBoard()
+	public void initializeBoard()
 	{
 		for (int i = 0; i < numRows; i++) {
 			for (int j = 0; j < numCols; j++) {
