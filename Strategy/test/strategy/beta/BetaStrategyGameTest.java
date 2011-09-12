@@ -227,16 +227,12 @@ public class BetaStrategyGameTest {
 	@Test (expected=StrategyException.class)
 	public void testPlayerCannotPlaceRedPieceOutsideSetupZone() throws StrategyException {
 		Piece redScout = new Piece(PieceType.SCOUT, PlayerColor.RED);
-		playerPlaceTestGame.playerPlacePiece(new Position(1,1), redScout);
-		assertEquals(playerPlaceTestGame.getPieceAt(new Position(1,1)), redScout);
 		playerPlaceTestGame.playerPlacePiece(new Position(5,5), redScout);
 	}
 	
 	@Test (expected=StrategyException.class)
 	public void testPlayerCannotPlaceBluePieceOutsideSetupZone() throws StrategyException {
 		Piece blueScout = new Piece(PieceType.SCOUT, PlayerColor.BLUE);
-		playerPlaceTestGame.playerPlacePiece(new Position(4,4), blueScout);
-		assertEquals(playerPlaceTestGame.getPieceAt(new Position(4,4)), blueScout);
 		playerPlaceTestGame.playerPlacePiece(new Position(0,0), blueScout);
 	}
 	
