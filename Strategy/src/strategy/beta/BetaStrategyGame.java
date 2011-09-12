@@ -30,9 +30,9 @@ public class BetaStrategyGame implements StrategyGame
 	private RectangularStrategyBoard board;
 	private boolean playerCanPlacePiece;
 	private Set<Piece> placedPieces;
-	private static boolean isOver;
+	private static boolean isOver=false;
 	private static PlayerColor winnerColor;
-	
+	private int moves=0;
 	
 	
 	/**
@@ -80,6 +80,9 @@ public class BetaStrategyGame implements StrategyGame
 		if(!board.isOccupied(source)) {
 			throw new StrategyException("source must be occupied by a piece");
 		}
+		if(isOver){
+			throw new StrategyException("Game is already over");
+		}
 		
 		final Piece sourcePiece = getPieceAt(source);
 		final Piece destinationPiece = getPieceAt(destination);
@@ -115,7 +118,7 @@ public class BetaStrategyGame implements StrategyGame
 			board.putPieceAt(source, Piece.NULL_PIECE);
 			break;
 		}
-		
+		moves++;
 		return getPieceAt(destination);
 	}
 
@@ -129,6 +132,7 @@ public class BetaStrategyGame implements StrategyGame
 	 */
 	private static BattleResult resolveBattle(Piece attacker, Piece defender) {
 		//this should be checked first
+		isOver=false;
 		if(defender.getType().equals(PieceType.FLAG)){
 			isOver = true;
 			winnerColor=attacker.getColor();
@@ -155,6 +159,9 @@ public class BetaStrategyGame implements StrategyGame
 	@Override
 	public boolean isGameOver()
 	{
+		if(moves>=10){
+			isOver=true;
+		}
 		return isOver;
 	}
 

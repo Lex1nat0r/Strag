@@ -218,7 +218,7 @@ public class BetaStrategyGameTest {
 		playerPlaceTestGame.playerPlacePiece(new Position(1, 0), anotherScout);
 	}
 	
-	@Test 
+	/*@Test 
 	public void testRedCapsBlueFlag() throws StrategyException {
 		Piece scout = battleTestGame.getPieceAt(new Position(4,4));
 		Piece returnedPiece = battleTestGame.move(new Position(4,4), new Position(4,5));
@@ -226,7 +226,7 @@ public class BetaStrategyGameTest {
 		assertEquals(scout, battleTestGame.getPieceAt(new Position(4,5)));
 		assertFalse(battleTestGame.getBoard().isOccupied(new Position(4,4)));
 	}
-	
+	*/
 	@Test
 	public void testIsGameOver() throws StrategyException {
 		Piece scout = battleTestGame.getPieceAt(new Position(4,4));
@@ -246,6 +246,32 @@ public class BetaStrategyGameTest {
 		assertEquals(scout, battleTestGame.getPieceAt(new Position(4,5)));
 		assertFalse(battleTestGame.getBoard().isOccupied(new Position(4,4)));
 		assertEquals(PlayerColor.RED,battleTestGame.getWinner());
+	}
+	
+	@Test 
+	public void testMoveAfterOver() throws StrategyException {
+		Piece scout = battleTestGame.getPieceAt(new Position(4,4));
+		Piece returnedPiece = battleTestGame.move(new Position(4,4), new Position(4,5));
+		assertEquals(scout, returnedPiece);
+		assertEquals(scout, battleTestGame.getPieceAt(new Position(4,5)));
+		assertFalse(battleTestGame.getBoard().isOccupied(new Position(4,4)));
+		battleTestGame.move(new Position(4,5), new Position(4,4));
+	}
+	
+	@Test
+	public void testMorethanFiveMoves() throws StrategyException {
+		//red should win
+		battleTestGame.move(new Position(4,4), new Position(4,3));
+		battleTestGame.move(new Position(5,4), new Position(5,3));
+		battleTestGame.move(new Position(4,3), new Position(4,4));
+		battleTestGame.move(new Position(5,3), new Position(5,4));
+		battleTestGame.move(new Position(4,4), new Position(4,3));
+		battleTestGame.move(new Position(5,4), new Position(5,3));
+		battleTestGame.move(new Position(4,3), new Position(4,4));
+		battleTestGame.move(new Position(5,3), new Position(5,4));
+		battleTestGame.move(new Position(4,4), new Position(4,3));
+		battleTestGame.move(new Position(5,4), new Position(5,3));
+		assertEquals(true,battleTestGame.isGameOver());
 	}
 
 	@Test
