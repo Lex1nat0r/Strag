@@ -83,6 +83,6 @@ public class Piece
 	 */
 	public boolean isMoveable()
 	{
-		return false;
+		return myType.isMoveable();
 	}
 }

@@ -66,9 +66,12 @@ public class PieceTest {
 	}
 
 	@Test
-	@Ignore
 	public void testIsMoveable() {
-		fail("Not yet implemented");
+		Piece flag = new Piece(PieceType.FLAG, PlayerColor.RED);
+		Piece bomb = new Piece(PieceType.BOMB, PlayerColor.RED);
+		assertTrue(bluScout.isMoveable());
+		assertFalse(flag.isMoveable());
+		assertFalse(bomb.isMoveable());
 	}
 
 }
