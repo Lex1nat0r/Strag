@@ -22,8 +22,8 @@ import strategy.common.RectangularStrategyBoard;
 
 /**
  * Implementation of the BetaStrategy game.
- * @author gpollice, alextc, andrewdhurle, sternrobbinsgabe
- * @version Aug 1, 2011
+ * @author gpollice, Alex Thornton-Clark, Andrew Hurle, Gabriel Stern-Robbins
+ * @version Sep 11, 2011
  */
 public class BetaStrategyGame implements StrategyGame
 {
@@ -51,6 +51,12 @@ public class BetaStrategyGame implements StrategyGame
 		this(false);
 	}
 	
+	/**
+	 * Constructor that accepts a boolean indicating whether players can place their pieces in this game or not.
+	 * 
+	 * @param playerPlacePiece
+	 * @throws StrategyException
+	 */
 	public BetaStrategyGame(boolean playerPlacePiece) throws StrategyException {
 		board = new RectangularStrategyBoard(6, 6);
 		playerCanPlacePiece = playerPlacePiece;
@@ -253,6 +259,14 @@ public class BetaStrategyGame implements StrategyGame
 		return 1;
 	}
 
+	/**
+	 * Place Piece piece at Position position on this board. 
+	 * Throws a StrategyException if a player is attempting to place a piece incorrectly.
+	 * 
+	 * @param position
+	 * @param piece
+	 * @throws StrategyException
+	 */
 	public void playerPlacePiece(Position position, Piece piece) throws StrategyException {
 		if (!playerCanPlacePiece) {
 			throw new StrategyException("Player not allowed to place Piece");

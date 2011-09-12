@@ -10,6 +10,12 @@ import strategy.Piece;
 import strategy.PieceType;
 import strategy.PlayerColor;
 
+/**
+ * Test case for the Piece class.
+ * 
+ * @author Andrew Hurle, Alex Thornton-Clark, Gabriel Stern-Robbins
+ * @version Sep 8, 2011
+ */
 public class PieceTest {
 
 	Piece bluScout;

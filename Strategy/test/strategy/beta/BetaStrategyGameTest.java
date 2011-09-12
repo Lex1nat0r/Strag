@@ -17,7 +17,7 @@ import strategy.common.RectangularStrategyBoard;
  * Test case for the BetaStrategy game.
  * 
  * @author Andrew Hurle, Alex Thornton-Clark, Gabriel Stern-Robbins
- * @version Sep 8, 2011
+ * @version Sep 11, 2011
  */
 public class BetaStrategyGameTest {
 

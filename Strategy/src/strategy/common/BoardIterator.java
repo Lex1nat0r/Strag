@@ -15,7 +15,7 @@ import java.util.Iterator;
 import strategy.Piece;
 
 /**
- * @author alextc, andrewdhurle
+ * @author Alex Thornton-Clark, Andrew Hurle, Gabriel Stern-Robbins
  * @version Sep 11, 2011
  */
 public class BoardIterator implements Iterator<Piece> {

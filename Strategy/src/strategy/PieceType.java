@@ -14,8 +14,8 @@ package strategy;
  * Enumeration for the PieceType. This enumeration defines constants that identify the various piece
  * types used in the games and their ranks.
  * 
- * @author gpollice
- * @version Jul 27, 2011
+ * @author gpollice, Alex Thornton-Clark, Andrew Hurle, Gabriel Stern-Robbins
+ * @version Sep 7, 2011
  */
 public enum PieceType
 {

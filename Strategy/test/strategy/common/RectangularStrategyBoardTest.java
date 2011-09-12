@@ -8,6 +8,12 @@ import org.junit.Test;
 import java.util.Iterator;
 import strategy.*;
 
+/**
+ * Test case for the RectangularStrategyBoard class.
+ * 
+ * @author Andrew Hurle, Alex Thornton-Clark, Gabriel Stern-Robbins
+ * @version Sep 11, 2011
+ */
 public class RectangularStrategyBoardTest {
 
 	private RectangularStrategyBoard board;

@@ -14,8 +14,8 @@ package strategy;
  * The Piece class represents a piece in the game. One instance of this class is created for each
  * piece on the board.
  * 
- * @author gpollice
- * @version Jul 27, 2011
+ * @author gpollice, Alex Thornton-Clark, Andrew Hurle, Gabriel Stern-Robbins
+ * @version Sep 7, 2011
  */
 public class Piece
 {

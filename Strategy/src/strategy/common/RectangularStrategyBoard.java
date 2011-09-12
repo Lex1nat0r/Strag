@@ -17,7 +17,7 @@ import strategy.*;
 
 /**
  *
- * @author gpollice, alextc, andrewdhurle
+ * @author gpollice, Alex Thornton-Clark, Andrew Hurle, Gabriel Stern-Robbins
  * @version Sep 8, 2011
  */
 public class RectangularStrategyBoard implements StrategyBoard

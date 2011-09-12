@@ -1,10 +1,15 @@
 package strategy;
 
 import static org.junit.Assert.*;
-
 import org.junit.Before;
 import org.junit.Test;
 
+/**
+ * Test case for the Position class.
+ * 
+ * @author Andrew Hurle, Alex Thornton-Clark, Gabriel Stern-Robbins
+ * @version Sep 8, 2011
+ */
 public class PositionTest {
 
 	private Position pos;
