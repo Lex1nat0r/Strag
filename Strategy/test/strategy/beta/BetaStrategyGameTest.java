@@ -260,11 +260,7 @@ public class BetaStrategyGameTest {
 	
 	@Test (expected=StrategyException.class)
 	public void testMoveAfterOver() throws StrategyException {
-		Piece scout = gameOverGame.getPieceAt(new Position(4,4));
-		Piece returnedPiece = gameOverGame.move(new Position(4,4), new Position(4,5));
-		assertEquals(scout, returnedPiece);
-		assertEquals(scout, gameOverGame.getPieceAt(new Position(4,5)));
-		assertFalse(gameOverGame.getBoard().isOccupied(new Position(4,4)));
+		gameOverGame.move(new Position(4,4), new Position(4,5));
 		gameOverGame.move(new Position(4,5), new Position(4,4));
 	}
 	
