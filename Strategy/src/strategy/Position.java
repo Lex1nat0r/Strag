@@ -49,7 +49,7 @@ package strategy;
  +-------+--------+--------+--------+--------+--------+
  </pre>
  * 
- * @author gpollice
+ * @author gpollice, Alex Thornton-Clark, Andrew Hurle, Gabriel Stern-Robbins
  * @version Aug 1, 2011
  */
 public class Position
