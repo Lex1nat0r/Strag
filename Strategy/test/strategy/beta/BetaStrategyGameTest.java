@@ -73,9 +73,9 @@ public class BetaStrategyGameTest {
 	}
 
 	@Test
-	@Ignore
-	public void testBetaStrategyGame() {
-		fail("Not yet implemented");
+	public void testInitialState() {
+		assertFalse(game.isGameOver());
+		assertEquals(null, game.getWinner());
 	}
 
 	@Test

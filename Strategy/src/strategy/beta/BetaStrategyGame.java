@@ -30,10 +30,10 @@ public class BetaStrategyGame implements StrategyGame
 	private RectangularStrategyBoard board;
 	private boolean playerCanPlacePiece;
 	private Set<Piece> placedPieces;
-	private boolean isOver = false;
+	private boolean isOver;
 	private PlayerColor winnerColor;
-	private int numMoves=0;
-	private PlayerColor turnColor=PlayerColor.RED;
+	private int numMoves;
+	private PlayerColor turnColor;
 	
 	
 	/**
@@ -68,6 +68,10 @@ public class BetaStrategyGame implements StrategyGame
 	@Override
 	public void initializeGame() throws StrategyException
 	{
+		winnerColor = null;
+		isOver = false;
+		numMoves = 0;
+		turnColor = PlayerColor.RED;
 		board.initializeBoard();
 		if (!playerCanPlacePiece) {
 			placePiecesByColor(PlayerColor.RED);
