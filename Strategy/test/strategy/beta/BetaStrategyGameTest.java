@@ -25,6 +25,7 @@ public class BetaStrategyGameTest {
 	private BetaStrategyGame movementTestGame;
 	private BetaStrategyGame battleTestGame;
 	private BetaStrategyGame playerPlaceTestGame;
+	private BetaStrategyGame gameOverGame;
 	
 	@Before
 	public void setUp() throws Exception {
@@ -56,12 +57,17 @@ public class BetaStrategyGameTest {
 		battleTestBoard.putPieceAt(new Position(0,3), new Piece(PieceType.MINER, PlayerColor.RED));
 		battleTestBoard.putPieceAt(new Position(1,4), new Piece(PieceType.MARSHAL, PlayerColor.BLUE));
 		battleTestBoard.putPieceAt(new Position(0,4), new Piece(PieceType.SPY, PlayerColor.RED));
-		//put a scout and flag next to eachother to test a win
-		battleTestBoard.putPieceAt(new Position(4,4), new Piece(PieceType.SCOUT, PlayerColor.RED));
-		battleTestBoard.putPieceAt(new Position(4,5), new Piece(PieceType.FLAG, PlayerColor.BLUE));
-		battleTestBoard.putPieceAt(new Position(5,4), new Piece(PieceType.SCOUT, PlayerColor.BLUE));
-		battleTestBoard.putPieceAt(new Position(5,5), new Piece(PieceType.FLAG, PlayerColor.RED));
 		battleTestGame.setBoard(battleTestBoard);
+		
+		gameOverGame = new BetaStrategyGame();
+		gameOverGame.initializeGame();//put a scout and flag next to eachother to test a win
+		RectangularStrategyBoard gameOverTestBoard = new RectangularStrategyBoard(6, 6);
+		gameOverTestBoard.initializeBoard();
+		gameOverTestBoard.putPieceAt(new Position(4,4), new Piece(PieceType.SCOUT, PlayerColor.RED));
+		gameOverTestBoard.putPieceAt(new Position(4,5), new Piece(PieceType.FLAG, PlayerColor.BLUE));
+		gameOverTestBoard.putPieceAt(new Position(5,4), new Piece(PieceType.SCOUT, PlayerColor.BLUE));
+		gameOverTestBoard.putPieceAt(new Position(5,5), new Piece(PieceType.FLAG, PlayerColor.RED));
+		gameOverGame.setBoard(gameOverTestBoard);
 		
 		playerPlaceTestGame = new BetaStrategyGame(true);
 	}
@@ -236,32 +242,68 @@ public class BetaStrategyGameTest {
 	
 	@Test 
 	public void testRedCapsBlueFlag() throws StrategyException {
-		Piece scout = battleTestGame.getPieceAt(new Position(4,4));
-		Piece returnedPiece = battleTestGame.move(new Position(4,4), new Position(4,5));
+		Piece scout = gameOverGame.getPieceAt(new Position(4,4));
+		Piece returnedPiece = gameOverGame.move(new Position(4,4), new Position(4,5));
 		assertEquals(scout, returnedPiece);
-		assertEquals(scout, battleTestGame.getPieceAt(new Position(4,5)));
-		assertFalse(battleTestGame.getBoard().isOccupied(new Position(4,4)));
+		assertEquals(scout, gameOverGame.getPieceAt(new Position(4,5)));
+		assertFalse(gameOverGame.getBoard().isOccupied(new Position(4,4)));
 	}
-	
+
 	@Test
 	public void testIsGameOver() throws StrategyException {
-		Piece scout = battleTestGame.getPieceAt(new Position(4,4));
-		Piece returnedPiece = battleTestGame.move(new Position(4,4), new Position(4,5));
+		Piece scout = gameOverGame.getPieceAt(new Position(4,4));
+		Piece returnedPiece = gameOverGame.move(new Position(4,4), new Position(4,5));
 		assertEquals(scout, returnedPiece);
-		assertEquals(scout, battleTestGame.getPieceAt(new Position(4,5)));
-		assertFalse(battleTestGame.getBoard().isOccupied(new Position(4,4)));
-		assertEquals(true,battleTestGame.isGameOver());
+		assertEquals(scout, gameOverGame.getPieceAt(new Position(4,5)));
+		assertFalse(gameOverGame.getBoard().isOccupied(new Position(4,4)));
+		assertEquals(true,gameOverGame.isGameOver());
 	}
 
 	@Test
 	public void testGetWinner() throws StrategyException {
 		//red should win
-		Piece scout = battleTestGame.getPieceAt(new Position(4,4));
-		Piece returnedPiece = battleTestGame.move(new Position(4,4), new Position(4,5));
+		Piece scout = gameOverGame.getPieceAt(new Position(4,4));
+		Piece returnedPiece = gameOverGame.move(new Position(4,4), new Position(4,5));
 		assertEquals(scout, returnedPiece);
-		assertEquals(scout, battleTestGame.getPieceAt(new Position(4,5)));
-		assertFalse(battleTestGame.getBoard().isOccupied(new Position(4,4)));
-		assertEquals(PlayerColor.RED,battleTestGame.getWinner());
+		assertEquals(scout, gameOverGame.getPieceAt(new Position(4,5)));
+		assertFalse(gameOverGame.getBoard().isOccupied(new Position(4,4)));
+		assertEquals(PlayerColor.RED,gameOverGame.getWinner());
+	}
+	
+	@Test (expected=StrategyException.class)
+	public void testMoveAfterOver() throws StrategyException {
+		Piece scout = gameOverGame.getPieceAt(new Position(4,4));
+		Piece returnedPiece = gameOverGame.move(new Position(4,4), new Position(4,5));
+		assertEquals(scout, returnedPiece);
+		assertEquals(scout, gameOverGame.getPieceAt(new Position(4,5)));
+		assertFalse(gameOverGame.getBoard().isOccupied(new Position(4,4)));
+		gameOverGame.move(new Position(4,5), new Position(4,4));
+	}
+	
+	@Test
+	public void testMorethanFiveMoves() throws StrategyException {
+		gameOverGame.move(new Position(4,4), new Position(4,3));
+		gameOverGame.move(new Position(5,4), new Position(5,3));
+		gameOverGame.move(new Position(4,3), new Position(4,4));
+		gameOverGame.move(new Position(5,3), new Position(5,4));
+		gameOverGame.move(new Position(4,4), new Position(4,3));
+		gameOverGame.move(new Position(5,4), new Position(5,3));
+		gameOverGame.move(new Position(4,3), new Position(4,4));
+		gameOverGame.move(new Position(5,3), new Position(5,4));
+		gameOverGame.move(new Position(4,4), new Position(4,3));
+		gameOverGame.move(new Position(5,4), new Position(5,3));
+		assertEquals(true,gameOverGame.isGameOver());
+	}
+	
+	@Test (expected=StrategyException.class)
+	public void testDoubleMove() throws StrategyException {
+		gameOverGame.move(new Position(4,4), new Position(4,3));
+		gameOverGame.move(new Position(4,3), new Position(4,4));
+	}
+	
+	@Test (expected=StrategyException.class)
+	public void testBlueFirst() throws StrategyException {
+		gameOverGame.move(new Position(5,4), new Position(5,3));
 	}
 
 	@Test
