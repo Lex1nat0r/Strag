@@ -267,10 +267,15 @@ public class BetaStrategyGame implements StrategyGame
 		if (board.isOccupied(position)) {
 			throw new StrategyException("Player not allowed to place Piece in an occupied space");
 		}
-		if(!placedPieces.add(piece)) {
+		if (!placedPieces.add(piece)) {
 			throw new StrategyException("That Piece has already been placed");
 		}
-		
+		if (piece.getColor() == PlayerColor.RED && position.getRow() > 1) {
+			throw new StrategyException("Given position is outside RED player's setup zone");
+		}
+		if (piece.getColor() == PlayerColor.BLUE && position.getRow() < 4) {
+			throw new StrategyException("Given position is outside BLUE player's setup zone");
+		}
 		board.putPieceAt(position, piece);
 	}
 
