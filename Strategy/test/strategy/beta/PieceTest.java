@@ -36,12 +36,6 @@ public class PieceTest {
 	}
 
 	@Test
-	@Ignore
-	public void testPiece() {
-		fail("Not yet implemented");
-	}
-
-	@Test
 	public void testGetType() {
 		assertEquals(PieceType.SCOUT, bluScout.getType());
 		assertEquals(PieceType.MAJOR, redMajor.getType());
