@@ -308,5 +308,22 @@ public class BetaStrategyGameTest {
 		//just a very basic test here
 		assertTrue(game.getPieceAt(new Position(0,0)) instanceof Piece);
 	}
+	
+	@Test
+	public void testEqualsObject() throws StrategyException {
+		RectangularStrategyBoard board = new RectangularStrategyBoard(6, 6);
+		board.initializeBoard();
+		game.setBoard(board);
+		BetaStrategyGame mockGame = new BetaStrategyGame();
+		mockGame.initializeGame();
+		RectangularStrategyBoard mockBoard = new RectangularStrategyBoard(6, 6);
+		mockBoard.initializeBoard();
+		mockGame.setBoard(mockBoard);
+		assertTrue(game.equals(game));
+		assertTrue(game.equals(mockGame));
+		assertFalse(game.equals(movementTestGame));
+		assertFalse(game.equals(null));
+		assertFalse(game.equals(new Object()));
+	}
 
 }

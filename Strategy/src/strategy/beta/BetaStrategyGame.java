@@ -248,7 +248,8 @@ public class BetaStrategyGame implements StrategyGame
 		}
 		if (other instanceof BetaStrategyGame) {
 			final BetaStrategyGame that = (BetaStrategyGame) other;
-			return board.equals(that.getBoard());
+			return isGameOver() == that.isGameOver() && getWinner() == that.getWinner()
+					&& board.equals(that.getBoard());
 		}
 		return false;
 	}
