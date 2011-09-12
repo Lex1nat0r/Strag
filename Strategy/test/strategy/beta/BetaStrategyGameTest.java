@@ -29,10 +29,8 @@ public class BetaStrategyGameTest {
 	@Before
 	public void setUp() throws Exception {
 		game = new BetaStrategyGame();
-		game.initializeGame();
 		
 		movementTestGame = new BetaStrategyGame();
-		movementTestGame.initializeGame();
 		RectangularStrategyBoard movementTestBoard = new RectangularStrategyBoard(6, 6);
 		movementTestBoard.putPieceAt(new Position(0,0), new Piece(PieceType.SCOUT, PlayerColor.RED));
 		movementTestBoard.putPieceAt(new Position(0,1), new Piece(PieceType.SCOUT, PlayerColor.RED));
@@ -42,7 +40,6 @@ public class BetaStrategyGameTest {
 		movementTestGame.setBoard(movementTestBoard);
 		
 		battleTestGame = new BetaStrategyGame();
-		battleTestGame.initializeGame();
 		RectangularStrategyBoard battleTestBoard = new RectangularStrategyBoard(6, 6);
 		battleTestBoard.putPieceAt(new Position(0,0), new Piece(PieceType.LIEUTENANT, PlayerColor.RED));
 		battleTestBoard.putPieceAt(new Position(1,0), new Piece(PieceType.SERGEANT, PlayerColor.BLUE));
@@ -57,7 +54,7 @@ public class BetaStrategyGameTest {
 		battleTestGame.setBoard(battleTestBoard);
 		
 		gameOverGame = new BetaStrategyGame();
-		gameOverGame.initializeGame();//put a scout and flag next to eachother to test a win
+		//put a scout and flag next to each other to test a win
 		RectangularStrategyBoard gameOverTestBoard = new RectangularStrategyBoard(6, 6);
 		gameOverTestBoard.putPieceAt(new Position(4,4), new Piece(PieceType.SCOUT, PlayerColor.RED));
 		gameOverTestBoard.putPieceAt(new Position(4,5), new Piece(PieceType.FLAG, PlayerColor.BLUE));
@@ -82,7 +79,6 @@ public class BetaStrategyGameTest {
 	@Test
 	public void testInitializeGameCreatesRandomArrangementOfPieces() throws StrategyException {
 		BetaStrategyGame secondGame = new BetaStrategyGame();
-		secondGame.initializeGame();
 		assertFalse(secondGame.equals(game));
 	}
 	
@@ -310,7 +306,6 @@ public class BetaStrategyGameTest {
 		RectangularStrategyBoard board = new RectangularStrategyBoard(6, 6);
 		game.setBoard(board);
 		BetaStrategyGame mockGame = new BetaStrategyGame();
-		mockGame.initializeGame();
 		RectangularStrategyBoard mockBoard = new RectangularStrategyBoard(6, 6);
 		mockGame.setBoard(mockBoard);
 		assertTrue(game.equals(game));
