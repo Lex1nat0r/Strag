@@ -30,8 +30,8 @@ public class BetaStrategyGame implements StrategyGame
 	private RectangularStrategyBoard board;
 	private boolean playerCanPlacePiece;
 	private Set<Piece> placedPieces;
-	private static boolean isOver=false;
-	private static PlayerColor winnerColor;
+	private boolean isOver = false;
+	private PlayerColor winnerColor;
 	private int moves=0;
 	
 	
@@ -93,27 +93,27 @@ public class BetaStrategyGame implements StrategyGame
 			throw new StrategyException("Cannot move piece farther than its range");
 		}
 		
-		if(sourcePiece.getColor().equals(destinationPiece.getColor())) {
+		if (sourcePiece.getColor().equals(destinationPiece.getColor())) {
 			throw new StrategyException("Cannot move onto a friendly piece");
 		}
-		
-		if(board.isOccupiedSpaceBetweenPositions(source, destination)) {
+
+		if (board.isOccupiedSpaceBetweenPositions(source, destination)) {
 			throw new StrategyException("Cannot move through occupied spaces");
 		}
-		
+
 		BattleResult result = BattleResult.VICTORY;
-		if(board.isOccupied(destination)) {
+		if (board.isOccupied(destination)) {
 			result = resolveBattle(sourcePiece, destinationPiece);
 		}
-		
-		switch(result) {
+
+		switch (result) {
 		case VICTORY:
 			board.putPieceAt(destination, sourcePiece);
 			board.putPieceAt(source, Piece.NULL_PIECE);
 			break;
 		case DRAW:
 			board.putPieceAt(destination, Piece.NULL_PIECE);
-			//fallthrough
+			// fallthrough
 		case DEFEAT:
 			board.putPieceAt(source, Piece.NULL_PIECE);
 			break;
@@ -130,9 +130,10 @@ public class BetaStrategyGame implements StrategyGame
 	 * @return VICTORY if the attacker wins, DEFEAT if the defender wins,
 	 * 		DRAW if both pieces lose
 	 */
-	private static BattleResult resolveBattle(Piece attacker, Piece defender) {
+	private BattleResult resolveBattle(Piece attacker, Piece defender) {
 		//this should be checked first
-		isOver=false;
+		isOver = false;
+		
 		if(defender.getType().equals(PieceType.FLAG)){
 			isOver = true;
 			winnerColor=attacker.getColor();
