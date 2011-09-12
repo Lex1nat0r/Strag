@@ -33,6 +33,8 @@ public class BetaStrategyGame implements StrategyGame
 	private static boolean isOver;
 	private static PlayerColor winnerColor;
 	
+	
+	
 	/**
 	 * The possible results of a battle.
 	 */
@@ -126,6 +128,12 @@ public class BetaStrategyGame implements StrategyGame
 	 * 		DRAW if both pieces lose
 	 */
 	private static BattleResult resolveBattle(Piece attacker, Piece defender) {
+		//this should be checked first
+		if(defender.getType().equals(PieceType.FLAG)){
+			isOver = true;
+			winnerColor=attacker.getColor();
+			return BattleResult.VICTORY;
+		}
 		if(attacker.getType().equals(PieceType.MINER)
 				&& defender.getType().equals(PieceType.BOMB)) {
 			return BattleResult.VICTORY;
@@ -140,10 +148,6 @@ public class BetaStrategyGame implements StrategyGame
 		}
 		if(attacker.getType().getRank() == defender.getType().getRank()) {
 			return BattleResult.DRAW;
-		}
-		if(defender.getType().equals(PieceType.FLAG)){
-			isOver = true;
-			winnerColor=attacker.getColor();
 		}
 		return BattleResult.DEFEAT;
 	}

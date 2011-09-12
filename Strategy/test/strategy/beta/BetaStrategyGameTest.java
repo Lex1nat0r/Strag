@@ -220,7 +220,6 @@ public class BetaStrategyGameTest {
 	
 	@Test 
 	public void testRedCapsBlueFlag() throws StrategyException {
-		//4,4 attacks 4,5
 		Piece scout = battleTestGame.getPieceAt(new Position(4,4));
 		Piece returnedPiece = battleTestGame.move(new Position(4,4), new Position(4,5));
 		assertEquals(scout, returnedPiece);
@@ -239,9 +238,14 @@ public class BetaStrategyGameTest {
 	}
 
 	@Test
-	@Ignore
-	public void testGetWinner() {
-		fail("Not yet implemented");
+	public void testGetWinner() throws StrategyException {
+		//red should win
+		Piece scout = battleTestGame.getPieceAt(new Position(4,4));
+		Piece returnedPiece = battleTestGame.move(new Position(4,4), new Position(4,5));
+		assertEquals(scout, returnedPiece);
+		assertEquals(scout, battleTestGame.getPieceAt(new Position(4,5)));
+		assertFalse(battleTestGame.getBoard().isOccupied(new Position(4,4)));
+		assertEquals(PlayerColor.RED,battleTestGame.getWinner());
 	}
 
 	@Test
