@@ -45,6 +45,7 @@ public class BetaStrategyGame implements StrategyGame
 	
 	/**
 	 * Default constructor. Initializes the game.
+	 * Players are not allowed to place their pieces.  They are randomized instead.
 	 * @throws StrategyException 
 	 */
 	public BetaStrategyGame() throws StrategyException
@@ -56,8 +57,8 @@ public class BetaStrategyGame implements StrategyGame
 	 * Constructor that accepts a boolean indicating whether players
 	 * can place their pieces in this game or not.
 	 * 
-	 * @param playerPlacePiece
-	 * @throws StrategyException
+	 * @param playerPlacePiece true if players can place pieces on the board where they choose
+	 * @throws StrategyException if something goes wrong when initializing
 	 */
 	public BetaStrategyGame(boolean playerPlacePiece) throws StrategyException {
 		board = new RectangularStrategyBoard(6, 6);
@@ -288,12 +289,11 @@ public class BetaStrategyGame implements StrategyGame
 	}
 
 	/**
-	 * Place Piece piece at Position position on this board. 
-	 * Throws a StrategyException if a player is attempting to place a piece incorrectly.
+	 * Place Piece piece at Position position on this board.
 	 * 
-	 * @param position
-	 * @param piece
-	 * @throws StrategyException
+	 * @param position The position to place the Piece at
+	 * @param piece The Piece to place on the board
+	 * @throws StrategyException if a player is attempting to place a piece incorrectly
 	 */
 	public void playerPlacePiece(Position position, Piece piece) throws StrategyException {
 		if (!playerCanPlacePiece) {
