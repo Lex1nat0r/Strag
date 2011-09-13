@@ -310,5 +310,8 @@ public class BetaStrategyGameTest {
 		assertFalse(game.equals(null));
 		assertFalse(game.equals(new Object()));
 	}
-
+	
+	//Hurf a derf
+	//gawddammit
+	
 }
