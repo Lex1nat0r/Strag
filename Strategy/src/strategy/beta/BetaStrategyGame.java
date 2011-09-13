@@ -313,5 +313,9 @@ public class BetaStrategyGame implements StrategyGame
 		}
 		board.putPieceAt(position, piece);
 	}
+	
+	//RAEG COMENT
+	//HAET
+	
 
 }
