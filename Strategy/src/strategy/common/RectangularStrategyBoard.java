@@ -243,4 +243,8 @@ public class RectangularStrategyBoard implements StrategyBoard
 	{
 		return 1;
 	}
+	
+	//sucky suck suc
+	//derp
+	
 }
