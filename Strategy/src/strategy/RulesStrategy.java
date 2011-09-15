@@ -20,6 +20,7 @@ public abstract class RulesStrategy {
 
 	protected PlayerColor winnerColor;
 	protected PlayerColor turnColor;
+	protected StrategyBoard board;
 	
 	/**
 	 * The possible results of a battle.
@@ -83,6 +84,18 @@ public abstract class RulesStrategy {
 	 */
 	public boolean isOver(){
 		return winnerColor != null;
+	}
+	
+	/**
+	 * Accessor for getting a piece at a specific row and column.
+	 * 
+	 * @param pos
+	 *            the Position of the piece
+	 * @return the piece at the specified row and column
+	 * @throws StrategyException if coordinates are out-of-bounds
+	 */
+	public Piece getPieceAt(Position pos) throws StrategyException {
+		return board.getPieceAt(pos);
 	}
 
 }
