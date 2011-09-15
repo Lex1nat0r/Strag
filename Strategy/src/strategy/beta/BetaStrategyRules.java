@@ -27,32 +27,20 @@ import strategy.common.RectangularStrategyBoard;
  * @author Alex Thornton-Clark, Andrew Hurle, Gabriel Stern-Robbins
  * @version Sep 14, 2011
  */
-public class BetaStrategyRules implements RulesStrategy {
+public class BetaStrategyRules extends RulesStrategy {
 
-	private PlayerColor winnerColor;
-	private PlayerColor turnColor;
 	private RectangularStrategyBoard board;
 	private int numMoves;
 	private boolean playerCanPlacePiece;
 	private Set<Piece> placedPieces;
-	private boolean isOver;
 	
-	/* 
-	 * @see strategy.RulesStrategy#getWinner()
-	 */
-	@Override
-	public PlayerColor getWinner() {
-		return winnerColor;
-	}
-
 	/* 
 	 * @see strategy.RulesStrategy#initialize()
 	 */
 	@Override
 	public void initialize() throws StrategyException {
-		winnerColor = null;
+		super.initialize();
 		board = new RectangularStrategyBoard(6, 6);
-		isOver = false;
 		numMoves = 0;
 		turnColor = PlayerColor.RED;
 		board.initializeBoard();
@@ -79,7 +67,7 @@ public class BetaStrategyRules implements RulesStrategy {
 		if(!board.isOccupied(source)) {
 			throw new StrategyException("source must be occupied by a piece");
 		}
-		if(isOver){
+		if(isOver()){
 			throw new StrategyException("Game is already over");
 		}
 		
@@ -132,7 +120,7 @@ public class BetaStrategyRules implements RulesStrategy {
 		//if moves>10 end game
 		numMoves++;
 		if(numMoves >= 10){
-			isOver=true;
+			winnerColor = PlayerColor.BLUE;
 		}
 		return board.getPieceAt(destination);
 	}
@@ -142,11 +130,7 @@ public class BetaStrategyRules implements RulesStrategy {
 	 */
 	@Override
 	public BattleResult resolveBattle(Piece attacker, Piece defender) {
-		//this should be checked first
-		isOver = false;
-		
 		if(defender.getType().equals(PieceType.FLAG)){
-			isOver = true;
 			winnerColor=attacker.getColor();
 			return BattleResult.VICTORY;
 		}
@@ -166,12 +150,6 @@ public class BetaStrategyRules implements RulesStrategy {
 			return BattleResult.DRAW;
 		}
 		return BattleResult.DEFEAT;
-	}
-	
-	@Override
-	public boolean isOver()
-	{
-		return winnerColor != null;
 	}
 
 }

@@ -24,22 +24,16 @@ import strategy.common.*;
  * @author Alex Thornton-Clark, Andrew Hurle, Gabriel Stern-Robbins
  * @version Sep 14, 2011
  */
-public class AlphaRulesStrategy implements RulesStrategy {
-	
+public class AlphaRulesStrategy extends RulesStrategy {
+
 	private static final int width = 2;
 	private static final int height = 2;
 	private final RectangularStrategyBoard board = new RectangularStrategyBoard(height, width);
-	private PlayerColor winnerColor;
-	private PlayerColor turnColor;
-
-	@Override
-	public PlayerColor getWinner() {
-		return winnerColor;
-	}
+	
 
 	@Override
 	public void initialize() throws StrategyException {
-		winnerColor = null;
+		super.initialize();
 		turnColor = PlayerColor.RED;
 		board.putPieceAt(new Position(0, 0), 
 				new strategy.Piece(strategy.PieceType.SCOUT, PlayerColor.RED));
@@ -85,12 +79,6 @@ public class AlphaRulesStrategy implements RulesStrategy {
 			strategy.Piece defender) {
 		winnerColor = PlayerColor.RED;
 		return BattleResult.VICTORY;
-	}
-	
-	@Override
-	public boolean isOver()
-	{
-		return winnerColor != null;
 	}
 
 }

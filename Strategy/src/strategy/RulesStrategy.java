@@ -16,12 +16,15 @@ package strategy;
  * @author Alex Thortnon-Clark, Andrew Hurle, Gabriel Stern-Robbins
  * @version Sep 14, 2011
  */
-public interface RulesStrategy {
+public abstract class RulesStrategy {
 
+	protected PlayerColor winnerColor;
+	protected PlayerColor turnColor;
+	
 	/**
 	 * The possible results of a battle.
 	 */
-	enum BattleResult {
+	public enum BattleResult {
 		DEFEAT, VICTORY, DRAW
 	}
 	
@@ -41,7 +44,7 @@ public interface RulesStrategy {
 	 *             <li>The piece cannot legally move to the destination</li>
 	 *             </ul>
 	 */
-	Piece makeMove(Position source, Position destination) throws StrategyException;
+	public abstract Piece makeMove(Position source, Position destination) throws StrategyException;
 	
 	/**
 	 * Initialize (reset) the game.
@@ -50,7 +53,9 @@ public interface RulesStrategy {
 	 * 
 	 * @throws StrategyException if something goes wrong when initializing
 	 */
-	void initialize() throws StrategyException;
+	public void initialize() throws StrategyException {
+		winnerColor = null;
+	}
 	
 	/**
 	 * If there is a winner, return the winner's color.
@@ -58,7 +63,9 @@ public interface RulesStrategy {
 	 * @return the winner's color if there is a winner or null if the game is not over or the 
 	 * 			default winner of the specific ruleset.
 	 */
-	PlayerColor getWinner();
+	public PlayerColor getWinner(){
+		return winnerColor;
+	}
 	
 	/**
 	 * Determines the outcome of a battle between two Pieces.
@@ -69,10 +76,13 @@ public interface RulesStrategy {
 	 * @return VICTORY if the attacker wins, DEFEAT if the defender wins,
 	 * 		DRAW if both pieces lose
 	 */
-	BattleResult resolveBattle(Piece attacker, Piece defender);
+	public abstract BattleResult resolveBattle(Piece attacker, Piece defender);
 	
 	/**
 	 * @return true if the game is over; false otherwise.
 	 */
-	boolean isOver();
+	public boolean isOver(){
+		return winnerColor != null;
+	}
+
 }
