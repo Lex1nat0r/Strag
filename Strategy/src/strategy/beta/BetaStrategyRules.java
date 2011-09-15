@@ -167,5 +167,11 @@ public class BetaStrategyRules implements RulesStrategy {
 		}
 		return BattleResult.DEFEAT;
 	}
+	
+	@Override
+	public boolean isOver()
+	{
+		return winnerColor != null;
+	}
 
 }

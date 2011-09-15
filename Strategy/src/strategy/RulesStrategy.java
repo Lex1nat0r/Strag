@@ -70,4 +70,9 @@ public interface RulesStrategy {
 	 * 		DRAW if both pieces lose
 	 */
 	BattleResult resolveBattle(Piece attacker, Piece defender);
+	
+	/**
+	 * @return true if the game is over; false otherwise.
+	 */
+	boolean isOver();
 }
