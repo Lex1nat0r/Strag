@@ -13,7 +13,7 @@ package strategy.alpha;
 
 import static org.junit.Assert.assertEquals;
 import static strategy.PlayerColor.*;
-import static strategy.alpha.PieceType.*;
+import static strategy.PieceType.*;
 import org.junit.*;
 
 import strategy.StrategyException;

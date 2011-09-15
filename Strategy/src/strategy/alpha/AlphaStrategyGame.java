@@ -172,7 +172,7 @@ public class AlphaStrategyGame
 			winner = attacker.getColor();
 		}
 		
-		if(attacker.getType().getRank() > defender.getType().getRank()) {
+		if(attacker.getType().getRank() < defender.getType().getRank()) {
 			board[toRow][toCol] = null;
 			return true;
 		}
