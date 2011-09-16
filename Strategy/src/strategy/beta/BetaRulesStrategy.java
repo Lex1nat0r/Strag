@@ -277,5 +277,17 @@ public class BetaRulesStrategy extends RulesStrategy {
 		}
 		return false;
 	}
+	
+	@Override
+	public int hashCode()
+	{
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + board.hashCode();
+		result = prime * result + numMoves;
+		result = prime * result + (playerCanPlacePiece ? 0 : 1);
+		result = prime * result + placedPieces.hashCode();
+		return result;
+	}
 
 }
