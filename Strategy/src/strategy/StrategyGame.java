@@ -54,7 +54,8 @@ public interface StrategyGame
 	
 	/**
 	 * Get the piece currently at the specified position
-	 * @param position
+	 * 
+	 * @param position the position to be checked
 	 * @return the piece at that position
 	 * @throws StrategyException if the position is invalid
 	 */
