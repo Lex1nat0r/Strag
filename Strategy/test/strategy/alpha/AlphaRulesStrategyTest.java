@@ -11,6 +11,8 @@ import org.junit.Before;
 import org.junit.Test;
 
 import strategy.Piece;
+import strategy.PieceType;
+import strategy.PlayerColor;
 import strategy.Position;
 import strategy.StrategyException;
 
@@ -111,4 +113,8 @@ public class AlphaRulesStrategyTest {
 		game.makeMove(new Position(1, 1), new Position(0, 1));
 	}
 	
+	@Test(expected=StrategyException.class)
+	public void testTryingToPlacePieceThrowsException() throws StrategyException {
+		game.playerPlacePiece(new Position(0, 0), new Piece(PieceType.SCOUT, PlayerColor.RED));
+	}
 }

@@ -48,14 +48,14 @@ public class AlphaRulesStrategy extends RulesStrategy {
 	@Override
 	public Piece makeMove(Position source, Position destination)
 			throws StrategyException {
+		if(isOver()) {
+			throw new StrategyException("Cannot move after game is over");
+		}
 		if(board.getPieceAt(source).getType() == PieceType.FLAG) {
 			throw new StrategyException("Cannot move flag");
 		}
 		if(board.getPieceAt(source).getColor() != turnColor) {
 			throw new StrategyException("Cannot move out of turn");
-		}
-		if(isOver()) {
-			throw new StrategyException("Cannot move after game is over");
 		}
 		if(source.equals(destination)) {
 			throw new StrategyException("Must move to a different space");

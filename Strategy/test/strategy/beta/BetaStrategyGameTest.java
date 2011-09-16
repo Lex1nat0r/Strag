@@ -310,5 +310,14 @@ public class BetaStrategyGameTest {
 		assertFalse(game.equals(null));
 		assertFalse(game.equals(new Object()));
 	}
+	
+	@Test
+	public void testHashCode() throws StrategyException {
+		BetaStrategyGame game1 = new BetaStrategyGame(true);
+		BetaStrategyGame game2 = new BetaStrategyGame(true);
+		int hash = game1.hashCode();
+		assertEquals(hash, game2.hashCode());
+		assertEquals(hash, game2.hashCode());
+	}
 
 }
