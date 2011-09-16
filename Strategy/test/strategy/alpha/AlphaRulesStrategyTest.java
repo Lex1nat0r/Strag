@@ -16,6 +16,12 @@ import strategy.PlayerColor;
 import strategy.Position;
 import strategy.StrategyException;
 
+/**
+ * Test case for the AlphaRulesStrategy class.
+ * 
+ * @author Andrew Hurle, Alex Thornton-Clark, Gabriel Stern-Robbins
+ * @version Sep 16, 2011
+ */
 public class AlphaRulesStrategyTest {
 
 	private AlphaRulesStrategy game;

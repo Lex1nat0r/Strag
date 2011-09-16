@@ -23,7 +23,7 @@ import strategy.StrategyException;
 /**
  * Test case for the AlphaStrategy game.
  * 
- * @author gpollice, Andrew Hurle
+ * @author gpollice, Andrew Hurle, Alex Thornton-Clark, Gabriel Stern-Robbins
  * @version Aug 29, 2011
  */
 public class AlphaStrategyGameTest

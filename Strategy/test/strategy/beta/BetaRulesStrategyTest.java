@@ -15,6 +15,12 @@ import strategy.Position;
 import strategy.StrategyException;
 import strategy.common.RectangularStrategyBoard;
 
+/**
+ * Test case for the BetaRulesStrategy game.
+ * 
+ * @author gpollice, Andrew Hurle, Alex Thornton-Clark, Gabriel Stern-Robbins
+ * @version Aug 29, 2011
+ */
 public class BetaRulesStrategyTest {
 
 	private BetaRulesStrategy rules;

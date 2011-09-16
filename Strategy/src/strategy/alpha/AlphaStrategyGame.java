@@ -15,7 +15,7 @@ import strategy.*;
 /**
  * The main Game for AlphaStrategy. All interactions with the game go through this class.
  * 
- * @author gpollice, Andrew Hurle
+ * @author gpollice, Andrew Hurle, Alex Thornton-Clark, Gabriel Stern-Robbins
  * @version Aug 29, 2011
  */
 public class AlphaStrategyGame implements StrategyGame
