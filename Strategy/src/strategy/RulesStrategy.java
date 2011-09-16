@@ -20,7 +20,6 @@ public abstract class RulesStrategy {
 
 	protected PlayerColor winnerColor;
 	protected PlayerColor turnColor;
-	protected StrategyBoard board;
 	
 	/**
 	 * The possible results of a battle.
@@ -54,9 +53,7 @@ public abstract class RulesStrategy {
 	 * 
 	 * @throws StrategyException if something goes wrong when initializing
 	 */
-	public void initialize() throws StrategyException {
-		winnerColor = null;
-	}
+	public abstract void initialize() throws StrategyException;
 	
 	/**
 	 * If there is a winner, return the winner's color.
@@ -87,15 +84,12 @@ public abstract class RulesStrategy {
 	}
 	
 	/**
-	 * Accessor for getting a piece at a specific row and column.
+	 * Place Piece piece at Position position on this board.
 	 * 
-	 * @param pos
-	 *            the Position of the piece
-	 * @return the piece at the specified row and column
-	 * @throws StrategyException if coordinates are out-of-bounds
+	 * @param position The position to place the Piece at
+	 * @param piece The Piece to place on the board
+	 * @throws StrategyException if a player is attempting to place a piece incorrectly
 	 */
-	public Piece getPieceAt(Position pos) throws StrategyException {
-		return board.getPieceAt(pos);
-	}
+	public abstract void playerPlacePiece(Position position, Piece piece) throws StrategyException;
 
 }

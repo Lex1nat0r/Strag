@@ -28,11 +28,11 @@ public class AlphaRulesStrategy extends RulesStrategy {
 
 	private static final int width = 2;
 	private static final int height = 2;
+	private final RectangularStrategyBoard board = new RectangularStrategyBoard(height, width);
 	
 	@Override
 	public void initialize() throws StrategyException {
-		super.initialize();
-		board = new RectangularStrategyBoard(height, width);
+		winnerColor = null;
 		turnColor = PlayerColor.RED;
 		board.putPieceAt(new Position(0, 0), 
 				new strategy.Piece(strategy.PieceType.SCOUT, PlayerColor.RED));
@@ -79,6 +79,24 @@ public class AlphaRulesStrategy extends RulesStrategy {
 			strategy.Piece defender) {
 		winnerColor = PlayerColor.RED;
 		return BattleResult.VICTORY;
+	}
+
+	@Override
+	public void playerPlacePiece(Position position, Piece piece)
+			throws StrategyException {
+		throw new StrategyException("Player cannot place pieces in AlphaStrategy");
+	}
+	
+	/**
+	 * Accessor for getting a piece at a specific row and column.
+	 * 
+	 * @param pos
+	 *            the Position of the piece
+	 * @return the piece at the specified row and column
+	 * @throws StrategyException if coordinates are out-of-bounds
+	 */
+	public Piece getPieceAt(Position pos) throws StrategyException {
+		return board.getPieceAt(pos);
 	}
 
 }
