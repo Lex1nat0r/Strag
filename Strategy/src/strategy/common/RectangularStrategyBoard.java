@@ -41,18 +41,12 @@ public class RectangularStrategyBoard implements StrategyBoard
 		initializeBoard();
 	}
 	
-	/*
-	 * @see java.lang.Iterable#iterator()
-	 */
 	@Override
 	public Iterator<Piece> iterator()
 	{
 		return new BoardIterator(pieces);
 	}
 
-	/*
-	 * @see strategy.StrategyBoard#getPieceAt(strategy.Position)
-	 */
 	@Override
 	public Piece getPieceAt(Position position) throws StrategyException
 	{
@@ -60,9 +54,6 @@ public class RectangularStrategyBoard implements StrategyBoard
 		return pieces[position.getRow()][position.getColumn()];
 	}
 
-	/*
-	 * @see strategy.StrategyBoard#putPieceAt(strategy.Position, strategy.Piece)
-	 */
 	@Override
 	public void putPieceAt(Position position, Piece piece) throws StrategyException
 	{
@@ -70,9 +61,6 @@ public class RectangularStrategyBoard implements StrategyBoard
 		pieces[position.getRow()][position.getColumn()] = piece;
 	}
 
-	/*
-	 * @see strategy.StrategyBoard#isOccupied(strategy.Position)
-	 */
 	@Override
 	public boolean isOccupied(Position position) throws StrategyException
 	{
@@ -132,9 +120,7 @@ public class RectangularStrategyBoard implements StrategyBoard
 		return false;
 	}
 	
-	/**
-	 * @see strategy.StrategyBoard#validatePosition(Position)
-	 */
+	@Override
 	public void validatePosition(Position pos) throws StrategyException
 	{
 		if(pos.getRow() >= numRows || pos.getRow() < 0) {

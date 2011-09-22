@@ -12,11 +12,6 @@
  *******************************************************************************/
 package strategy.beta;
 
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.Random;
-import java.util.Set;
-
 import strategy.*;
 import strategy.common.RectangularStrategyBoard;
 
@@ -27,245 +22,60 @@ import strategy.common.RectangularStrategyBoard;
  */
 public class BetaStrategyGame implements StrategyGame
 {
-	private RectangularStrategyBoard board;
-	private boolean playerCanPlacePiece;
-	private Set<Piece> placedPieces;
-	private boolean isOver;
-	private PlayerColor winnerColor;
-	private int numMoves;
-	private PlayerColor turnColor;
 	
+	private BetaRulesStrategy rules;
 	
-	/**
-	 * The possible results of a battle.
-	 */
-	private enum BattleResult {
-		DEFEAT, VICTORY, DRAW
-	}
-	
-	/**
-	 * Default constructor. Initializes the game.
-	 * Players are not allowed to place their pieces.  They are randomized instead.
-	 * @throws StrategyException 
-	 */
-	public BetaStrategyGame() throws StrategyException
-	{
+	public BetaStrategyGame() throws StrategyException {
 		this(false);
 	}
 	
 	/**
-	 * Constructor that accepts a boolean indicating whether players
-	 * can place their pieces in this game or not.
+	 * Constructs a BetaStrategyGame.
+	 * If playerPlacePiece is true then the player can place pieces.
 	 * 
-	 * @param playerPlacePiece true if players can place pieces on the board where they choose
-	 * @throws StrategyException if something goes wrong when initializing
+	 * @param playerPlacePiece
+	 * @throws StrategyException
 	 */
 	public BetaStrategyGame(boolean playerPlacePiece) throws StrategyException {
-		board = new RectangularStrategyBoard(6, 6);
-		playerCanPlacePiece = playerPlacePiece;
+		rules = new BetaRulesStrategy(playerPlacePiece);
 		initializeGame();
 	}
-	
+
 	@Override
-	public void initializeGame() throws StrategyException
-	{
-		winnerColor = null;
-		isOver = false;
-		numMoves = 0;
-		turnColor = PlayerColor.RED;
-		board.initializeBoard();
-		if (!playerCanPlacePiece) {
-			placePiecesByColor(PlayerColor.RED);
-			placePiecesByColor(PlayerColor.BLUE);
-			placedPieces = null;
-		}
-		else {
-			placedPieces = new HashSet<Piece>();
-		}
-	}
-	
-	@Override
-	public Piece move(Position source, Position destination) throws StrategyException
-	{
-		if(source.equals(destination)) {
-			throw new StrategyException("destination must be different from source");
-		}
-		if(!board.isOccupied(source)) {
-			throw new StrategyException("source must be occupied by a piece");
-		}
-		if(isOver){
-			throw new StrategyException("Game is already over");
-		}
-		
-		//change turn/dont double move
-		if(getPieceAt(source).getColor() != turnColor){
-			throw new StrategyException("not your turn");
-		}
-		
-		if(turnColor == PlayerColor.RED){
-			turnColor=PlayerColor.BLUE;
-		}
-		else{
-			turnColor=PlayerColor.RED;
-		}
-		
-		final Piece sourcePiece = getPieceAt(source);
-		final Piece destinationPiece = getPieceAt(destination);
-		
-		final int distance = board.getDistance(source, destination); //checks for diagonal
-		final int range = sourcePiece.getType().getRange();
-		if(range >= 0 && distance > range) {
-			throw new StrategyException("Cannot move piece farther than its range");
-		}
-		
-		if (sourcePiece.getColor().equals(destinationPiece.getColor())) {
-			throw new StrategyException("Cannot move onto a friendly piece");
-		}
-
-		if (board.isOccupiedSpaceBetweenPositions(source, destination)) {
-			throw new StrategyException("Cannot move through occupied spaces");
-		}
-
-		BattleResult result = BattleResult.VICTORY;
-		if (board.isOccupied(destination)) {
-			result = resolveBattle(sourcePiece, destinationPiece);
-		}
-
-		switch (result) {
-		case VICTORY:
-			board.putPieceAt(destination, sourcePiece);
-			board.putPieceAt(source, Piece.NULL_PIECE);
-			break;
-		case DRAW:
-			board.putPieceAt(destination, Piece.NULL_PIECE);
-			// fallthrough
-		case DEFEAT:
-			board.putPieceAt(source, Piece.NULL_PIECE);
-			break;
-		}
-		//if moves>10 end game
-		numMoves++;
-		if(numMoves >= 10){
-			isOver=true;
-		}
-		return getPieceAt(destination);
-	}
-
-	/**
-	 * Determines the outcome of a battle between two Pieces.
-	 * 
-	 * @param attacker The attacking Piece
-	 * @param defender The defending Piece
-	 * @return VICTORY if the attacker wins, DEFEAT if the defender wins,
-	 * 		DRAW if both pieces lose
-	 */
-	private BattleResult resolveBattle(Piece attacker, Piece defender) {
-		//this should be checked first
-		isOver = false;
-		
-		if(defender.getType().equals(PieceType.FLAG)){
-			isOver = true;
-			winnerColor=attacker.getColor();
-			return BattleResult.VICTORY;
-		}
-		if(attacker.getType().equals(PieceType.MINER)
-				&& defender.getType().equals(PieceType.BOMB)) {
-			return BattleResult.VICTORY;
-		}
-		if(attacker.getType().equals(PieceType.SPY)
-				&& defender.getType().equals(PieceType.MARSHAL)) {
-			return BattleResult.VICTORY;
-		}
-		
-		if(attacker.getType().getRank() < defender.getType().getRank()) {
-			return BattleResult.VICTORY;
-		}
-		if(attacker.getType().getRank() == defender.getType().getRank()) {
-			return BattleResult.DRAW;
-		}
-		return BattleResult.DEFEAT;
-	}
-	
-	@Override
-	public boolean isGameOver()
-	{
-		return isOver;
+	public Piece getPieceAt(Position position) throws StrategyException {
+		return rules.getPieceAt(position);
 	}
 
 	@Override
-	public PlayerColor getWinner()
-	{
-		return winnerColor;
+	public PlayerColor getWinner() {
+		return rules.getWinner();
 	}
 
 	@Override
-	public Piece getPieceAt(Position position) throws StrategyException
-	{
-		return board.getPieceAt(position);
+	public void initializeGame() throws StrategyException {
+		rules.initialize();
+		
+	}
+
+	@Override
+	public boolean isGameOver() {
+		return rules.isOver();
+	}
+
+	@Override
+	public Piece move(Position source, Position destination)
+			throws StrategyException {
+		return rules.makeMove(source, destination);
 	}
 	
 	/**
-	 * Get the number of pieces of both colors currently on the board
-	 * 
-	 * @return numPieces
+	 * @see RulesStrategy#playerPlacePiece
+	 * @param position
+	 * @param piece
+	 * @throws StrategyException
 	 */
-	public int getNumPiecesOnBoard() {
-		int numPieces = 0;
-		final Iterator<Piece> iter = board.iterator();
-		
-		while(iter.hasNext()) {
-			if (!iter.next().equals(Piece.NULL_PIECE)) {
-				numPieces++;
-			}
-		}
-		
-		return numPieces;
-	}
-	
-	private void placePiecesByColor(PlayerColor pieceColor) throws StrategyException {
-		for (PieceType type : PieceType.values()) {
-			Piece pieceToPlace = new Piece(type, pieceColor);
-			randomlyPlacePiece(pieceToPlace);
-		}
-	}
-	
-	private void randomlyPlacePiece(Piece pieceToPlace) throws StrategyException {
-		final Random randGen = new Random();
-		Position randPos = null;
-		
-		
-		if (pieceToPlace.getColor() == PlayerColor.RED) {
-			do {
-				randPos = new Position(randGen.nextInt(2), randGen.nextInt(board.getNumCols()));
-			} while (board.isOccupied(randPos));
-		}
-		else {
-			do {
-				randPos = new Position((board.getNumRows() - 1) - randGen.nextInt(2), 
-						randGen.nextInt(board.getNumCols()));
-			} while (board.isOccupied(randPos));
-		}
-			
-		board.putPieceAt(randPos, pieceToPlace);
-	}
-	
-	/**
-	 * Set the current StrategyBoard to the given StrategyBoard
-	 * 
-	 * @param board
-	 */
-	protected void setBoard(StrategyBoard board)
-	{
-		this.board = (RectangularStrategyBoard) board;
-	}
-	
-	/**
-	 * Return this BetaStrategyGame's RectangularStrategyBoard
-	 * 
-	 * @return board
-	 */
-	protected RectangularStrategyBoard getBoard() {
-		return board;
+	public void playerPlacePiece(Position position, Piece piece) throws StrategyException {
+		rules.playerPlacePiece(position, piece);
 	}
 	
 	@Override
@@ -276,8 +86,7 @@ public class BetaStrategyGame implements StrategyGame
 		}
 		if (other instanceof BetaStrategyGame) {
 			final BetaStrategyGame that = (BetaStrategyGame) other;
-			return isGameOver() == that.isGameOver() && getWinner() == that.getWinner()
-					&& board.equals(that.getBoard());
+			return rules.equals(that.getRules());
 		}
 		return false;
 	}
@@ -285,33 +94,30 @@ public class BetaStrategyGame implements StrategyGame
 	@Override
 	public int hashCode()
 	{
-		return 1;
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + rules.hashCode();
+		return result;
 	}
-
+	
+	protected BetaRulesStrategy getRules() {
+		return rules;
+	}
+	
 	/**
-	 * Place Piece piece at Position position on this board.
-	 * 
-	 * @param position The position to place the Piece at
-	 * @param piece The Piece to place on the board
-	 * @throws StrategyException if a player is attempting to place a piece incorrectly
+	 * @see BetaRulesStrategy#setBoard
+	 * @param board
 	 */
-	public void playerPlacePiece(Position position, Piece piece) throws StrategyException {
-		if (!playerCanPlacePiece) {
-			throw new StrategyException("Player not allowed to place Piece");
-		}
-		if (board.isOccupied(position)) {
-			throw new StrategyException("Player not allowed to place Piece in an occupied space");
-		}
-		if (!placedPieces.add(piece)) {
-			throw new StrategyException("That Piece has already been placed");
-		}
-		if (piece.getColor() == PlayerColor.RED && position.getRow() > 1) {
-			throw new StrategyException("Given position is outside RED player's setup zone");
-		}
-		if (piece.getColor() == PlayerColor.BLUE && position.getRow() < 4) {
-			throw new StrategyException("Given position is outside BLUE player's setup zone");
-		}
-		board.putPieceAt(position, piece);
+	protected void setBoard(RectangularStrategyBoard board) {
+		rules.setBoard(board);
 	}
-
+	
+	protected RectangularStrategyBoard getBoard() {
+		return rules.getBoard();
+	}
+	
+	protected int getNumPiecesOnBoard() {
+		return rules.getNumPiecesOnBoard();
+	}
+	
 }

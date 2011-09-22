@@ -1,4 +1,4 @@
-package strategy.beta;
+package strategy;
 
 import static org.junit.Assert.*;
 
