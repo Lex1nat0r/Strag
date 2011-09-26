@@ -41,6 +41,58 @@ public class RectangularStrategyBoard implements StrategyBoard
 		initializeBoard();
 	}
 	
+	/**
+	 * Constructor that initializes the board to a starting configuration.
+	 * @param rows
+	 * @param columns
+	 * @param startingRedPieces the starting configuration of Red pieces
+	 * @param startingBluePieces the starting configuration of Blue pieces
+	 * @throws StrategyException 
+	 */
+	public RectangularStrategyBoard(int rows, int columns,
+			PiecePositionAssociation[] startingRedPieces,
+			PiecePositionAssociation[] startingBluePieces) throws StrategyException
+	{
+		this(rows, columns);
+		initializeBoard(startingRedPieces, startingBluePieces);
+		
+		
+	}
+
+	/**
+	 * Initialize the board to the starting configuration.
+	 * Sets every space on the board to the NULL_PIECE
+	 */
+	public void initializeBoard()
+	{
+		for (int i = 0; i < numRows; i++) {
+			for (int j = 0; j < numCols; j++) {
+				pieces[i][j] = Piece.NULL_PIECE;
+			}
+		}
+	}
+	
+	/**
+	 * Initialize the board to the starting configuration.
+	 * @param startingRedPieces the starting configuration of Red pieces
+	 * @param startingBluePieces the starting configuration of Blue pieces
+	 * @throws StrategyException 
+	 */
+	public void initializeBoard(PiecePositionAssociation[] startingRedPieces,
+			PiecePositionAssociation[] startingBluePieces) throws StrategyException
+	{
+		initializeBoard();
+		
+		for (PiecePositionAssociation i : startingRedPieces) {
+			putPieceAt(i.getPosition(), i.getPiece());
+		}
+		
+		for (PiecePositionAssociation i : startingBluePieces) {
+			putPieceAt(i.getPosition(), i.getPiece());
+		}
+	}
+
+	
 	@Override
 	public Iterator<Piece> iterator()
 	{
@@ -128,19 +180,6 @@ public class RectangularStrategyBoard implements StrategyBoard
 		}
 		if(pos.getColumn() >= numCols || pos.getColumn() < 0) {
 			throw new StrategyException("col must be greater than 0 and less than " + numCols);
-		}
-	}
-	
-	/**
-	 * Initialize the board to the starting configuration.
-	 * Sets every space on the board to the NULL_PIECE
-	 */
-	public void initializeBoard()
-	{
-		for (int i = 0; i < numRows; i++) {
-			for (int j = 0; j < numCols; j++) {
-				pieces[i][j] = Piece.NULL_PIECE;
-			}
 		}
 	}
 	
