@@ -95,12 +95,12 @@ public class BetaRulesStrategyTest {
 		movementTestRules.makeMove(new Position(5,5), new Position(5,4));
 	}
 	
-	@Test(expected=StrategyException.class)
+	@Test(expected=ArrayIndexOutOfBoundsException.class)
 	public void testMoveFromPositionOutOfBounds() throws StrategyException {
 		movementTestRules.makeMove(new Position(6,5), new Position(5,5));
 	}
 	
-	@Test(expected=StrategyException.class)
+	@Test(expected=ArrayIndexOutOfBoundsException.class)
 	public void testMoveToPositionOutOfBounds() throws StrategyException {
 		movementTestRules.makeMove(new Position(0,5), new Position(0,6));
 	}

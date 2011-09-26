@@ -25,7 +25,7 @@ public class BetaStrategyGame implements StrategyGame
 	
 	private BetaRulesStrategy rules;
 	
-	public BetaStrategyGame() throws StrategyException {
+	public BetaStrategyGame() {
 		this(false);
 	}
 	
@@ -34,15 +34,14 @@ public class BetaStrategyGame implements StrategyGame
 	 * If playerPlacePiece is true then the player can place pieces.
 	 * 
 	 * @param playerPlacePiece
-	 * @throws StrategyException
 	 */
-	public BetaStrategyGame(boolean playerPlacePiece) throws StrategyException {
+	public BetaStrategyGame(boolean playerPlacePiece) {
 		rules = new BetaRulesStrategy(playerPlacePiece);
 		initializeGame();
 	}
 
 	@Override
-	public Piece getPieceAt(Position position) throws StrategyException {
+	public Piece getPieceAt(Position position) {
 		return rules.getPieceAt(position);
 	}
 
@@ -52,7 +51,7 @@ public class BetaStrategyGame implements StrategyGame
 	}
 
 	@Override
-	public void initializeGame() throws StrategyException {
+	public void initializeGame() {
 		rules.initialize();
 		
 	}

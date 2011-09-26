@@ -119,4 +119,17 @@ public class Position
 		}
 		return false;
 	}
+	
+	/**
+	 * @param other 
+	 * 			Position to compare to
+	 * @return
+	 * 			true if this Position is diagonal from Position other, otherwise false
+	 */
+	public boolean isDiagonal(Position other) {
+		final boolean horizontal = column != other.getColumn();
+		final boolean vertical = row != other.getRow();
+		
+		return horizontal && vertical;
+	}
 }

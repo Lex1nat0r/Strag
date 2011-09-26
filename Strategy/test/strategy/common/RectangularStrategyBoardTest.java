@@ -50,8 +50,8 @@ public class RectangularStrategyBoardTest {
 		assertTrue(Piece.NULL_PIECE == board.getPieceAt(new Position(0, 0)));
 	}
 	
-	@Test(expected=StrategyException.class)
-	public void testGetPieceAtInvalidPosition() throws StrategyException {
+	@Test(expected=ArrayIndexOutOfBoundsException.class)
+	public void testGetPieceAtInvalidPosition() {
 		board.getPieceAt(new Position(-1, 0));
 	}
 
@@ -62,8 +62,8 @@ public class RectangularStrategyBoardTest {
 		assertTrue(redBomb == board.getPieceAt(new Position(0, 0)));
 	}
 	
-	@Test(expected=StrategyException.class)
-	public void testPutPieceAtInvalidPosition() throws StrategyException {
+	@Test(expected=ArrayIndexOutOfBoundsException.class)
+	public void testPutPieceAtInvalidPosition() {
 		board.putPieceAt(new Position(-1, 0), new Piece(PieceType.SCOUT, PlayerColor.RED));
 	}
 
@@ -74,8 +74,8 @@ public class RectangularStrategyBoardTest {
 		assertTrue(board.isOccupied(new Position(0, 0)));
 	}
 	
-	@Test(expected=StrategyException.class)
-	public void testIsOccupiedInvalidPosition() throws StrategyException {
+	@Test(expected=ArrayIndexOutOfBoundsException.class)
+	public void testIsOccupiedInvalidPosition() {
 		board.isOccupied(new Position(-1, 0));
 	}
 
@@ -87,11 +87,6 @@ public class RectangularStrategyBoardTest {
 		assertEquals(board.getDistance(new Position(0,1), new Position(0,0)), 1);
 		assertEquals(board.getDistance(new Position(1,0), new Position(0,0)), 1);
 		assertEquals(board.getDistance(new Position(2,2), new Position(4,2)), 2);
-	}
-	
-	@Test(expected=StrategyException.class)
-	public void testGetDistanceDiagonally() throws StrategyException {
-		board.getDistance(new Position(0,0), new Position(1,1));
 	}
 	
 	@Test
@@ -109,26 +104,26 @@ public class RectangularStrategyBoardTest {
 		board.validatePosition(new Position(0, 0));
 	}
 	
-	@Test(expected=StrategyException.class)
-	public void testValidatePositionRowOverflow() throws StrategyException
+	@Test(expected=ArrayIndexOutOfBoundsException.class)
+	public void testValidatePositionRowOverflow()
 	{
 		board.validatePosition(new Position(6, 0));
 	}
 	
-	@Test(expected=StrategyException.class)
-	public void testValidatePositionRowUnderflow() throws StrategyException
+	@Test(expected=ArrayIndexOutOfBoundsException.class)
+	public void testValidatePositionRowUnderflow()
 	{
 		board.validatePosition(new Position(-1, 0));
 	}
 	
-	@Test(expected=StrategyException.class)
-	public void testValidatePositionColumnOverflow() throws StrategyException
+	@Test(expected=ArrayIndexOutOfBoundsException.class)
+	public void testValidatePositionColumnOverflow()
 	{
 		board.validatePosition(new Position(0, 6));
 	}
 	
-	@Test(expected=StrategyException.class)
-	public void testValidatePositionColumnUnderflow() throws StrategyException
+	@Test(expected=ArrayIndexOutOfBoundsException.class)
+	public void testValidatePositionColumnUnderflow()
 	{
 		board.validatePosition(new Position(0, -1));
 	}

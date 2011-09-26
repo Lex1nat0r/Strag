@@ -42,7 +42,7 @@ public class BetaRulesStrategy extends RulesStrategy {
 	 * Players are not allowed to place their pieces.  They are randomized instead.
 	 * @throws StrategyException 
 	 */
-	public BetaRulesStrategy() throws StrategyException
+	public BetaRulesStrategy()
 	{
 		this(false);
 	}
@@ -52,16 +52,15 @@ public class BetaRulesStrategy extends RulesStrategy {
 	 * can place their pieces in this game or not.
 	 * 
 	 * @param playerPlacePiece true if players can place pieces on the board where they choose
-	 * @throws StrategyException if something goes wrong when initializing
 	 */
-	public BetaRulesStrategy(boolean playerPlacePiece) throws StrategyException {
+	public BetaRulesStrategy(boolean playerPlacePiece) {
 		board = new RectangularStrategyBoard(6, 6);
 		playerCanPlacePiece = playerPlacePiece;
 		initialize();
 	}
 	
 	@Override
-	public void initialize() throws StrategyException {
+	public void initialize() {
 		board = new RectangularStrategyBoard(6, 6);
 		numMoves = 0;
 		winnerColor = null;
@@ -80,9 +79,12 @@ public class BetaRulesStrategy extends RulesStrategy {
 
 	@Override
 	public Piece makeMove(Position source, Position destination)
-			throws StrategyException {
+			throws StrategyException {	
 		if(source.equals(destination)) {
 			throw new StrategyException("destination must be different from source");
+		}
+		if(source.isDiagonal(destination)) {
+			throw new StrategyException("Pieces cannot move diagonally");
 		}
 		if(!board.isOccupied(source)) {
 			throw new StrategyException("source must be occupied by a piece");
@@ -187,14 +189,14 @@ public class BetaRulesStrategy extends RulesStrategy {
 		return numPieces;
 	}
 	
-	private void placePiecesByColor(PlayerColor pieceColor) throws StrategyException {
+	private void placePiecesByColor(PlayerColor pieceColor) {
 		for (PieceType type : PieceType.values()) {
 			Piece pieceToPlace = new Piece(type, pieceColor);
 			randomlyPlacePiece(pieceToPlace);
 		}
 	}
 	
-	private void randomlyPlacePiece(Piece pieceToPlace) throws StrategyException {
+	private void randomlyPlacePiece(Piece pieceToPlace) {
 		final Random randGen = new Random();
 		Position randPos = null;
 		
@@ -259,9 +261,8 @@ public class BetaRulesStrategy extends RulesStrategy {
 	 * @param pos
 	 *            the Position of the piece
 	 * @return the piece at the specified row and column
-	 * @throws StrategyException if coordinates are out-of-bounds
 	 */
-	public Piece getPieceAt(Position pos) throws StrategyException {
+	public Piece getPieceAt(Position pos) {
 		return board.getPieceAt(pos);
 	}
 	

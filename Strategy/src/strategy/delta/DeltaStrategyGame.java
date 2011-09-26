@@ -3,7 +3,6 @@ package strategy.delta;
 import strategy.Piece;
 import strategy.PlayerColor;
 import strategy.Position;
-import strategy.StrategyException;
 import strategy.StrategyGame;
 import strategy.common.PiecePositionAssociation;
 import strategy.StrategyBoard;
@@ -15,7 +14,7 @@ public class DeltaStrategyGame implements StrategyGame {
 	}
 	
 	@Override
-	public Piece getPieceAt(Position position) throws StrategyException {
+	public Piece getPieceAt(Position position) {
 		// TODO Auto-generated method stub
 		return null;
 	}
@@ -27,7 +26,7 @@ public class DeltaStrategyGame implements StrategyGame {
 	}
 
 	@Override
-	public void initializeGame() throws StrategyException {
+	public void initializeGame() {
 		// TODO Auto-generated method stub
 
 	}
@@ -39,8 +38,7 @@ public class DeltaStrategyGame implements StrategyGame {
 	}
 
 	@Override
-	public Piece move(Position source, Position destination)
-			throws StrategyException {
+	public Piece move(Position source, Position destination) {
 		// TODO Auto-generated method stub
 		return null;
 	}

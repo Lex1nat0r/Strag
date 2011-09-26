@@ -47,11 +47,10 @@ public class RectangularStrategyBoard implements StrategyBoard
 	 * @param columns
 	 * @param startingRedPieces the starting configuration of Red pieces
 	 * @param startingBluePieces the starting configuration of Blue pieces
-	 * @throws StrategyException 
 	 */
 	public RectangularStrategyBoard(int rows, int columns,
 			PiecePositionAssociation[] startingRedPieces,
-			PiecePositionAssociation[] startingBluePieces) throws StrategyException
+			PiecePositionAssociation[] startingBluePieces)
 	{
 		this(rows, columns);
 		initializeBoard(startingRedPieces, startingBluePieces);
@@ -76,10 +75,9 @@ public class RectangularStrategyBoard implements StrategyBoard
 	 * Initialize the board to the starting configuration.
 	 * @param startingRedPieces the starting configuration of Red pieces
 	 * @param startingBluePieces the starting configuration of Blue pieces
-	 * @throws StrategyException 
 	 */
 	public void initializeBoard(PiecePositionAssociation[] startingRedPieces,
-			PiecePositionAssociation[] startingBluePieces) throws StrategyException
+			PiecePositionAssociation[] startingBluePieces)
 	{
 		initializeBoard();
 		
@@ -100,38 +98,33 @@ public class RectangularStrategyBoard implements StrategyBoard
 	}
 
 	@Override
-	public Piece getPieceAt(Position position) throws StrategyException
+	public Piece getPieceAt(Position position)
 	{
 		validatePosition(position);
 		return pieces[position.getRow()][position.getColumn()];
 	}
 
 	@Override
-	public void putPieceAt(Position position, Piece piece) throws StrategyException
+	public void putPieceAt(Position position, Piece piece)
 	{
 		validatePosition(position);
 		pieces[position.getRow()][position.getColumn()] = piece;
 	}
 
 	@Override
-	public boolean isOccupied(Position position) throws StrategyException
+	public boolean isOccupied(Position position)
 	{
 		return (!getPieceAt(position).equals(Piece.NULL_PIECE));
 	}
 
 	/**
 	 * @see strategy.StrategyBoard#getDistance(strategy.Position, strategy.Position)
-	 * @throws StrategyException if displacement occurs on both axes
 	 */
 	@Override
-	public int getDistance(Position from, Position to) throws StrategyException
+	public int getDistance(Position from, Position to)
 	{
 		final int colDiff = from.getColumn() - to.getColumn();
 		final int rowDiff = from.getRow() - to.getRow();
-		
-		if(colDiff != 0 && rowDiff != 0) {
-			throw new StrategyException("Displacement must occur horizontally OR vertically");
-		}
 		
 		return (int) Math.sqrt(Math.pow(colDiff, 2) + Math.pow(rowDiff, 2));
 	}
@@ -143,10 +136,8 @@ public class RectangularStrategyBoard implements StrategyBoard
 	 * @param source The position to start checking after
 	 * @param destination The position to stop checking before
 	 * @return true if at least one space between the positions is occupied, false otherwise
-	 * @throws StrategyException if it checks a position that is invalid
 	 */
 	public boolean isOccupiedSpaceBetweenPositions(Position source, Position destination)
-		throws StrategyException
 	{
 		int horizontalStep = destination.getColumn() - source.getColumn();
 		int verticalStep = destination.getRow() - source.getRow();
@@ -173,13 +164,13 @@ public class RectangularStrategyBoard implements StrategyBoard
 	}
 	
 	@Override
-	public void validatePosition(Position pos) throws StrategyException
+	public void validatePosition(Position pos)
 	{
 		if(pos.getRow() >= numRows || pos.getRow() < 0) {
-			throw new StrategyException("row must be greater than 0 and less than " + numRows);
+			throw new ArrayIndexOutOfBoundsException("row must be greater than 0 and less than " + numRows);
 		}
 		if(pos.getColumn() >= numCols || pos.getColumn() < 0) {
-			throw new StrategyException("col must be greater than 0 and less than " + numCols);
+			throw new ArrayIndexOutOfBoundsException("col must be greater than 0 and less than " + numCols);
 		}
 	}
 	

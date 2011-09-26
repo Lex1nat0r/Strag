@@ -31,7 +31,7 @@ public class AlphaRulesStrategy extends RulesStrategy {
 	private final RectangularStrategyBoard board = new RectangularStrategyBoard(height, width);
 	
 	@Override
-	public void initialize() throws StrategyException {
+	public void initialize() {
 		winnerColor = null;
 		turnColor = PlayerColor.RED;
 		board.putPieceAt(new Position(0, 0), 
@@ -60,12 +60,11 @@ public class AlphaRulesStrategy extends RulesStrategy {
 		if(source.equals(destination)) {
 			throw new StrategyException("Must move to a different space");
 		}
+		if(source.isDiagonal(destination)) {
+			throw new StrategyException("Cannot move diagonally");
+		}
 		if(board.getPieceAt(source).getColor() == board.getPieceAt(destination).getColor()) {
 			throw new StrategyException("Cannot move to a space containing a friendly unit");
-		}
-		if(source.getRow() != destination.getRow() 
-				&& source.getColumn() != destination.getColumn()) {
-			throw new StrategyException("Cannot move diagonally");
 		}
 		
 		resolveBattle(board.getPieceAt(source), board.getPieceAt(destination));
@@ -93,9 +92,8 @@ public class AlphaRulesStrategy extends RulesStrategy {
 	 * @param pos
 	 *            the Position of the piece
 	 * @return the piece at the specified row and column
-	 * @throws StrategyException if coordinates are out-of-bounds
 	 */
-	public Piece getPieceAt(Position pos) throws StrategyException {
+	public Piece getPieceAt(Position pos) {
 		return board.getPieceAt(pos);
 	}
 

@@ -22,13 +22,13 @@ public class AlphaStrategyGame implements StrategyGame
 {
 	private final AlphaRulesStrategy rules;
 	
-	public AlphaStrategyGame() throws StrategyException {
+	public AlphaStrategyGame() {
 		rules = new AlphaRulesStrategy();
 		initializeGame();
 	}
 
 	@Override
-	public Piece getPieceAt(Position position) throws StrategyException {
+	public Piece getPieceAt(Position position) {
 		return rules.getPieceAt(position);
 	}
 
@@ -38,7 +38,7 @@ public class AlphaStrategyGame implements StrategyGame
 	}
 
 	@Override
-	public void initializeGame() throws StrategyException {
+	public void initializeGame() {
 		rules.initialize();
 		
 	}

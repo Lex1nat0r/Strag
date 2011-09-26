@@ -51,9 +51,8 @@ public abstract class RulesStrategy {
 	 * Clears the game board.
 	 * Should be able to reset the board at any time.
 	 * 
-	 * @throws StrategyException if something goes wrong when initializing
 	 */
-	public abstract void initialize() throws StrategyException;
+	public abstract void initialize();
 	
 	/**
 	 * If there is a winner, return the winner's color.
