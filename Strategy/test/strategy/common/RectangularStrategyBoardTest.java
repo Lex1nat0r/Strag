@@ -169,5 +169,27 @@ public class RectangularStrategyBoardTest {
 		int hash = board.hashCode();
 		assertEquals(hash, board.hashCode());  //test consistency
 	}
+	
+	@Test
+	public void testPlacePiecesOnBoardUsingPieceAssociations() {
+		PiecePositionAssociation[] startingRedPieces =  {
+			new PiecePositionAssociation(new Piece(PieceType.FLAG, PlayerColor.RED), new Position(0, 0)),
+		    new PiecePositionAssociation(new Piece(PieceType.BOMB, PlayerColor.RED), new Position(1, 0)),
+		    new PiecePositionAssociation(new Piece(PieceType.BOMB, PlayerColor.RED), new Position(1, 1)),
+		    new PiecePositionAssociation(new Piece(PieceType.BOMB, PlayerColor.RED), new Position(0, 1))
+		};
+		
+		PiecePositionAssociation[] startingBluePieces =  {
+			new PiecePositionAssociation(new Piece(PieceType.FLAG, PlayerColor.BLUE), new Position(9, 9)),
+		    new PiecePositionAssociation(new Piece(PieceType.BOMB, PlayerColor.BLUE), new Position(8, 9)),
+		    new PiecePositionAssociation(new Piece(PieceType.BOMB, PlayerColor.BLUE), new Position(8, 8)),
+		    new PiecePositionAssociation(new Piece(PieceType.BOMB, PlayerColor.BLUE), new Position(9, 8))
+		};
+		
+		RectangularStrategyBoard deltaBoard = new RectangularStrategyBoard(10, 10, startingRedPieces, startingBluePieces);
+		assertEquals(new Piece(PieceType.BOMB, PlayerColor.RED), deltaBoard.getPieceAt(new Position(0, 1)));
+		assertEquals(new Piece(PieceType.BOMB, PlayerColor.BLUE), deltaBoard.getPieceAt(new Position(9, 8)));
+		assertEquals(Piece.NULL_PIECE, deltaBoard.getPieceAt(new Position(5,5)));
+	}
 
 }
