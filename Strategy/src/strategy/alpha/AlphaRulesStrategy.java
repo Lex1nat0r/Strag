@@ -79,12 +79,6 @@ public class AlphaRulesStrategy extends RulesStrategy {
 		winnerColor = PlayerColor.RED;
 		return BattleResult.VICTORY;
 	}
-
-	@Override
-	public void playerPlacePiece(Position position, Piece piece)
-			throws StrategyException {
-		throw new StrategyException("Player cannot place pieces in AlphaStrategy");
-	}
 	
 	/**
 	 * Accessor for getting a piece at a specific row and column.

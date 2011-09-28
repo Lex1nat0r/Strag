@@ -81,14 +81,5 @@ public abstract class RulesStrategy {
 	public boolean isOver(){
 		return winnerColor != null;
 	}
-	
-	/**
-	 * Place Piece piece at Position position on this board.
-	 * 
-	 * @param position The position to place the Piece at
-	 * @param piece The Piece to place on the board
-	 * @throws StrategyException if a player is attempting to place a piece incorrectly
-	 */
-	public abstract void playerPlacePiece(Position position, Piece piece) throws StrategyException;
 
 }

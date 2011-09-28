@@ -68,10 +68,11 @@ public class BetaStrategyGame implements StrategyGame
 	}
 	
 	/**
-	 * @see RulesStrategy#playerPlacePiece
-	 * @param position
-	 * @param piece
-	 * @throws StrategyException
+	 * Place Piece piece at Position position on this board.
+	 * 
+	 * @param position The position to place the Piece at
+	 * @param piece The Piece to place on the board
+	 * @throws StrategyException if a player is attempting to place a piece incorrectly
 	 */
 	public void playerPlacePiece(Position position, Piece piece) throws StrategyException {
 		rules.playerPlacePiece(position, piece);

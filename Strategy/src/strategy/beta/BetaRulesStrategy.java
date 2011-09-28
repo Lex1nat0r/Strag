@@ -216,7 +216,13 @@ public class BetaRulesStrategy extends RulesStrategy {
 		board.putPieceAt(randPos, pieceToPlace);
 	}
 	
-	@Override
+	/**
+	 * Place Piece piece at Position position on this board.
+	 * 
+	 * @param position The position to place the Piece at
+	 * @param piece The Piece to place on the board
+	 * @throws StrategyException if a player is attempting to place a piece incorrectly
+	 */
 	public void playerPlacePiece(Position position, Piece piece) throws StrategyException {
 		if (!playerCanPlacePiece) {
 			throw new StrategyException("Player not allowed to place Piece");
