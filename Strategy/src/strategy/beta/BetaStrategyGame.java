@@ -24,6 +24,8 @@ public class BetaStrategyGame implements StrategyGame
 {
 	
 	private BetaRulesStrategy rules;
+	private final GameState state;
+	private final BetaInitializationStrategy init;
 	
 	public BetaStrategyGame() {
 		this(false);
@@ -36,29 +38,36 @@ public class BetaStrategyGame implements StrategyGame
 	 * @param playerPlacePiece
 	 */
 	public BetaStrategyGame(boolean playerPlacePiece) {
-		rules = new BetaRulesStrategy(new GameState(), playerPlacePiece);
+		state = new GameState();
+		if (!playerPlacePiece) {
+			init = new RandomInitializationStrategy(state);
+		}
+		else {
+			init = new ByPieceInitializationStrategy(state);
+		}
+		rules = new BetaRulesStrategy(state);
 		initializeGame();
 	}
 
 	@Override
 	public Piece getPieceAt(Position position) {
-		return rules.getPieceAt(position);
+		return state.getBoard().getPieceAt(position);
 	}
 
 	@Override
 	public PlayerColor getWinner() {
-		return rules.getWinner();
+		return state.getWinner();
 	}
 
 	@Override
 	public void initializeGame() {
-		rules.initialize();
+		init.initialize();
 		
 	}
 
 	@Override
 	public boolean isGameOver() {
-		return rules.isOver();
+		return state.isOver();
 	}
 
 	@Override
@@ -75,7 +84,7 @@ public class BetaStrategyGame implements StrategyGame
 	 * @throws StrategyException if a player is attempting to place a piece incorrectly
 	 */
 	public void playerPlacePiece(Position position, Piece piece) throws StrategyException {
-		rules.playerPlacePiece(position, piece);
+		init.playerPlacePiece(position, piece);
 	}
 	
 	@Override
@@ -86,7 +95,7 @@ public class BetaStrategyGame implements StrategyGame
 		}
 		if (other instanceof BetaStrategyGame) {
 			final BetaStrategyGame that = (BetaStrategyGame) other;
-			return rules.equals(that.getRules());
+			return state.equals(that.getState());
 		}
 		return false;
 	}
@@ -96,7 +105,7 @@ public class BetaStrategyGame implements StrategyGame
 	{
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + rules.hashCode();
+		result = prime * result + state.hashCode();
 		return result;
 	}
 	
@@ -104,20 +113,20 @@ public class BetaStrategyGame implements StrategyGame
 		return rules;
 	}
 	
+	protected GameState getState() {
+		return state;
+	}
+	
 	/**
 	 * @see BetaRulesStrategy#setBoard
 	 * @param board
 	 */
 	protected void setBoard(RectangularStrategyBoard board) {
-		rules.setBoard(board);
+		state.setBoard(board);
 	}
 	
 	protected RectangularStrategyBoard getBoard() {
-		return rules.getBoard();
-	}
-	
-	protected int getNumPiecesOnBoard() {
-		return rules.getNumPiecesOnBoard();
+		return state.getBoard();
 	}
 	
 }

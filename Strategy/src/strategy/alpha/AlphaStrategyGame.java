@@ -33,7 +33,7 @@ public class AlphaStrategyGame implements StrategyGame
 
 	@Override
 	public Piece getPieceAt(Position position) {
-		return rules.getPieceAt(position);
+		return state.getBoard().getPieceAt(position);
 	}
 
 	@Override

@@ -26,6 +26,7 @@ public class GameState {
 	private PlayerColor winner;
 	private PlayerColor turn;
 	private RectangularStrategyBoard board;
+	private int numMoves = 0;
 	
 	/**
 	 * If there is a winner, return the winner's color.
@@ -77,6 +78,46 @@ public class GameState {
 	 */
 	public void setBoard(RectangularStrategyBoard board) {
 		this.board = board;
+	}
+	
+	/**
+	 * @return The total number of moves that both players have made
+	 */
+	public int getNumMoves() {
+		return numMoves;
+	}
+	
+	/**
+	 * @param moves The number of moves to set to
+	 */
+	public void setNumMoves(int numMoves) {
+		this.numMoves = numMoves;
+	}
+	
+	public boolean equals(Object other) {
+		if(this == other) {
+			return true;
+		}
+		if (other instanceof GameState) {
+			final GameState that = (GameState) other;
+			return board.equals(that.getBoard())
+				&& turn.equals(that.getTurn())
+				&& numMoves == that.getNumMoves()
+				&& winner == that.getWinner();
+		}
+		return false;
+	}
+	
+	@Override
+	public int hashCode()
+	{
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + board.hashCode();
+		result = prime * result + turn.hashCode();
+		result = prime * result + numMoves;
+		result = prime * result + (winner == null ? -1 : winner.hashCode());
+		return result;
 	}
 	
 }

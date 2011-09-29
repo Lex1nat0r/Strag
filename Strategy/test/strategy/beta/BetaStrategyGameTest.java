@@ -73,7 +73,7 @@ public class BetaStrategyGameTest {
 
 	@Test
 	public void testInitializeGamePlacesCorrectNumberOfPieces() {
-		assertEquals(24, game.getNumPiecesOnBoard());
+		assertEquals(24, game.getState().getBoard().getNumPiecesOnBoard());
 	}
 	
 	@Test

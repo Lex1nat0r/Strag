@@ -229,6 +229,24 @@ public class RectangularStrategyBoard implements StrategyBoard
 		return boardString;
 	}
 	
+	/**
+	 * Get the number of pieces of both colors currently on the board
+	 * 
+	 * @return numPieces
+	 */
+	public int getNumPiecesOnBoard() {
+		int numPieces = 0;
+		final Iterator<Piece> iter = iterator();
+		
+		while(iter.hasNext()) {
+			if (!iter.next().equals(Piece.NULL_PIECE)) {
+				numPieces++;
+			}
+		}
+		
+		return numPieces;
+	}
+	
 	@Override
 	public boolean equals(Object other) {
 		if(this == other) {

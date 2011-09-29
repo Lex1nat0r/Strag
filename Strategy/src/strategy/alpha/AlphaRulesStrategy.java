@@ -26,9 +26,6 @@ import strategy.StrategyException;
  */
 public class AlphaRulesStrategy extends RulesStrategy {
 
-	private static final int width = 2;
-	private static final int height = 2;
-	
 	public AlphaRulesStrategy(GameState state) {
 		super(state);
 	}
@@ -68,17 +65,6 @@ public class AlphaRulesStrategy extends RulesStrategy {
 			strategy.Piece defender) {
 		state.setWinner(PlayerColor.RED);
 		return BattleResult.VICTORY;
-	}
-	
-	/**
-	 * Accessor for getting a piece at a specific row and column.
-	 * 
-	 * @param pos
-	 *            the Position of the piece
-	 * @return the piece at the specified row and column
-	 */
-	public Piece getPieceAt(Position pos) {
-		return state.getBoard().getPieceAt(pos);
 	}
 
 }
