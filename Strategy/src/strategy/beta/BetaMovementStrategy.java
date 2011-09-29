@@ -17,21 +17,24 @@ import strategy.Piece;
 import strategy.PieceType;
 import strategy.PlayerColor;
 import strategy.Position;
-import strategy.RulesStrategy;
+import strategy.MovementStrategy;
 import strategy.StrategyException;
 
 /**
+ * This class defines the rules of moving pieces 
+ * and resolving battles for BetaStrategy.
+ * These movement and battle rules support all pieces.
+ * The game ends after 10 turns.
+ *
  * @author Alex Thornton-Clark, Andrew Hurle, Gabriel Stern-Robbins
- * @version Sep 15, 2011
+ * @version Sep 30, 2011
  */
-public class BetaRulesStrategy extends RulesStrategy {
-
-	private int numMoves;
+public class BetaMovementStrategy extends MovementStrategy {
 	
 	/**
 	 * @param state The GameState this should modify
 	 */
-	public BetaRulesStrategy(GameState state)
+	public BetaMovementStrategy(GameState state)
 	{
 		super(state);
 	}
@@ -48,7 +51,7 @@ public class BetaRulesStrategy extends RulesStrategy {
 		if(!state.getBoard().isOccupied(source)) {
 			throw new StrategyException("source must be occupied by a piece");
 		}
-		if(isOver()){
+		if(state.isOver()){
 			throw new StrategyException("Game is already over");
 		}
 		
@@ -99,8 +102,8 @@ public class BetaRulesStrategy extends RulesStrategy {
 			break;
 		}
 		//if moves>10 end game
-		numMoves++;
-		if(numMoves >= 10){
+		state.setNumMoves(state.getNumMoves() + 1);
+		if(state.getNumMoves() >= 10){
 			state.setWinner(PlayerColor.BLUE);
 		}
 		return state.getBoard().getPieceAt(destination);

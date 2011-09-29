@@ -21,12 +21,12 @@ import strategy.*;
 public class AlphaStrategyGame implements StrategyGame
 {
 	private final GameState state;
-	private final AlphaRulesStrategy rules;
+	private final AlphaMovementStrategy movement;
 	private final AlphaInitializationStrategy init;
 	
 	public AlphaStrategyGame() {
 		state = new GameState();
-		rules = new AlphaRulesStrategy(state);
+		movement = new AlphaMovementStrategy(state);
 		init = new AlphaInitializationStrategy(state);
 		initializeGame();
 	}
@@ -38,7 +38,7 @@ public class AlphaStrategyGame implements StrategyGame
 
 	@Override
 	public PlayerColor getWinner() {
-		return rules.getWinner();
+		return state.getWinner();
 	}
 
 	@Override
@@ -49,13 +49,13 @@ public class AlphaStrategyGame implements StrategyGame
 
 	@Override
 	public boolean isGameOver() {
-		return rules.isOver();
+		return state.isOver();
 	}
 
 	@Override
 	public Piece move(Position source, Position destination)
 			throws StrategyException {
-		return rules.makeMove(source, destination);
+		return movement.makeMove(source, destination);
 	}
 	
 }

@@ -17,23 +17,28 @@ import strategy.Piece;
 import strategy.PieceType;
 import strategy.PlayerColor;
 import strategy.Position;
-import strategy.RulesStrategy;
+import strategy.MovementStrategy;
 import strategy.StrategyException;
 
 /**
+ * This class defines the rules of moving pieces 
+ * and resolving battles for AlphaStrategy.
+ * These movement and battle rules support scouts capturing flags.
+ * The game will end after the first turn.
+ *
  * @author Alex Thornton-Clark, Andrew Hurle, Gabriel Stern-Robbins
- * @version Sep 14, 2011
+ * @version Sep 30, 2011
  */
-public class AlphaRulesStrategy extends RulesStrategy {
+public class AlphaMovementStrategy extends MovementStrategy {
 
-	public AlphaRulesStrategy(GameState state) {
+	public AlphaMovementStrategy(GameState state) {
 		super(state);
 	}
 
 	@Override
 	public Piece makeMove(Position source, Position destination)
 			throws StrategyException {
-		if(isOver()) {
+		if(state.isOver()) {
 			throw new StrategyException("Cannot move after game is over");
 		}
 		if(state.getBoard().getPieceAt(source).getType() == PieceType.FLAG) {

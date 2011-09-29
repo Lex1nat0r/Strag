@@ -23,7 +23,7 @@ import strategy.common.RectangularStrategyBoard;
 public class BetaStrategyGame implements StrategyGame
 {
 	
-	private BetaRulesStrategy rules;
+	private BetaMovementStrategy movement;
 	private final GameState state;
 	private final BetaInitializationStrategy init;
 	
@@ -45,7 +45,7 @@ public class BetaStrategyGame implements StrategyGame
 		else {
 			init = new ByPieceInitializationStrategy(state);
 		}
-		rules = new BetaRulesStrategy(state);
+		movement = new BetaMovementStrategy(state);
 		initializeGame();
 	}
 
@@ -73,7 +73,7 @@ public class BetaStrategyGame implements StrategyGame
 	@Override
 	public Piece move(Position source, Position destination)
 			throws StrategyException {
-		return rules.makeMove(source, destination);
+		return movement.makeMove(source, destination);
 	}
 	
 	/**
@@ -109,8 +109,8 @@ public class BetaStrategyGame implements StrategyGame
 		return result;
 	}
 	
-	protected BetaRulesStrategy getRules() {
-		return rules;
+	protected BetaMovementStrategy getRules() {
+		return movement;
 	}
 	
 	protected GameState getState() {
@@ -118,7 +118,7 @@ public class BetaStrategyGame implements StrategyGame
 	}
 	
 	/**
-	 * @see BetaRulesStrategy#setBoard
+	 * @see BetaMovementStrategy#setBoard
 	 * @param board
 	 */
 	protected void setBoard(RectangularStrategyBoard board) {
