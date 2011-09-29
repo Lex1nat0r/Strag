@@ -36,7 +36,7 @@ public class BetaStrategyGame implements StrategyGame
 	 * @param playerPlacePiece
 	 */
 	public BetaStrategyGame(boolean playerPlacePiece) {
-		rules = new BetaRulesStrategy(playerPlacePiece);
+		rules = new BetaRulesStrategy(new GameState(), playerPlacePiece);
 		initializeGame();
 	}
 

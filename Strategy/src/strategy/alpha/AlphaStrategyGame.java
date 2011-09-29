@@ -23,7 +23,7 @@ public class AlphaStrategyGame implements StrategyGame
 	private final AlphaRulesStrategy rules;
 	
 	public AlphaStrategyGame() {
-		rules = new AlphaRulesStrategy();
+		rules = new AlphaRulesStrategy(new GameState());
 		initializeGame();
 	}
 

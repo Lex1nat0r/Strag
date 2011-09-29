@@ -17,6 +17,7 @@ import java.util.Iterator;
 import java.util.Random;
 import java.util.Set;
 
+import strategy.GameState;
 import strategy.Piece;
 import strategy.PieceType;
 import strategy.PlayerColor;
@@ -32,7 +33,6 @@ import strategy.common.RectangularStrategyBoard;
  */
 public class BetaRulesStrategy extends RulesStrategy {
 
-	protected RectangularStrategyBoard board;
 	private int numMoves;
 	private boolean playerCanPlacePiece;
 	private Set<Piece> placedPieces;
@@ -42,29 +42,31 @@ public class BetaRulesStrategy extends RulesStrategy {
 	 * Players are not allowed to place their pieces.  They are randomized instead.
 	 * @throws StrategyException 
 	 */
-	public BetaRulesStrategy()
+	public BetaRulesStrategy(GameState state)
 	{
-		this(false);
+		this(state, false);
 	}
 	
 	/**
 	 * Constructor that accepts a boolean indicating whether players
 	 * can place their pieces in this game or not.
 	 * 
+	 * @param state The GameState this should modify
 	 * @param playerPlacePiece true if players can place pieces on the board where they choose
 	 */
-	public BetaRulesStrategy(boolean playerPlacePiece) {
-		board = new RectangularStrategyBoard(6, 6);
+	public BetaRulesStrategy(GameState state, boolean playerPlacePiece) {
+		super(state);
+		state.setBoard(new RectangularStrategyBoard(6, 6));
 		playerCanPlacePiece = playerPlacePiece;
 		initialize();
 	}
 	
 	@Override
 	public void initialize() {
-		board = new RectangularStrategyBoard(6, 6);
+		state.setBoard(new RectangularStrategyBoard(6, 6));
 		numMoves = 0;
-		winnerColor = null;
-		turnColor = PlayerColor.RED;
+		state.setWinner(null);
+		state.setTurn(PlayerColor.RED);
 		if (!playerCanPlacePiece) {
 			placePiecesByColor(PlayerColor.RED);
 			placePiecesByColor(PlayerColor.BLUE);
@@ -79,14 +81,14 @@ public class BetaRulesStrategy extends RulesStrategy {
 
 	@Override
 	public Piece makeMove(Position source, Position destination)
-			throws StrategyException {	
+			throws StrategyException {
 		if(source.equals(destination)) {
 			throw new StrategyException("destination must be different from source");
 		}
 		if(source.isDiagonal(destination)) {
 			throw new StrategyException("Pieces cannot move diagonally");
 		}
-		if(!board.isOccupied(source)) {
+		if(!state.getBoard().isOccupied(source)) {
 			throw new StrategyException("source must be occupied by a piece");
 		}
 		if(isOver()){
@@ -94,21 +96,21 @@ public class BetaRulesStrategy extends RulesStrategy {
 		}
 		
 		//change turn/dont double move
-		if(board.getPieceAt(source).getColor() != turnColor){
+		if(state.getBoard().getPieceAt(source).getColor() != state.getTurn()){
 			throw new StrategyException("not your turn");
 		}
 		
-		if(turnColor == PlayerColor.RED){
-			turnColor=PlayerColor.BLUE;
+		if(state.getTurn() == PlayerColor.RED){
+			state.setTurn(PlayerColor.BLUE);
 		}
 		else{
-			turnColor=PlayerColor.RED;
+			state.setTurn(PlayerColor.RED);
 		}
 		
-		final Piece sourcePiece = board.getPieceAt(source);
-		final Piece destinationPiece = board.getPieceAt(destination);
+		final Piece sourcePiece = state.getBoard().getPieceAt(source);
+		final Piece destinationPiece = state.getBoard().getPieceAt(destination);
 		
-		final int distance = board.getDistance(source, destination); //checks for diagonal
+		final int distance = state.getBoard().getDistance(source, destination);
 		final int range = sourcePiece.getType().getRange();
 		if(range >= 0 && distance > range) {
 			throw new StrategyException("Cannot move piece farther than its range");
@@ -118,39 +120,39 @@ public class BetaRulesStrategy extends RulesStrategy {
 			throw new StrategyException("Cannot move onto a friendly piece");
 		}
 
-		if (board.isOccupiedSpaceBetweenPositions(source, destination)) {
+		if (state.getBoard().isOccupiedSpaceBetweenPositions(source, destination)) {
 			throw new StrategyException("Cannot move through occupied spaces");
 		}
 
 		BattleResult result = BattleResult.VICTORY;
-		if (board.isOccupied(destination)) {
+		if (state.getBoard().isOccupied(destination)) {
 			result = resolveBattle(sourcePiece, destinationPiece);
 		}
 
 		switch (result) {
 		case VICTORY:
-			board.putPieceAt(destination, sourcePiece);
-			board.putPieceAt(source, Piece.NULL_PIECE);
+			state.getBoard().putPieceAt(destination, sourcePiece);
+			state.getBoard().putPieceAt(source, Piece.NULL_PIECE);
 			break;
 		case DRAW:
-			board.putPieceAt(destination, Piece.NULL_PIECE);
+			state.getBoard().putPieceAt(destination, Piece.NULL_PIECE);
 			// fallthrough
 		case DEFEAT:
-			board.putPieceAt(source, Piece.NULL_PIECE);
+			state.getBoard().putPieceAt(source, Piece.NULL_PIECE);
 			break;
 		}
 		//if moves>10 end game
 		numMoves++;
 		if(numMoves >= 10){
-			winnerColor = PlayerColor.BLUE;
+			state.setWinner(PlayerColor.BLUE);
 		}
-		return board.getPieceAt(destination);
+		return state.getBoard().getPieceAt(destination);
 	}
 
 	@Override
 	public BattleResult resolveBattle(Piece attacker, Piece defender) {
 		if(defender.getType().equals(PieceType.FLAG)){
-			winnerColor=attacker.getColor();
+			state.setWinner(attacker.getColor());
 			return BattleResult.VICTORY;
 		}
 		if(attacker.getType().equals(PieceType.MINER)
@@ -178,7 +180,7 @@ public class BetaRulesStrategy extends RulesStrategy {
 	 */
 	public int getNumPiecesOnBoard() {
 		int numPieces = 0;
-		final Iterator<Piece> iter = board.iterator();
+		final Iterator<Piece> iter = state.getBoard().iterator();
 		
 		while(iter.hasNext()) {
 			if (!iter.next().equals(Piece.NULL_PIECE)) {
@@ -203,17 +205,18 @@ public class BetaRulesStrategy extends RulesStrategy {
 		
 		if (pieceToPlace.getColor() == PlayerColor.RED) {
 			do {
-				randPos = new Position(randGen.nextInt(2), randGen.nextInt(board.getNumCols()));
-			} while (board.isOccupied(randPos));
+				randPos = new Position(randGen.nextInt(2),
+						randGen.nextInt(state.getBoard().getNumCols()));
+			} while (state.getBoard().isOccupied(randPos));
 		}
 		else {
 			do {
-				randPos = new Position((board.getNumRows() - 1) - randGen.nextInt(2), 
-						randGen.nextInt(board.getNumCols()));
-			} while (board.isOccupied(randPos));
+				randPos = new Position((state.getBoard().getNumRows() - 1) - randGen.nextInt(2), 
+						randGen.nextInt(state.getBoard().getNumCols()));
+			} while (state.getBoard().isOccupied(randPos));
 		}
 			
-		board.putPieceAt(randPos, pieceToPlace);
+		state.getBoard().putPieceAt(randPos, pieceToPlace);
 	}
 	
 	/**
@@ -227,7 +230,7 @@ public class BetaRulesStrategy extends RulesStrategy {
 		if (!playerCanPlacePiece) {
 			throw new StrategyException("Player not allowed to place Piece");
 		}
-		if (board.isOccupied(position)) {
+		if (state.getBoard().isOccupied(position)) {
 			throw new StrategyException("Player not allowed to place Piece in an occupied space");
 		}
 		if (!placedPieces.add(piece)) {
@@ -239,7 +242,7 @@ public class BetaRulesStrategy extends RulesStrategy {
 		if (piece.getColor() == PlayerColor.BLUE && position.getRow() < 4) {
 			throw new StrategyException("Given position is outside BLUE player's setup zone");
 		}
-		board.putPieceAt(position, piece);
+		state.getBoard().putPieceAt(position, piece);
 	}
 	
 	/**
@@ -249,7 +252,7 @@ public class BetaRulesStrategy extends RulesStrategy {
 	 */
 	protected void setBoard(StrategyBoard board)
 	{
-		this.board = (RectangularStrategyBoard) board;
+		state.setBoard((RectangularStrategyBoard) board);
 	}
 	
 	/**
@@ -258,7 +261,7 @@ public class BetaRulesStrategy extends RulesStrategy {
 	 * @return board
 	 */
 	protected RectangularStrategyBoard getBoard() {
-		return board;
+		return state.getBoard();
 	}
 	
 	/**
@@ -269,7 +272,7 @@ public class BetaRulesStrategy extends RulesStrategy {
 	 * @return the piece at the specified row and column
 	 */
 	public Piece getPieceAt(Position pos) {
-		return board.getPieceAt(pos);
+		return state.getBoard().getPieceAt(pos);
 	}
 	
 	@Override
@@ -281,7 +284,7 @@ public class BetaRulesStrategy extends RulesStrategy {
 		if (other instanceof BetaRulesStrategy) {
 			final BetaRulesStrategy that = (BetaRulesStrategy) other;
 			return isOver() == that.isOver() && getWinner() == that.getWinner()
-					&& board.equals(that.getBoard());
+					&& state.getBoard().equals(that.getBoard());
 		}
 		return false;
 	}
@@ -291,7 +294,7 @@ public class BetaRulesStrategy extends RulesStrategy {
 	{
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + board.hashCode();
+		result = prime * result + state.getBoard().hashCode();
 		result = prime * result + numMoves;
 		result = prime * result + (playerCanPlacePiece ? 0 : 1);
 		result = prime * result + placedPieces.hashCode();

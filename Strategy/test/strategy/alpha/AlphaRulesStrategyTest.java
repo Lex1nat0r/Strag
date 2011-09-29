@@ -10,6 +10,7 @@ import static strategy.PlayerColor.RED;
 import org.junit.Before;
 import org.junit.Test;
 
+import strategy.GameState;
 import strategy.Piece;
 import strategy.PieceType;
 import strategy.PlayerColor;
@@ -28,7 +29,7 @@ public class AlphaRulesStrategyTest {
 	
 	@Before
 	public void setUp() throws Exception {
-		game = new AlphaRulesStrategy();
+		game = new AlphaRulesStrategy(new GameState());
 		game.initialize();
 	}
 	

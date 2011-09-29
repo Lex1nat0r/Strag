@@ -12,6 +12,7 @@
  *******************************************************************************/
 package strategy.alpha;
 
+import strategy.GameState;
 import strategy.Piece;
 import strategy.PieceType;
 import strategy.PlayerColor;
@@ -28,19 +29,23 @@ public class AlphaRulesStrategy extends RulesStrategy {
 
 	private static final int width = 2;
 	private static final int height = 2;
-	private final RectangularStrategyBoard board = new RectangularStrategyBoard(height, width);
+	
+	public AlphaRulesStrategy(GameState state) {
+		super(state);
+	}
 	
 	@Override
 	public void initialize() {
-		winnerColor = null;
-		turnColor = PlayerColor.RED;
-		board.putPieceAt(new Position(0, 0), 
+		state.setWinner(null);
+		state.setTurn(PlayerColor.RED);
+		state.setBoard(new RectangularStrategyBoard(height, width));
+		state.getBoard().putPieceAt(new Position(0, 0), 
 				new strategy.Piece(strategy.PieceType.SCOUT, PlayerColor.RED));
-		board.putPieceAt(new Position(0, 1), 
+		state.getBoard().putPieceAt(new Position(0, 1), 
 				new strategy.Piece(strategy.PieceType.FLAG, PlayerColor.RED));
-		board.putPieceAt(new Position(1, 0), 
+		state.getBoard().putPieceAt(new Position(1, 0), 
 				new strategy.Piece(strategy.PieceType.FLAG, PlayerColor.BLUE));
-		board.putPieceAt(new Position(1, 1), 
+		state.getBoard().putPieceAt(new Position(1, 1), 
 				new strategy.Piece(strategy.PieceType.SCOUT, PlayerColor.BLUE));
 
 	}
@@ -51,10 +56,10 @@ public class AlphaRulesStrategy extends RulesStrategy {
 		if(isOver()) {
 			throw new StrategyException("Cannot move after game is over");
 		}
-		if(board.getPieceAt(source).getType() == PieceType.FLAG) {
+		if(state.getBoard().getPieceAt(source).getType() == PieceType.FLAG) {
 			throw new StrategyException("Cannot move flag");
 		}
-		if(board.getPieceAt(source).getColor() != turnColor) {
+		if(state.getBoard().getPieceAt(source).getColor() != state.getTurn()) {
 			throw new StrategyException("Cannot move out of turn");
 		}
 		if(source.equals(destination)) {
@@ -63,20 +68,22 @@ public class AlphaRulesStrategy extends RulesStrategy {
 		if(source.isDiagonal(destination)) {
 			throw new StrategyException("Cannot move diagonally");
 		}
-		if(board.getPieceAt(source).getColor() == board.getPieceAt(destination).getColor()) {
+		if(state.getBoard().getPieceAt(source).getColor()
+				== state.getBoard().getPieceAt(destination).getColor()) {
 			throw new StrategyException("Cannot move to a space containing a friendly unit");
 		}
 		
-		resolveBattle(board.getPieceAt(source), board.getPieceAt(destination));
-		board.putPieceAt(destination, board.getPieceAt(source));
-		board.putPieceAt(source, Piece.NULL_PIECE);
-		return board.getPieceAt(destination);
+		resolveBattle(state.getBoard().getPieceAt(source), 
+				state.getBoard().getPieceAt(destination));
+		state.getBoard().putPieceAt(destination, state.getBoard().getPieceAt(source));
+		state.getBoard().putPieceAt(source, Piece.NULL_PIECE);
+		return state.getBoard().getPieceAt(destination);
 	}
 
 	@Override
 	public BattleResult resolveBattle(strategy.Piece attacker,
 			strategy.Piece defender) {
-		winnerColor = PlayerColor.RED;
+		state.setWinner(PlayerColor.RED);
 		return BattleResult.VICTORY;
 	}
 	
@@ -88,7 +95,7 @@ public class AlphaRulesStrategy extends RulesStrategy {
 	 * @return the piece at the specified row and column
 	 */
 	public Piece getPieceAt(Position pos) {
-		return board.getPieceAt(pos);
+		return state.getBoard().getPieceAt(pos);
 	}
 
 }

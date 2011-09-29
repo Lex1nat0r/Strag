@@ -8,6 +8,7 @@ import static org.junit.Assert.assertTrue;
 import org.junit.Before;
 import org.junit.Test;
 
+import strategy.GameState;
 import strategy.Piece;
 import strategy.PieceType;
 import strategy.PlayerColor;
@@ -31,9 +32,9 @@ public class BetaRulesStrategyTest {
 	
 	@Before
 	public void setUp() throws Exception {
-		rules = new BetaRulesStrategy();
+		rules = new BetaRulesStrategy(new GameState());
 		
-		movementTestRules = new BetaRulesStrategy();
+		movementTestRules = new BetaRulesStrategy(new GameState());
 		RectangularStrategyBoard movementTestBoard = new RectangularStrategyBoard(6, 6);
 		movementTestBoard.putPieceAt(new Position(0,0), new Piece(PieceType.SCOUT, PlayerColor.RED));
 		movementTestBoard.putPieceAt(new Position(0,1), new Piece(PieceType.SCOUT, PlayerColor.RED));
@@ -42,7 +43,7 @@ public class BetaRulesStrategyTest {
 		movementTestBoard.putPieceAt(new Position(0,5), new Piece(PieceType.SPY, PlayerColor.RED));
 		movementTestRules.setBoard(movementTestBoard);
 		
-		battleTestRules = new BetaRulesStrategy();
+		battleTestRules = new BetaRulesStrategy(new GameState());
 		RectangularStrategyBoard battleTestBoard = new RectangularStrategyBoard(6, 6);
 		battleTestBoard.putPieceAt(new Position(0,0), new Piece(PieceType.LIEUTENANT, PlayerColor.RED));
 		battleTestBoard.putPieceAt(new Position(1,0), new Piece(PieceType.SERGEANT, PlayerColor.BLUE));
@@ -56,7 +57,7 @@ public class BetaRulesStrategyTest {
 		battleTestBoard.putPieceAt(new Position(0,4), new Piece(PieceType.SPY, PlayerColor.RED));
 		battleTestRules.setBoard(battleTestBoard);
 		
-		gameOverRules = new BetaRulesStrategy();
+		gameOverRules = new BetaRulesStrategy(new GameState());
 		//put a scout and flag next to each other to test a win
 		RectangularStrategyBoard gameOverTestBoard = new RectangularStrategyBoard(6, 6);
 		gameOverTestBoard.putPieceAt(new Position(4,4), new Piece(PieceType.SCOUT, PlayerColor.RED));
@@ -65,7 +66,7 @@ public class BetaRulesStrategyTest {
 		gameOverTestBoard.putPieceAt(new Position(5,5), new Piece(PieceType.FLAG, PlayerColor.RED));
 		gameOverRules.setBoard(gameOverTestBoard);
 		
-		playerPlaceTestRules = new BetaRulesStrategy(true);
+		playerPlaceTestRules = new BetaRulesStrategy(new GameState(), true);
 	}
 
 	@Test
@@ -81,7 +82,7 @@ public class BetaRulesStrategyTest {
 	
 	@Test
 	public void testInitializeCreatesRandomArrangementOfPieces() throws StrategyException {
-		BetaRulesStrategy secondRules = new BetaRulesStrategy();
+		BetaRulesStrategy secondRules = new BetaRulesStrategy(new GameState());
 		assertFalse(secondRules.equals(rules));
 	}
 	
@@ -304,7 +305,7 @@ public class BetaRulesStrategyTest {
 	public void testEqualsObject() throws StrategyException {
 		RectangularStrategyBoard board = new RectangularStrategyBoard(6, 6);
 		rules.setBoard(board);
-		BetaRulesStrategy mockRules = new BetaRulesStrategy();
+		BetaRulesStrategy mockRules = new BetaRulesStrategy(new GameState());
 		RectangularStrategyBoard mockBoard = new RectangularStrategyBoard(6, 6);
 		mockRules.setBoard(mockBoard);
 		assertTrue(rules.equals(rules));

@@ -18,14 +18,20 @@ package strategy;
  */
 public abstract class RulesStrategy {
 
-	protected PlayerColor winnerColor;
-	protected PlayerColor turnColor;
+	protected GameState state;
 	
 	/**
 	 * The possible results of a battle.
 	 */
 	public enum BattleResult {
 		DEFEAT, VICTORY, DRAW
+	}
+	
+	/**
+	 * @param state  The GameState this RulesStrategy should modify 
+	 */
+	protected RulesStrategy(GameState state) {
+		this.state = state;
 	}
 	
 	/**
@@ -61,7 +67,7 @@ public abstract class RulesStrategy {
 	 * 			default winner of the specific ruleset.
 	 */
 	public PlayerColor getWinner(){
-		return winnerColor;
+		return state.getWinner();
 	}
 	
 	/**
@@ -79,7 +85,7 @@ public abstract class RulesStrategy {
 	 * @return true if the game is over; false otherwise.
 	 */
 	public boolean isOver(){
-		return winnerColor != null;
+		return state.isOver();
 	}
 
 }
