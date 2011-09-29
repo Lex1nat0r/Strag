@@ -53,14 +53,6 @@ public abstract class RulesStrategy {
 	public abstract Piece makeMove(Position source, Position destination) throws StrategyException;
 	
 	/**
-	 * Initialize (reset) the game.
-	 * Clears the game board.
-	 * Should be able to reset the board at any time.
-	 * 
-	 */
-	public abstract void initialize();
-	
-	/**
 	 * If there is a winner, return the winner's color.
 	 * 
 	 * @return the winner's color if there is a winner or null if the game is not over or the 

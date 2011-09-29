@@ -19,7 +19,6 @@ import strategy.PlayerColor;
 import strategy.Position;
 import strategy.RulesStrategy;
 import strategy.StrategyException;
-import strategy.common.*;
 
 /**
  * @author Alex Thornton-Clark, Andrew Hurle, Gabriel Stern-Robbins
@@ -32,22 +31,6 @@ public class AlphaRulesStrategy extends RulesStrategy {
 	
 	public AlphaRulesStrategy(GameState state) {
 		super(state);
-	}
-	
-	@Override
-	public void initialize() {
-		state.setWinner(null);
-		state.setTurn(PlayerColor.RED);
-		state.setBoard(new RectangularStrategyBoard(height, width));
-		state.getBoard().putPieceAt(new Position(0, 0), 
-				new strategy.Piece(strategy.PieceType.SCOUT, PlayerColor.RED));
-		state.getBoard().putPieceAt(new Position(0, 1), 
-				new strategy.Piece(strategy.PieceType.FLAG, PlayerColor.RED));
-		state.getBoard().putPieceAt(new Position(1, 0), 
-				new strategy.Piece(strategy.PieceType.FLAG, PlayerColor.BLUE));
-		state.getBoard().putPieceAt(new Position(1, 1), 
-				new strategy.Piece(strategy.PieceType.SCOUT, PlayerColor.BLUE));
-
 	}
 
 	@Override

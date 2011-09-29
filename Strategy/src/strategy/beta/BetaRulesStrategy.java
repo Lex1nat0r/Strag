@@ -61,7 +61,12 @@ public class BetaRulesStrategy extends RulesStrategy {
 		initialize();
 	}
 	
-	@Override
+	/**
+	 * Initialize (reset) the game.
+	 * Clears the game board.
+	 * Should be able to reset the board at any time.
+	 * 
+	 */
 	public void initialize() {
 		state.setBoard(new RectangularStrategyBoard(6, 6));
 		numMoves = 0;

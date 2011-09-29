@@ -20,10 +20,14 @@ import strategy.*;
  */
 public class AlphaStrategyGame implements StrategyGame
 {
+	private final GameState state;
 	private final AlphaRulesStrategy rules;
+	private final AlphaInitializationStrategy init;
 	
 	public AlphaStrategyGame() {
-		rules = new AlphaRulesStrategy(new GameState());
+		state = new GameState();
+		rules = new AlphaRulesStrategy(state);
+		init = new AlphaInitializationStrategy(state);
 		initializeGame();
 	}
 
@@ -39,7 +43,7 @@ public class AlphaStrategyGame implements StrategyGame
 
 	@Override
 	public void initializeGame() {
-		rules.initialize();
+		init.initialize();
 		
 	}
 
