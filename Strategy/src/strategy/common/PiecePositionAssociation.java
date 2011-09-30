@@ -39,7 +39,7 @@ public class PiecePositionAssociation
 	/**
 	 * @return the piece
 	 */
-	protected Piece getPiece()
+	public Piece getPiece()
 	{
 		return piece;
 	}
@@ -47,7 +47,7 @@ public class PiecePositionAssociation
 	/**
 	 * @return the position
 	 */
-	protected Position getPosition()
+	public Position getPosition()
 	{
 		return position;
 	}
