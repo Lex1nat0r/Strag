@@ -20,6 +20,7 @@ import strategy.PlayerColor;
 import strategy.common.PiecePositionAssociation;
 import strategy.common.RectangularStrategyBoard;
 
+import java.util.Enumeration;
 import java.util.Hashtable;
 
 /**
@@ -94,7 +95,7 @@ public class DeltaInitializationStrategy extends InitializationStrategy {
 	
 	private void countPieces(PiecePositionAssociation[] piecePositions, PlayerColor color) {
 		for (PiecePositionAssociation i : piecePositions) {
-			if (pieceCounter.get(i) == null) {
+			if (!pieceCounter.containsKey(i.getPiece())) {
 				pieceCounter.put(i.getPiece(), 0);
 			}
 			if (i.getPiece().getColor().equals(color)) {
@@ -109,6 +110,17 @@ public class DeltaInitializationStrategy extends InitializationStrategy {
 	private void checkPieces() {
 		if(pieceCounter.size() != expectedPieceCount.size() * 2) {
 			throw new RuntimeException("Not enough pieces given");
+		}
+		
+		final Enumeration<Piece> keys = pieceCounter.keys();
+		
+		while(keys.hasMoreElements()) {
+			Piece elem = keys.nextElement();
+			if(!expectedPieceCount.get(elem.getType()).equals(pieceCounter.get(elem))) {
+				throw new RuntimeException("Not enough " + elem.getColor().name() + 
+						" piece of type " + elem.getType().name());
+			}
+			
 		}
 	}
 

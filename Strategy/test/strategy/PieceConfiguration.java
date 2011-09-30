@@ -51,11 +51,11 @@ public class PieceConfiguration {
 	}
 	
 	public PiecePositionAssociation[] getInitialRedConfiguration() {
-		return initialRedConfiguration;
+		return initialRedConfiguration.clone();
 	}
 	
 	public PiecePositionAssociation[] getInitialBlueConfiguration() {
-		return initialBlueConfiguration;
+		return initialBlueConfiguration.clone();
 	}
 	
 	private void setUp() {

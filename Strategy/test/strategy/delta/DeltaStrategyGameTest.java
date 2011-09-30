@@ -24,12 +24,20 @@ import static strategy.PieceType.*;
 public class DeltaStrategyGameTest
 {
 
+	private PiecePositionAssociation[] redConfig;
+	private PiecePositionAssociation[] blueConfig;
+	
+	@Before
+	public void setUp(){
+		redConfig = PieceConfiguration.getInstance().getInitialRedConfiguration();
+		blueConfig = PieceConfiguration.getInstance().getInitialBlueConfiguration();
+	}
+	
 	@Test
 	public void testCanMakeDeltaStrategyGame()
 	{
 		StrategyGame game = StrategyGameFactory.getInstance().makeDeltaStrategyGame(
-				PieceConfiguration.getInstance().getInitialRedConfiguration(), 
-				PieceConfiguration.getInstance().getInitialBlueConfiguration());
+				redConfig, blueConfig);
 		assertEquals(new Piece(FLAG, PlayerColor.RED), game.getPieceAt(new Position(0, 3)));
 	}
 	
@@ -40,17 +48,22 @@ public class DeltaStrategyGameTest
 				new Piece(BOMB, PlayerColor.BLUE),
 				new Position(9, 6))};
 		StrategyGameFactory.getInstance().makeDeltaStrategyGame(
-				PieceConfiguration.getInstance().getInitialRedConfiguration(), initialBlueConfiguration);
+				redConfig, initialBlueConfiguration);
 	}
 	
 	@Test(expected=java.lang.Exception.class)
 	public void testWrongColorInInitialConfiguration()
 	{
-		PiecePositionAssociation initialRedConfiguration[] = 
-			PieceConfiguration.getInstance().getInitialRedConfiguration().clone();
-		initialRedConfiguration[2] = new PiecePositionAssociation(new Piece(BOMB, PlayerColor.BLUE), 
+		redConfig[2] = new PiecePositionAssociation(new Piece(BOMB, PlayerColor.BLUE), 
 				new Position(1, 1));
-		StrategyGameFactory.getInstance().makeDeltaStrategyGame(initialRedConfiguration, 
-				PieceConfiguration.getInstance().getInitialBlueConfiguration());
+		StrategyGameFactory.getInstance().makeDeltaStrategyGame(redConfig, blueConfig);
+	}
+	
+	@Test(expected=java.lang.Exception.class)
+	public void testWrongNumberOfBombsInInitialConfiguration()
+	{
+		redConfig[39] = new PiecePositionAssociation(new Piece(BOMB, PlayerColor.RED), 
+				new Position(3, 9));
+		StrategyGameFactory.getInstance().makeDeltaStrategyGame(redConfig, blueConfig);
 	}
 }
