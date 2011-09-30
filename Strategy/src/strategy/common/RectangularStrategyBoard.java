@@ -167,10 +167,12 @@ public class RectangularStrategyBoard implements StrategyBoard
 	public void validatePosition(Position pos)
 	{
 		if(pos.getRow() >= numRows || pos.getRow() < 0) {
-			throw new ArrayIndexOutOfBoundsException("row must be greater than 0 and less than " + numRows);
+			throw new ArrayIndexOutOfBoundsException(
+					"row must be greater than 0 and less than " + numRows);
 		}
 		if(pos.getColumn() >= numCols || pos.getColumn() < 0) {
-			throw new ArrayIndexOutOfBoundsException("col must be greater than 0 and less than " + numCols);
+			throw new ArrayIndexOutOfBoundsException(
+					"col must be greater than 0 and less than " + numCols);
 		}
 	}
 	
