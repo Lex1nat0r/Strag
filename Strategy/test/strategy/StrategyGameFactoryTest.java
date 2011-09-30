@@ -26,15 +26,9 @@ public class StrategyGameFactoryTest {
 
 	@Test
 	public void testMakeDeltaStrategyGame() {
-		//this will throw an exception once DeltaStrategyGame is implemented
-		//will need to pass in proper PiecePositionAssociation arrays
-		PiecePositionAssociation[] initialBlueConfiguration = {new PiecePositionAssociation(
-				new Piece(BOMB, PlayerColor.BLUE),
-				new Position(9, 6))};
-		PiecePositionAssociation[] initialRedConfiguration = {new PiecePositionAssociation(
-				new Piece(BOMB, PlayerColor.RED),
-				new Position(2, 6))};
-		assertTrue(StrategyGameFactory.getInstance().makeDeltaStrategyGame(initialRedConfiguration, initialBlueConfiguration)
+		assertTrue(StrategyGameFactory.getInstance().makeDeltaStrategyGame(
+				PieceConfiguration.getInstance().getInitialRedConfiguration(), 
+				PieceConfiguration.getInstance().getInitialBlueConfiguration())
 				instanceof DeltaStrategyGame);
 	}
 
