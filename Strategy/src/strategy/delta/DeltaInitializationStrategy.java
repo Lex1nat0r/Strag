@@ -15,13 +15,16 @@ import strategy.GameState;
 import strategy.InitializationStrategy;
 import strategy.Piece;
 import strategy.PieceType;
+import strategy.Position;
 import static strategy.PieceType.*;
 import strategy.PlayerColor;
 import strategy.common.PiecePositionAssociation;
 import strategy.common.RectangularStrategyBoard;
 
 import java.util.Enumeration;
+import java.util.HashSet;
 import java.util.Hashtable;
+import java.util.Set;
 
 /**
  * Defines the initialization method for the DeltaStrategyGame
@@ -37,11 +40,13 @@ public class DeltaInitializationStrategy extends InitializationStrategy {
 	private static final int blueZoneEdge = 6;
 	private final Hashtable<Piece, Integer> pieceCounter;
 	private final Hashtable<PieceType, Integer> expectedPieceCount;
+	private final Set<Position> occupiedPositions;
 	
 	public DeltaInitializationStrategy(GameState state) {
 		super(state);
 		pieceCounter = new Hashtable<Piece, Integer>();
 		expectedPieceCount = new Hashtable<PieceType, Integer>();
+		occupiedPositions = new HashSet<Position>();
 		makeExpectedPieceCount();
 	}
 
@@ -127,7 +132,7 @@ public class DeltaInitializationStrategy extends InitializationStrategy {
 		}
 	}
 	
-	private static void checkPositions(PiecePositionAssociation[] startingRedPieces, 
+	private void checkPositions(PiecePositionAssociation[] startingRedPieces, 
 			PiecePositionAssociation[] startingBluePieces) {
 		
 		for(PiecePositionAssociation i : startingRedPieces) {
@@ -136,12 +141,29 @@ public class DeltaInitializationStrategy extends InitializationStrategy {
 						" out of RED deployment zone.");
 			}
 			
+			if(occupiedPositions.contains(i.getPosition())) {
+				throw new RuntimeException("RED Piece in position (" + 
+						i.getPosition().getColumn() + ", " + 
+						i.getPosition().getRow() + ") overlaps with another piece");
+			}
+			else {
+				occupiedPositions.add(i.getPosition());
+			}
 		}
 		
 		for(PiecePositionAssociation i : startingBluePieces) {
 			if(i.getPosition().getRow() < blueZoneEdge) {
 				throw new RuntimeException("BLUE Piece " + i.getPiece().getType().name() + 
 						" out of BLUE deployment zone.");
+			}
+			
+			if(occupiedPositions.contains(i.getPosition())) {
+				throw new RuntimeException("BLUE Piece in position (" + 
+						i.getPosition().getColumn() + ", " + 
+						i.getPosition().getRow() + ") overlaps with another piece");
+			}
+			else {
+				occupiedPositions.add(i.getPosition());
 			}
 			
 		}

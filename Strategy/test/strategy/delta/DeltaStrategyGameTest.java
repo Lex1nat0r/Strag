@@ -90,4 +90,20 @@ public class DeltaStrategyGameTest
 				new Position(9, 10));
 		StrategyGameFactory.getInstance().makeDeltaStrategyGame(redConfig, blueConfig);
 	}
+	
+	@Test(expected=java.lang.Exception.class)
+	public void testNoOverlappingRedPieces()
+	{
+		redConfig[39] = new PiecePositionAssociation(new Piece(SCOUT, PlayerColor.RED), 
+				new Position(0, 0));
+		StrategyGameFactory.getInstance().makeDeltaStrategyGame(redConfig, blueConfig);
+	}
+	
+	@Test(expected=java.lang.Exception.class)
+	public void testNoOverlappingBluePieces()
+	{
+		blueConfig[39] = new PiecePositionAssociation(new Piece(LIEUTENANT, PlayerColor.BLUE), 
+				new Position(6, 0));
+		StrategyGameFactory.getInstance().makeDeltaStrategyGame(redConfig, blueConfig);
+	}
 }
