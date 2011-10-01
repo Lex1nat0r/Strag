@@ -33,6 +33,8 @@ public class DeltaInitializationStrategy extends InitializationStrategy {
 
 	private static final int width = 10;
 	private static final int height = 10;
+	private static final int redZoneEdge = 3;
+	private static final int blueZoneEdge = 6;
 	private final Hashtable<Piece, Integer> pieceCounter;
 	private final Hashtable<PieceType, Integer> expectedPieceCount;
 	
@@ -68,6 +70,7 @@ public class DeltaInitializationStrategy extends InitializationStrategy {
 		countPieces(startingBluePieces, PlayerColor.BLUE);
 		
 		checkPieces();
+		checkPositions(startingRedPieces, startingBluePieces);
 		
 		for (PiecePositionAssociation i : startingRedPieces) {
 			state.getBoard().putPieceAt(i.getPosition(), i.getPiece());
@@ -119,6 +122,26 @@ public class DeltaInitializationStrategy extends InitializationStrategy {
 			if(!expectedPieceCount.get(elem.getType()).equals(pieceCounter.get(elem))) {
 				throw new RuntimeException("Not enough " + elem.getColor().name() + 
 						" piece of type " + elem.getType().name());
+			}
+			
+		}
+	}
+	
+	private static void checkPositions(PiecePositionAssociation[] startingRedPieces, 
+			PiecePositionAssociation[] startingBluePieces) {
+		
+		for(PiecePositionAssociation i : startingRedPieces) {
+			if(i.getPosition().getRow() > redZoneEdge) {
+				throw new RuntimeException("RED Piece " + i.getPiece().getType().name() + 
+						" out of RED deployment zone.");
+			}
+			
+		}
+		
+		for(PiecePositionAssociation i : startingBluePieces) {
+			if(i.getPosition().getRow() < blueZoneEdge) {
+				throw new RuntimeException("BLUE Piece " + i.getPiece().getType().name() + 
+						" out of BLUE deployment zone.");
 			}
 			
 		}

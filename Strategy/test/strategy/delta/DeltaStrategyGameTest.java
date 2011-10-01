@@ -66,4 +66,28 @@ public class DeltaStrategyGameTest
 				new Position(3, 9));
 		StrategyGameFactory.getInstance().makeDeltaStrategyGame(redConfig, blueConfig);
 	}
+	
+	@Test(expected=java.lang.Exception.class)
+	public void testNoRedPieceInNeutralStartingZoneInInitialConfiguration()
+	{
+		redConfig[39] = new PiecePositionAssociation(new Piece(SCOUT, PlayerColor.RED), 
+				new Position(4, 9));
+		StrategyGameFactory.getInstance().makeDeltaStrategyGame(redConfig, blueConfig);
+	}
+	
+	@Test(expected=java.lang.Exception.class)
+	public void testNoBluePieceInNeutralStartingZoneInInitialConfiguration()
+	{
+		blueConfig[39] = new PiecePositionAssociation(new Piece(LIEUTENANT, PlayerColor.BLUE), 
+				new Position(4, 9));
+		StrategyGameFactory.getInstance().makeDeltaStrategyGame(redConfig, blueConfig);
+	}
+	
+	@Test(expected=java.lang.Exception.class)
+	public void testNoPieceOutsideGameBoardInInitialConfiguration()
+	{
+		blueConfig[39] = new PiecePositionAssociation(new Piece(LIEUTENANT, PlayerColor.BLUE), 
+				new Position(9, 10));
+		StrategyGameFactory.getInstance().makeDeltaStrategyGame(redConfig, blueConfig);
+	}
 }
