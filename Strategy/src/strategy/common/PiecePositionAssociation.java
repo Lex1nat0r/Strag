@@ -51,6 +51,11 @@ public class PiecePositionAssociation
 	{
 		return position;
 	}
+	
+	@Override
+	public String toString() {
+		return piece + " at position " + position;
+	}
 }
 
  

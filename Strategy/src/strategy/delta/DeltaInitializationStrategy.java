@@ -36,14 +36,18 @@ public class DeltaInitializationStrategy extends InitializationStrategy {
 
 	private static final int width = 10;
 	private static final int height = 10;
-	private static final int redZoneEdge = 3;
-	private static final int blueZoneEdge = 6;
+	private static final int deploymentZoneSize = 4;
+	private final DeploymentZone redDeploymentZone;
+	private final DeploymentZone blueDeploymentZone;
 	private final Hashtable<Piece, Integer> pieceCounter;
 	private final Hashtable<PieceType, Integer> expectedPieceCount;
 	private final Set<Position> occupiedPositions;
 	
 	public DeltaInitializationStrategy(GameState state) {
 		super(state);
+		redDeploymentZone = new DeploymentZone(0, deploymentZoneSize - 1, PlayerColor.RED);
+		blueDeploymentZone = new DeploymentZone(height - deploymentZoneSize, height - 1,
+				PlayerColor.BLUE);
 		pieceCounter = new Hashtable<Piece, Integer>();
 		expectedPieceCount = new Hashtable<PieceType, Integer>();
 		occupiedPositions = new HashSet<Position>();
@@ -75,7 +79,8 @@ public class DeltaInitializationStrategy extends InitializationStrategy {
 		countPieces(startingBluePieces, PlayerColor.BLUE);
 		
 		checkPieces();
-		checkPositions(startingRedPieces, startingBluePieces);
+		checkPositions(startingRedPieces, redDeploymentZone);
+		checkPositions(startingBluePieces, blueDeploymentZone);
 		
 		for (PiecePositionAssociation i : startingRedPieces) {
 			state.getBoard().putPieceAt(i.getPosition(), i.getPiece());
@@ -132,41 +137,21 @@ public class DeltaInitializationStrategy extends InitializationStrategy {
 		}
 	}
 	
-	private void checkPositions(PiecePositionAssociation[] startingRedPieces, 
-			PiecePositionAssociation[] startingBluePieces) {
+	private void checkPositions(PiecePositionAssociation[] pieces, DeploymentZone zone) {
 		
-		for(PiecePositionAssociation i : startingRedPieces) {
-			if(i.getPosition().getRow() > redZoneEdge) {
-				throw new RuntimeException("RED Piece " + i.getPiece().getType().name() + 
-						" out of RED deployment zone.");
+		for(PiecePositionAssociation i : pieces) {
+			if(!zone.hasRow(i.getPosition().getRow())) {
+				throw new RuntimeException(i + " outside of " + zone);
 			}
 			
 			if(occupiedPositions.contains(i.getPosition())) {
-				throw new RuntimeException("RED Piece in position (" + 
-						i.getPosition().getColumn() + ", " + 
-						i.getPosition().getRow() + ") overlaps with another piece");
+				throw new RuntimeException(i + " overlaps with another piece");
 			}
 			else {
 				occupiedPositions.add(i.getPosition());
 			}
 		}
 		
-		for(PiecePositionAssociation i : startingBluePieces) {
-			if(i.getPosition().getRow() < blueZoneEdge) {
-				throw new RuntimeException("BLUE Piece " + i.getPiece().getType().name() + 
-						" out of BLUE deployment zone.");
-			}
-			
-			if(occupiedPositions.contains(i.getPosition())) {
-				throw new RuntimeException("BLUE Piece in position (" + 
-						i.getPosition().getColumn() + ", " + 
-						i.getPosition().getRow() + ") overlaps with another piece");
-			}
-			else {
-				occupiedPositions.add(i.getPosition());
-			}
-			
-		}
 	}
 
 }

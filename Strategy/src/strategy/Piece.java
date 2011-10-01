@@ -85,4 +85,9 @@ public class Piece
 	{
 		return myType.isMoveable();
 	}
+	
+	@Override
+	public String toString() {
+		return myColor + " " + myType + " Piece";
+	}
 }
