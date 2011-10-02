@@ -106,4 +106,13 @@ public class DeltaStrategyGameTest
 				new Position(6, 0));
 		StrategyGameFactory.getInstance().makeDeltaStrategyGame(redConfig, blueConfig);
 	}
+	
+	@Test
+	public void testInitializingAgainDoesntBreak()
+	{
+		DeltaStrategyGame game = StrategyGameFactory.getInstance()
+			.makeDeltaStrategyGame(redConfig, blueConfig);
+		game.initializeGame(redConfig, blueConfig);
+		game.move(new Position(3,1), new Position(4,1));
+	}
 }

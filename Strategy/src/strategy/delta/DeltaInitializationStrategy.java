@@ -60,6 +60,8 @@ public class DeltaInitializationStrategy extends InitializationStrategy {
 		state.setNumMoves(0);
 		state.setWinner(null);
 		state.setTurn(PlayerColor.RED);
+		pieceCounter.clear();
+		occupiedPositions.clear();
 	}
 	
 	/**
@@ -122,16 +124,18 @@ public class DeltaInitializationStrategy extends InitializationStrategy {
 	
 	private void checkPieces() {
 		if(pieceCounter.size() != expectedPieceCount.size() * 2) {
-			throw new RuntimeException("Not enough pieces given");
+			throw new RuntimeException("Incorrect number of unique pieces given");
 		}
 		
 		final Enumeration<Piece> keys = pieceCounter.keys();
 		
 		while(keys.hasMoreElements()) {
 			Piece elem = keys.nextElement();
-			if(!expectedPieceCount.get(elem.getType()).equals(pieceCounter.get(elem))) {
-				throw new RuntimeException("Not enough " + elem.getColor().name() + 
-						" piece of type " + elem.getType().name());
+			int expected = expectedPieceCount.get(elem.getType());
+			int actual = pieceCounter.get(elem);
+			if(expected != actual) {
+				throw new RuntimeException("Incorrect number of " + elem + " - expected "
+						+ expected + ", actually " + actual);
 			}
 			
 		}
