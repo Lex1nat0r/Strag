@@ -14,6 +14,7 @@ import static org.junit.Assert.*;
 import org.junit.*;
 import strategy.*;
 import strategy.common.PiecePositionAssociation;
+import strategy.common.RectangularStrategyBoard;
 import static strategy.PieceType.*;
 
 /**
@@ -160,6 +161,21 @@ public class DeltaStrategyGameTest
 				game.getPieceAt(new Position(4,1)));
 		assertTrue(game.isGameOver());
 		assertEquals(game.getWinner(), PlayerColor.RED);
+	}
+	
+	@Test
+	public void testDrawWithNoMovablePieces() throws StrategyException
+	{
+		RectangularStrategyBoard drawBoard = new RectangularStrategyBoard(10, 10);
+		drawBoard.putPieceAt(new Position(0, 0), new Piece(PieceType.FLAG, PlayerColor.RED));
+		drawBoard.putPieceAt(new Position(7, 9), new Piece(PieceType.SCOUT, PlayerColor.RED));
+		drawBoard.putPieceAt(new Position(8, 9), new Piece(PieceType.BOMB, PlayerColor.BLUE));
+		
+		game.setBoard(drawBoard);
+		game.move(new Position(7, 9), new Position(8, 9));
+		
+		assertTrue(game.isGameOver());
+		assertNull(game.getWinner());
 	}
 	
 }

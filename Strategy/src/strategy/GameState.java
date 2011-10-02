@@ -26,6 +26,7 @@ public class GameState {
 	private PlayerColor winner;
 	private PlayerColor turn;
 	private RectangularStrategyBoard board;
+	private boolean over = false;
 	private int numMoves = 0;
 	
 	/**
@@ -49,7 +50,14 @@ public class GameState {
 	 * @return true if the game is over; false otherwise.
 	 */
 	public boolean isOver() {
-		return winner != null;
+		return winner != null || over;
+	}
+	
+	/**
+	 * Set the game to be over.
+	 */
+	public void setOver(boolean over) {
+		this.over = over;
 	}
 	
 	/**
