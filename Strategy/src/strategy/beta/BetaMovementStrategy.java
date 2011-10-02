@@ -80,8 +80,8 @@ public class BetaMovementStrategy extends MovementStrategy {
 			throw new StrategyException("Cannot move onto a friendly piece");
 		}
 
-		if (state.getBoard().isOccupiedSpaceBetweenPositions(source, destination)) {
-			throw new StrategyException("Cannot move through occupied spaces");
+		if (!state.getBoard().isPathValid(source, destination)) {
+			throw new StrategyException("Cannot move through occupied spaces or water");
 		}
 
 		BattleResult result = BattleResult.VICTORY;

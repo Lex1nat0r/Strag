@@ -154,14 +154,14 @@ public class RectangularStrategyBoard implements StrategyBoard
 	}
 	
 	/**
-	 * Checks each space between source and destination to see if at least one is occupied.
-	 * Does not include source and destination, so adjacent spaces will always return false.
+	 * Checks each space between source and destination to make sure all equal NULL_PIECE.
+	 * DOES NOT include source and destination, so adjacent spaces will always return true.
 	 * 
 	 * @param source The position to start checking after
 	 * @param destination The position to stop checking before
-	 * @return true if at least one space between the positions is occupied, false otherwise
+	 * @return true if all spaces between the positions are NULL_PIECE, false otherwise
 	 */
-	public boolean isOccupiedSpaceBetweenPositions(Position source, Position destination)
+	public boolean isPathValid(Position source, Position destination)
 	{
 		int horizontalStep = destination.getColumn() - source.getColumn();
 		int verticalStep = destination.getRow() - source.getRow();
@@ -180,11 +180,11 @@ public class RectangularStrategyBoard implements StrategyBoard
 			if(currentPoint.equals(destination)) {
 				keepGoing = false;
 			}
-			else if(isOccupied(currentPoint)) {
-				return true;
+			else if(!getPieceAt(currentPoint).equals(Piece.NULL_PIECE)) {
+				return false;
 			}
 		}
-		return false;
+		return true;
 	}
 	
 	@Override

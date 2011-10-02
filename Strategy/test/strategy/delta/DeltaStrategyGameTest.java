@@ -134,4 +134,10 @@ public class DeltaStrategyGameTest
 	{
 		game.move(new Position(3,2), new Position(4,2));
 	}
+	
+	@Test(expected=StrategyException.class)
+	public void testMoveRedScoutOverWater() throws StrategyException
+	{
+		game.move(new Position(3,2), new Position(6,2));
+	}
 }
