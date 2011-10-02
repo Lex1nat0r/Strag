@@ -66,6 +66,42 @@ public class RectangularStrategyBoardTest {
 	public void testPutPieceAtInvalidPosition() {
 		board.putPieceAt(new Position(-1, 0), new Piece(PieceType.SCOUT, PlayerColor.RED));
 	}
+	
+	@Test(expected=ArrayIndexOutOfBoundsException.class)
+	public void testPutPieceAtRectangleInvalidTopLeft() {
+		board.putPieceAtRectangle(new Position(6, -1), new Position(0, 5), Piece.WATER_PIECE);
+	}
+	
+	@Test(expected=ArrayIndexOutOfBoundsException.class)
+	public void testPutPieceAtRectangleInvalidBottomRight() {
+		board.putPieceAtRectangle(new Position(5, 0), new Position(-1, 6), Piece.WATER_PIECE);
+	}
+	
+	@Test(expected=RuntimeException.class)
+	public void testPutPieceAtRectangleVerticesOutOfOrder() {
+		board.putPieceAtRectangle(new Position(0, 5), new Position(5, 0), Piece.WATER_PIECE);
+	}
+	
+	@Test
+	public void testPutPieceAtOneByOneRectangle() {
+		board.putPieceAtRectangle(new Position(3, 3), new Position(3, 3), Piece.WATER_PIECE);
+		assertEquals(Piece.WATER_PIECE, board.getPieceAt(new Position(3, 3)));
+		assertEquals(Piece.NULL_PIECE, board.getPieceAt(new Position(4, 3)));
+		assertEquals(Piece.NULL_PIECE, board.getPieceAt(new Position(3, 4)));
+		assertEquals(Piece.NULL_PIECE, board.getPieceAt(new Position(2, 3)));
+		assertEquals(Piece.NULL_PIECE, board.getPieceAt(new Position(3, 2)));
+	}
+	
+	@Test
+	public void testPutPieceAtTwoByTwoRectangle() {
+		board.putPieceAtRectangle(new Position(4, 3), new Position(3, 5), Piece.WATER_PIECE);
+		assertEquals(Piece.WATER_PIECE, board.getPieceAt(new Position(3, 3)));
+		assertEquals(Piece.WATER_PIECE, board.getPieceAt(new Position(3, 4)));
+		assertEquals(Piece.WATER_PIECE, board.getPieceAt(new Position(3, 5)));
+		assertEquals(Piece.WATER_PIECE, board.getPieceAt(new Position(4, 3)));
+		assertEquals(Piece.WATER_PIECE, board.getPieceAt(new Position(4, 4)));
+		assertEquals(Piece.WATER_PIECE, board.getPieceAt(new Position(4, 5)));
+	}
 
 	@Test
 	public void testIsOccupied() throws StrategyException {
@@ -150,6 +186,13 @@ public class RectangularStrategyBoardTest {
 				"NNbNNN\n" + 
 				"NNNNNN\n" +
 				"bNNNNN\n", board.toString());
+		board.putPieceAtRectangle(new Position(1, 4), new Position(0, 5), Piece.WATER_PIECE);
+		assertEquals("NNNNNN\n" + 
+				"NNNNNN\n" +
+				"NNNNNN\n" +
+				"NNbNNN\n" + 
+				"NNNNWW\n" +
+				"bNNNWW\n", board.toString());
 	}
 	
 	@Test

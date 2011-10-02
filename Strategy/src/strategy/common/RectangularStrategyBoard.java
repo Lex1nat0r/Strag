@@ -110,6 +110,29 @@ public class RectangularStrategyBoard implements StrategyBoard
 		validatePosition(position);
 		pieces[position.getRow()][position.getColumn()] = piece;
 	}
+	
+	/**
+	 * Fill the rectangle defined by its top left and bottom right vertices with the given Piece.
+	 * 
+	 * @param topLeft
+	 * @param bottomRight
+	 * @param piece
+	 */
+	public void putPieceAtRectangle(Position topLeft, Position bottomRight, Piece piece) {
+		validatePosition(topLeft);
+		validatePosition(bottomRight);
+		if(topLeft.getRow() < bottomRight.getRow()
+				|| topLeft.getColumn() > bottomRight.getColumn()) {
+			throw new RuntimeException("vertex parameters are out of order");
+		}
+		
+		//fill from the top left to the bottom right, row by row
+		for(int row = topLeft.getRow(); row >= bottomRight.getRow(); row--) {
+			for(int col = topLeft.getColumn(); col <= bottomRight.getColumn(); col++) {
+				putPieceAt(new Position(row, col), piece);
+			}
+		}
+	}
 
 	@Override
 	public boolean isOccupied(Position position)
@@ -197,38 +220,31 @@ public class RectangularStrategyBoard implements StrategyBoard
 	@Override
 	public String toString()
 	{
-		String boardString = "";
-		final String[] boardArr = {"", "", "", "", "", ""};
-		final BoardIterator iter = new BoardIterator(pieces);
-		Piece tempPiece = null;
+		final int length = numRows * (numCols + 1); // + 1 for \n
+		final StringBuilder output = new StringBuilder(length);
+		output.setLength(length);
 		
-		int colCount = 0;
-		int row = 0;
-		
+		final BoardIterator iter = (BoardIterator) iterator();
 		while (iter.hasNext()) {
-			if (!(tempPiece = iter.next()).equals(Piece.NULL_PIECE)) {
-				boardString += tempPiece.getType().getId();
+			Piece piece = iter.next();
+			int outputIndex = (numRows - 1 - iter.getRow()) * (numCols + 1) + iter.getColumn();
+			
+			if (piece.equals(Piece.NULL_PIECE)) {
+				output.setCharAt(outputIndex, 'N');
+			}
+			else if(piece.equals(Piece.WATER_PIECE)) {
+				output.setCharAt(outputIndex, 'W');
 			}
 			else {
-				boardString += "N";
+				output.setCharAt(outputIndex, piece.getType().getId().charAt(0));
 			}
 			
-			colCount++;
-			
-			if (colCount > numCols - 1) {
-				boardString += "\n";
-				colCount = 0;
-				boardArr[row] = boardString;
-				boardString = "";
-				row++;
+			if (iter.getColumn() == numCols - 1) {
+				output.setCharAt(outputIndex + 1, '\n');
 			}
 		}
 		
-		for (int i = 1; i <= 6; i++) {
-			boardString += boardArr[numRows - i];
-		}
-		
-		return boardString;
+		return output.toString();
 	}
 	
 	/**

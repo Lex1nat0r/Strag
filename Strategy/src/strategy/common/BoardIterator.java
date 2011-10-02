@@ -23,7 +23,9 @@ public class BoardIterator implements Iterator<Piece> {
 	private Piece next;
 	private final Piece[][] pieces;
 	private int row;
+	private int previousRow;
 	private int col;
+	private int previousCol;
 	
 	/**
 	 * @param board The board to iterate through
@@ -32,6 +34,8 @@ public class BoardIterator implements Iterator<Piece> {
 		pieces = board;
 		row = 0;
 		col = 0;
+		previousRow = 0;
+		previousCol = 0;
 		next = pieces[0][0];
 	}
 	
@@ -43,6 +47,8 @@ public class BoardIterator implements Iterator<Piece> {
 	@Override
 	public Piece next() {
 		final Piece current = next;
+		previousCol = col;
+		previousRow = row;
 		
 		if (col >= pieces[row].length - 1) {
 			col = 0;
@@ -65,6 +71,20 @@ public class BoardIterator implements Iterator<Piece> {
 	@Override
 	//this should never be called as the size of the board is immutable
 	public void remove() {
+	}
+
+	/**
+	 * @return the row of the last Piece returned by next()
+	 */
+	public int getRow() {
+		return previousRow;
+	}
+	
+	/**
+	 * @return the column of the last Piece returned by next()
+	 */
+	public int getColumn() {
+		return previousCol;
 	}
 
 }
