@@ -1,3 +1,13 @@
+/*******************************************************************************
+ * This file is used in CS4233, Object-oriented Analysis and Design
+ * 
+ * Copyright (c) 2011 Worcester Polytechnic Institute. All rights reserved. This program and the
+ * accompanying materials are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ * 
+ * Author: Alex Thornton-Clark, Andrew Hurle, Gabriel Stern-Robbins
+ *******************************************************************************/
 package strategy.delta;
 
 import java.util.Iterator;
@@ -9,6 +19,12 @@ import strategy.Position;
 import strategy.StrategyException;
 import strategy.beta.BetaMovementStrategy;
 
+/**
+ * Defines the makeMove method for the DeltaStrategyGame
+ * 
+ * @author Alex Thortnon-Clark, Andrew Hurle, Gabriel Stern-Robbins
+ * @version Oct 1, 2011
+ */
 public class DeltaMovementStrategy extends BetaMovementStrategy {
 
 	public DeltaMovementStrategy(GameState state) {
