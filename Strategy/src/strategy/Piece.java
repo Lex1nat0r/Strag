@@ -23,6 +23,7 @@ public class Piece
 	private final PlayerColor myColor;
 	
 	public static final Piece NULL_PIECE = new Piece(null, null);
+	public static final Piece WATER_PIECE = new Piece(null, null);
 
 	/**
 	 * Constructor that takes the type and color of this piece.
@@ -60,7 +61,7 @@ public class Piece
 		}
 		if (other instanceof Piece) {
 			final Piece that = (Piece) other;
-			if ((myType == null && myColor == null) && !that.equals(NULL_PIECE)) {
+			if(myType == null && myColor == null) {
 				return false;
 			}
 			return myColor.equals(that.getColor()) && myType.equals(that.getType());
