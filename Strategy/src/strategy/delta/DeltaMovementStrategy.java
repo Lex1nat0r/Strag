@@ -51,13 +51,13 @@ public class DeltaMovementStrategy extends BetaMovementStrategy {
 			Piece tempPiece = iter.next();
 			if(!tempPiece.equals(Piece.NULL_PIECE) && 
 					!tempPiece.equals(Piece.WATER_PIECE)) {
-				if(tempPiece.getColor().equals(PlayerColor.RED) && 
-						tempPiece.getType().isMoveable()) {
-					redMoveable = true;
-				}
-				else if(tempPiece.getColor().equals(PlayerColor.BLUE) && 
-						tempPiece.getType().isMoveable()) {
-					blueMoveable = true;
+				if(tempPiece.getType().isMoveable()) {
+					if(tempPiece.getColor().equals(PlayerColor.RED)) {
+						redMoveable = true;
+					}
+					else if(tempPiece.getColor().equals(PlayerColor.BLUE)) {
+						blueMoveable = true;
+					}
 				}
 			}
 		}
