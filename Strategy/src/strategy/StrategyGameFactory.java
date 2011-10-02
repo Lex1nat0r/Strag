@@ -37,14 +37,14 @@ public class StrategyGameFactory {
 	/**
 	 * @return An AlphaStrategyGame
 	 */
-	public static AlphaStrategyGame makeAlphaStrategyGame() {
+	public AlphaStrategyGame makeAlphaStrategyGame() {
 		return new AlphaStrategyGame();
 	}
 	
 	/**
 	 * @return A BetaStrategyGame
 	 */
-	public static BetaStrategyGame makeBetaStrategyGame() {
+	public BetaStrategyGame makeBetaStrategyGame() {
 		return new BetaStrategyGame();
 	}
 	
@@ -54,7 +54,7 @@ public class StrategyGameFactory {
 	 * @param startingBluePieces
 	 * @return A DeltaStrategyGame
 	 */
-	public static DeltaStrategyGame makeDeltaStrategyGame(PiecePositionAssociation[] startingRedPieces,
+	public DeltaStrategyGame makeDeltaStrategyGame(PiecePositionAssociation[] startingRedPieces,
 				PiecePositionAssociation[] startingBluePieces) {
 		return new DeltaStrategyGame(startingRedPieces, startingBluePieces);
 	}
