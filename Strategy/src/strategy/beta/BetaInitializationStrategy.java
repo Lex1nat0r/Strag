@@ -19,12 +19,23 @@ import strategy.Position;
 import strategy.StrategyException;
 import strategy.common.RectangularStrategyBoard;
 
+/**
+ * Defines some shared behavior and fields for the BetaStrategyGame
+ * initialization strategies.
+ * 
+ * @author Alex Thornton-Clark, Andrew Hurle, Gabriel Stern-Robbins
+ * @version Oct 1, 2011
+ */
 public abstract class BetaInitializationStrategy extends InitializationStrategy {
 
 	private static final int width = 6;
 	private static final int height = 6;
 	
-	public BetaInitializationStrategy(GameState state) {
+	/**
+	 * @see InitializationStrategy#InitializationStrategy(GameState state)
+	 * @param state
+	 */
+	protected BetaInitializationStrategy(GameState state) {
 		super(state);
 	}
 
@@ -36,8 +47,14 @@ public abstract class BetaInitializationStrategy extends InitializationStrategy 
 		state.setTurn(PlayerColor.RED);
 	}
 	
-	public void playerPlacePiece(Position position, Piece piece) throws StrategyException {
-		throw new StrategyException("Player not allowed to place Piece");
-	}
+	/**
+	 * Place Piece piece at Position position on this board,
+	 * if the strategy allows it.
+	 * 
+	 * @param position The position to place the Piece at
+	 * @param piece The Piece to place on the board
+	 * @throws StrategyException if a player is attempting to place a piece incorrectly
+	 */
+	public abstract void playerPlacePiece(Position position, Piece piece) throws StrategyException;
 
 }

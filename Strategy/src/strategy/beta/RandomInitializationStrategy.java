@@ -18,6 +18,7 @@ import strategy.Piece;
 import strategy.PieceType;
 import strategy.PlayerColor;
 import strategy.Position;
+import strategy.StrategyException;
 
 /**
  * Defines the initialization method for the random piece setup
@@ -63,6 +64,11 @@ public class RandomInitializationStrategy extends BetaInitializationStrategy {
 		}
 			
 		state.getBoard().putPieceAt(randPos, pieceToPlace);
+	}
+	
+	@Override
+	public void playerPlacePiece(Position position, Piece piece) throws StrategyException {
+		throw new StrategyException("Player not allowed to place Piece");
 	}
 
 }
