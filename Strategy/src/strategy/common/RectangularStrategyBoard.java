@@ -137,7 +137,8 @@ public class RectangularStrategyBoard implements StrategyBoard
 	@Override
 	public boolean isOccupied(Position position)
 	{
-		return (!getPieceAt(position).equals(Piece.NULL_PIECE));
+		final Piece piece = getPieceAt(position);
+		return !piece.equals(Piece.NULL_PIECE) && !piece.equals(Piece.WATER_PIECE);
 	}
 
 	/**

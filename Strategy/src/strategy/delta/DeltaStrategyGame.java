@@ -15,6 +15,7 @@ import strategy.GameState;
 import strategy.Piece;
 import strategy.PlayerColor;
 import strategy.Position;
+import strategy.StrategyException;
 import strategy.StrategyGame;
 import strategy.common.PiecePositionAssociation;
 import strategy.common.RectangularStrategyBoard;
@@ -30,6 +31,7 @@ public class DeltaStrategyGame implements StrategyGame {
 
 	private final GameState state;
 	private final DeltaInitializationStrategy init;
+	private final DeltaMovementStrategy movement;
 	
 	/**
 	 * Constructs a DeltaStrategyGame.
@@ -45,6 +47,7 @@ public class DeltaStrategyGame implements StrategyGame {
 			PiecePositionAssociation[] startingBluePieces) {
 		state = new GameState();
 		init = new DeltaInitializationStrategy(state);
+		movement = new DeltaMovementStrategy(state);
 		initializeGame(startingRedPieces, startingBluePieces);
 	}
 	
@@ -85,9 +88,8 @@ public class DeltaStrategyGame implements StrategyGame {
 	}
 
 	@Override
-	public Piece move(Position source, Position destination) {
-		// TODO Auto-generated method stub
-		return null;
+	public Piece move(Position source, Position destination) throws StrategyException {
+		return movement.makeMove(source, destination);
 	}
 	
 	/**

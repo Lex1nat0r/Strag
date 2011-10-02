@@ -26,18 +26,19 @@ public class DeltaStrategyGameTest
 
 	private PiecePositionAssociation[] redConfig;
 	private PiecePositionAssociation[] blueConfig;
+	private DeltaStrategyGame game;
 	
 	@Before
 	public void setUp(){
 		redConfig = PieceConfiguration.getInstance().getInitialRedConfiguration();
 		blueConfig = PieceConfiguration.getInstance().getInitialBlueConfiguration();
+		game = StrategyGameFactory.getInstance().makeDeltaStrategyGame(
+				redConfig, blueConfig);
 	}
 	
 	@Test
 	public void testInitialState()
 	{
-		DeltaStrategyGame game = StrategyGameFactory.getInstance().makeDeltaStrategyGame(
-				redConfig, blueConfig);
 		assertEquals(new Piece(FLAG, PlayerColor.RED), game.getPieceAt(new Position(0, 3)));
 		assertEquals(Piece.WATER_PIECE, game.getPieceAt(new Position(5, 2)));
 		assertEquals(Piece.WATER_PIECE, game.getPieceAt(new Position(5, 6)));
@@ -122,11 +123,15 @@ public class DeltaStrategyGameTest
 	}
 	
 	@Test
-	public void testInitializingAgainDoesntBreak()
+	public void testInitializingAgainDoesntBreak() throws StrategyException
 	{
-		DeltaStrategyGame game = StrategyGameFactory.getInstance()
-			.makeDeltaStrategyGame(redConfig, blueConfig);
 		game.initializeGame(redConfig, blueConfig);
 		game.move(new Position(3,1), new Position(4,1));
+	}
+	
+	@Test(expected=StrategyException.class)
+	public void testMoveRedScoutOntoWater() throws StrategyException
+	{
+		game.move(new Position(3,2), new Position(4,2));
 	}
 }

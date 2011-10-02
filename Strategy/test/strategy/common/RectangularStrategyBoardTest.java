@@ -105,9 +105,12 @@ public class RectangularStrategyBoardTest {
 
 	@Test
 	public void testIsOccupied() throws StrategyException {
-		assertFalse(board.isOccupied(new Position(0, 0)));
-		board.putPieceAt(new Position(0, 0), new Piece(PieceType.BOMB, PlayerColor.RED));
-		assertTrue(board.isOccupied(new Position(0, 0)));
+		Position pos = new Position(0, 0);
+		assertFalse(board.isOccupied(pos));
+		board.putPieceAt(pos, new Piece(PieceType.BOMB, PlayerColor.RED));
+		assertTrue(board.isOccupied(pos));
+		board.putPieceAt(pos, Piece.WATER_PIECE);
+		assertFalse(board.isOccupied(pos));
 	}
 	
 	@Test(expected=ArrayIndexOutOfBoundsException.class)
