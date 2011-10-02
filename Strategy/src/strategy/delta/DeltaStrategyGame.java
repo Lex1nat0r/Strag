@@ -17,6 +17,7 @@ import strategy.PlayerColor;
 import strategy.Position;
 import strategy.StrategyGame;
 import strategy.common.PiecePositionAssociation;
+import strategy.common.RectangularStrategyBoard;
 import strategy.StrategyBoard;
 
 /**
@@ -96,10 +97,7 @@ public class DeltaStrategyGame implements StrategyGame {
 	 */
 	protected void setBoard(StrategyBoard board)
 	{
-		// Set the board that you use to the board supplied. This might
-		// be implemented as simply as the following if you have a field
-		// called "board."
-		// this.board = (RectangularStrategyBoard)board;
+		state.setBoard((RectangularStrategyBoard) board);
 	}
 
 }

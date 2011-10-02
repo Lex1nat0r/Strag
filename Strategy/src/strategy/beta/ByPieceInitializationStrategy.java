@@ -20,6 +20,13 @@ import strategy.PlayerColor;
 import strategy.Position;
 import strategy.StrategyException;
 
+/**
+ * A BetaInitializationStrategy which allows the player to place individual Pieces
+ * on the board with the playerPlacePiece method.
+ * 
+ * @author Alex Thornton-Clark, Andrew Hurle, Gabriel Stern-Robbins
+ * @version Oct 1, 2011
+ */
 public class ByPieceInitializationStrategy extends BetaInitializationStrategy {
 
 	private Set<Piece> placedPieces;
