@@ -99,5 +99,9 @@ public class DeltaStrategyGame implements StrategyGame {
 	{
 		state.setBoard((RectangularStrategyBoard) board);
 	}
+	
+	protected RectangularStrategyBoard getBoard() {
+		return state.getBoard();
+	}
 
 }

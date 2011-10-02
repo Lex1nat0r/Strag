@@ -34,11 +34,25 @@ public class DeltaStrategyGameTest
 	}
 	
 	@Test
-	public void testCanMakeDeltaStrategyGame()
+	public void testInitialState()
 	{
-		StrategyGame game = StrategyGameFactory.getInstance().makeDeltaStrategyGame(
+		DeltaStrategyGame game = StrategyGameFactory.getInstance().makeDeltaStrategyGame(
 				redConfig, blueConfig);
 		assertEquals(new Piece(FLAG, PlayerColor.RED), game.getPieceAt(new Position(0, 3)));
+		assertEquals(Piece.WATER_PIECE, game.getPieceAt(new Position(5, 2)));
+		assertEquals(Piece.WATER_PIECE, game.getPieceAt(new Position(5, 6)));
+		assertNull(game.getWinner());
+		assertFalse(game.isGameOver());
+		assertEquals( "jngmcbfbrt\n"
+					+ "ryspgbbbrg\n"
+					+ "tjpbttcsjp\n"
+					+ "ssgrssprss\n"
+					+ "NNWWNNWWNN\n" 
+					+ "NNWWNNWWNN\n"
+					+ "jsssbrsbss\n"
+					+ "pgmrtpnstr\n"
+					+ "yctpsgjgct\n"
+					+ "bgrfjbbpbr\n", game.getBoard().toString());
 	}
 	
 	@Test(expected=java.lang.Exception.class)

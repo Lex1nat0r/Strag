@@ -56,7 +56,10 @@ public class DeltaInitializationStrategy extends InitializationStrategy {
 
 	@Override
 	public void initialize() {
-		state.setBoard(new RectangularStrategyBoard(width, height));
+		final RectangularStrategyBoard board = new RectangularStrategyBoard(width, height);
+		board.putPieceAtRectangle(new Position(5, 2), new Position(4, 3), Piece.WATER_PIECE);
+		board.putPieceAtRectangle(new Position(5, 6), new Position(4, 7), Piece.WATER_PIECE);
+		state.setBoard(board);
 		state.setNumMoves(0);
 		state.setWinner(null);
 		state.setTurn(PlayerColor.RED);
@@ -147,13 +150,10 @@ public class DeltaInitializationStrategy extends InitializationStrategy {
 			if(!zone.hasRow(i.getPosition().getRow())) {
 				throw new RuntimeException(i + " outside of " + zone);
 			}
-			
 			if(occupiedPositions.contains(i.getPosition())) {
 				throw new RuntimeException(i + " overlaps with another piece");
 			}
-			else {
-				occupiedPositions.add(i.getPosition());
-			}
+			occupiedPositions.add(i.getPosition());
 		}
 		
 	}
