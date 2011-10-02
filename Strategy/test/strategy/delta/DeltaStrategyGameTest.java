@@ -140,4 +140,26 @@ public class DeltaStrategyGameTest
 	{
 		game.move(new Position(3,2), new Position(6,2));
 	}
+	
+	@Test(expected=StrategyException.class)
+	public void testMoveWater() throws StrategyException
+	{
+		game.move(new Position(4,2), new Position(4,1));
+	}
+	
+	@Test
+	public void testRedWins() throws StrategyException
+	{
+		game.getBoard().putPieceAt(new Position(9,6), Piece.NULL_PIECE);
+		game.getBoard().putPieceAt(new Position(4,1), new Piece(PieceType.FLAG, PlayerColor.BLUE));
+		
+		assertEquals(new Piece(PieceType.SCOUT, PlayerColor.RED),
+				game.move(new Position(3,1), new Position(4,1)));
+		assertEquals(Piece.NULL_PIECE, game.getPieceAt(new Position(3,1)));
+		assertEquals(new Piece(PieceType.SCOUT, PlayerColor.RED),
+				game.getPieceAt(new Position(4,1)));
+		assertTrue(game.isGameOver());
+		assertEquals(game.getWinner(), PlayerColor.RED);
+	}
+	
 }

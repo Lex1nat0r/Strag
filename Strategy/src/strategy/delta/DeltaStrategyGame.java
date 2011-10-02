@@ -58,14 +58,12 @@ public class DeltaStrategyGame implements StrategyGame {
 
 	@Override
 	public PlayerColor getWinner() {
-		// TODO Auto-generated method stub
-		return null;
+		return state.getWinner();
 	}
 
 	@Override
 	public void initializeGame() {
 		init.initialize();
-
 	}
 	
 	/**
@@ -83,8 +81,7 @@ public class DeltaStrategyGame implements StrategyGame {
 
 	@Override
 	public boolean isGameOver() {
-		// TODO Auto-generated method stub
-		return false;
+		return state.isOver();
 	}
 
 	@Override
