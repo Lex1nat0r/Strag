@@ -161,6 +161,10 @@ public class DeltaStrategyGameTest
 				game.getPieceAt(new Position(4,1)));
 		assertTrue(game.isGameOver());
 		assertEquals(game.getWinner(), PlayerColor.RED);
+		
+		//and make sure initializeGame will clean everything up
+		game.initializeGame(redConfig, blueConfig);
+		testInitialState();
 	}
 	
 	@Test
@@ -176,6 +180,10 @@ public class DeltaStrategyGameTest
 		
 		assertTrue(game.isGameOver());
 		assertNull(game.getWinner());
+		
+		//and make sure initializeGame will clean everything up
+		game.initializeGame(redConfig, blueConfig);
+		testInitialState();
 	}
 	
 }

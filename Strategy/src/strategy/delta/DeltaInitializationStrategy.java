@@ -62,6 +62,7 @@ public class DeltaInitializationStrategy extends InitializationStrategy {
 		state.setBoard(board);
 		state.setNumMoves(0);
 		state.setWinner(null);
+		state.setOver(false);
 		state.setTurn(PlayerColor.RED);
 		pieceCounter.clear();
 		occupiedPositions.clear();
