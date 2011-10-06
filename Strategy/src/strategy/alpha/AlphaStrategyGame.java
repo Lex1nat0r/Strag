@@ -10,7 +10,12 @@
  *******************************************************************************/
 package strategy.alpha;
 
-import strategy.*;
+import strategy.common.PlayerColor;
+import strategy.common.StrategyException;
+import strategy.common.StrategyGame;
+import strategy.playeratcahgsr.common.GameState;
+import strategy.playeratcahgsr.common.Piece;
+import strategy.playeratcahgsr.common.Position;
 
 /**
  * The main Game for AlphaStrategy. All interactions with the game go through this class.

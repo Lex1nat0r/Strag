@@ -12,13 +12,13 @@
  *******************************************************************************/
 package strategy.alpha;
 
-import strategy.GameState;
-import strategy.Piece;
-import strategy.PieceType;
-import strategy.PlayerColor;
-import strategy.Position;
-import strategy.MovementStrategy;
-import strategy.StrategyException;
+import strategy.common.PlayerColor;
+import strategy.common.StrategyException;
+import strategy.playeratcahgsr.common.GameState;
+import strategy.playeratcahgsr.common.MovementStrategy;
+import strategy.playeratcahgsr.common.Piece;
+import strategy.playeratcahgsr.common.PieceType;
+import strategy.playeratcahgsr.common.Position;
 
 /**
  * This class defines the rules of moving pieces 
@@ -66,8 +66,8 @@ public class AlphaMovementStrategy extends MovementStrategy {
 	}
 
 	@Override
-	public BattleResult resolveBattle(strategy.Piece attacker,
-			strategy.Piece defender) {
+	public BattleResult resolveBattle(strategy.playeratcahgsr.common.Piece attacker,
+			strategy.playeratcahgsr.common.Piece defender) {
 		state.setWinner(PlayerColor.RED);
 		return BattleResult.VICTORY;
 	}

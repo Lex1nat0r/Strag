@@ -1,18 +1,22 @@
 package strategy;
 
-import static strategy.PieceType.BOMB;
-import static strategy.PieceType.CAPTAIN;
-import static strategy.PieceType.COLONEL;
-import static strategy.PieceType.FLAG;
-import static strategy.PieceType.GENERAL;
-import static strategy.PieceType.LIEUTENANT;
-import static strategy.PieceType.MAJOR;
-import static strategy.PieceType.MARSHAL;
-import static strategy.PieceType.MINER;
-import static strategy.PieceType.SCOUT;
-import static strategy.PieceType.SERGEANT;
-import static strategy.PieceType.SPY;
-import strategy.common.PiecePositionAssociation;
+import static strategy.playeratcahgsr.common.PieceType.BOMB;
+import static strategy.playeratcahgsr.common.PieceType.CAPTAIN;
+import static strategy.playeratcahgsr.common.PieceType.COLONEL;
+import static strategy.playeratcahgsr.common.PieceType.FLAG;
+import static strategy.playeratcahgsr.common.PieceType.GENERAL;
+import static strategy.playeratcahgsr.common.PieceType.LIEUTENANT;
+import static strategy.playeratcahgsr.common.PieceType.MAJOR;
+import static strategy.playeratcahgsr.common.PieceType.MARSHAL;
+import static strategy.playeratcahgsr.common.PieceType.MINER;
+import static strategy.playeratcahgsr.common.PieceType.SCOUT;
+import static strategy.playeratcahgsr.common.PieceType.SERGEANT;
+import static strategy.playeratcahgsr.common.PieceType.SPY;
+import strategy.common.PlayerColor;
+import strategy.playeratcahgsr.common.Piece;
+import strategy.playeratcahgsr.common.PiecePositionAssociation;
+import strategy.playeratcahgsr.common.PieceType;
+import strategy.playeratcahgsr.common.Position;
 
 public class PieceConfiguration {
 	

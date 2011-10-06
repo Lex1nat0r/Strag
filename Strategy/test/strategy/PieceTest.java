@@ -5,9 +5,9 @@ import static org.junit.Assert.*;
 import org.junit.Before;
 import org.junit.Test;
 
-import strategy.Piece;
-import strategy.PieceType;
-import strategy.PlayerColor;
+import strategy.common.PlayerColor;
+import strategy.playeratcahgsr.common.Piece;
+import strategy.playeratcahgsr.common.PieceType;
 
 /**
  * Test case for the Piece class.

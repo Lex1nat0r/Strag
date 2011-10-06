@@ -1,14 +1,15 @@
 package strategy;
 
 import static org.junit.Assert.*;
-import static strategy.PieceType.BOMB;
+import static strategy.playeratcahgsr.common.PieceType.BOMB;
 
 import org.junit.Test;
 
 import strategy.alpha.AlphaStrategyGame;
-import strategy.beta.BetaStrategyGame;
-import strategy.common.PiecePositionAssociation;
-import strategy.delta.DeltaStrategyGame;
+import strategy.playeratcahgsr.beta.BetaStrategyGame;
+import strategy.playeratcahgsr.common.PiecePositionAssociation;
+import strategy.playeratcahgsr.common.StrategyGameFactory;
+import strategy.playeratcahgsr.delta.DeltaStrategyGame;
 
 public class StrategyGameFactoryTest {
 

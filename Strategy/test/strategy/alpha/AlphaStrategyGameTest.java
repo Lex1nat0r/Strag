@@ -12,13 +12,14 @@
 package strategy.alpha;
 
 import static org.junit.Assert.assertEquals;
-import static strategy.PlayerColor.*;
-import static strategy.PieceType.*;
+import static strategy.common.PlayerColor.*;
+import static strategy.playeratcahgsr.common.PieceType.*;
+
 import org.junit.*;
 
-import strategy.Piece;
-import strategy.Position;
-import strategy.StrategyException;
+import strategy.common.StrategyException;
+import strategy.playeratcahgsr.common.Piece;
+import strategy.playeratcahgsr.common.Position;
 
 /**
  * Test case for the AlphaStrategy game.
