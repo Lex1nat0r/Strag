@@ -11,21 +11,30 @@
 package strategy;
 
 /**
- * This interface defines the behavior expected of all versions of the rules for Strategy.
+ * This interface defines the behavior expected of 
+ * all versions of the movement rules for Strategy.
+ * Implementations are responsible for moving pieces
+ * and resolving battles.
  * 
- * @author Alex Thortnon-Clark, Andrew Hurle, Gabriel Stern-Robbins
- * @version Sep 14, 2011
+ * @author Alex Thornton-Clark, Andrew Hurle, Gabriel Stern-Robbins
+ * @version Sep 30, 2011
  */
-public abstract class RulesStrategy {
+public abstract class MovementStrategy {
 
-	protected PlayerColor winnerColor;
-	protected PlayerColor turnColor;
+	protected GameState state;
 	
 	/**
 	 * The possible results of a battle.
 	 */
 	public enum BattleResult {
 		DEFEAT, VICTORY, DRAW
+	}
+	
+	/**
+	 * @param state  The GameState this MovementStrategy should modify 
+	 */
+	protected MovementStrategy(GameState state) {
+		this.state = state;
 	}
 	
 	/**
@@ -47,25 +56,6 @@ public abstract class RulesStrategy {
 	public abstract Piece makeMove(Position source, Position destination) throws StrategyException;
 	
 	/**
-	 * Initialize (reset) the game.
-	 * Clears the game board.
-	 * Should be able to reset the board at any time.
-	 * 
-	 * @throws StrategyException if something goes wrong when initializing
-	 */
-	public abstract void initialize() throws StrategyException;
-	
-	/**
-	 * If there is a winner, return the winner's color.
-	 * 
-	 * @return the winner's color if there is a winner or null if the game is not over or the 
-	 * 			default winner of the specific ruleset.
-	 */
-	public PlayerColor getWinner(){
-		return winnerColor;
-	}
-	
-	/**
 	 * Determines the outcome of a battle between two Pieces.
 	 * Detects whether the game has been won by this battle.
 	 * 
@@ -74,22 +64,6 @@ public abstract class RulesStrategy {
 	 * @return VICTORY if the attacker wins, DEFEAT if the defender wins,
 	 * 		DRAW if both pieces lose
 	 */
-	public abstract BattleResult resolveBattle(Piece attacker, Piece defender);
-	
-	/**
-	 * @return true if the game is over; false otherwise.
-	 */
-	public boolean isOver(){
-		return winnerColor != null;
-	}
-	
-	/**
-	 * Place Piece piece at Position position on this board.
-	 * 
-	 * @param position The position to place the Piece at
-	 * @param piece The Piece to place on the board
-	 * @throws StrategyException if a player is attempting to place a piece incorrectly
-	 */
-	public abstract void playerPlacePiece(Position position, Piece piece) throws StrategyException;
+	protected abstract BattleResult resolveBattle(Piece attacker, Piece defender);
 
 }

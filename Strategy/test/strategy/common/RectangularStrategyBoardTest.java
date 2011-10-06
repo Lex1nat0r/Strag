@@ -50,8 +50,8 @@ public class RectangularStrategyBoardTest {
 		assertTrue(Piece.NULL_PIECE == board.getPieceAt(new Position(0, 0)));
 	}
 	
-	@Test(expected=StrategyException.class)
-	public void testGetPieceAtInvalidPosition() throws StrategyException {
+	@Test(expected=ArrayIndexOutOfBoundsException.class)
+	public void testGetPieceAtInvalidPosition() {
 		board.getPieceAt(new Position(-1, 0));
 	}
 
@@ -62,20 +62,59 @@ public class RectangularStrategyBoardTest {
 		assertTrue(redBomb == board.getPieceAt(new Position(0, 0)));
 	}
 	
-	@Test(expected=StrategyException.class)
-	public void testPutPieceAtInvalidPosition() throws StrategyException {
+	@Test(expected=ArrayIndexOutOfBoundsException.class)
+	public void testPutPieceAtInvalidPosition() {
 		board.putPieceAt(new Position(-1, 0), new Piece(PieceType.SCOUT, PlayerColor.RED));
+	}
+	
+	@Test(expected=ArrayIndexOutOfBoundsException.class)
+	public void testPutPieceAtRectangleInvalidTopLeft() {
+		board.putPieceAtRectangle(new Position(6, -1), new Position(0, 5), Piece.WATER_PIECE);
+	}
+	
+	@Test(expected=ArrayIndexOutOfBoundsException.class)
+	public void testPutPieceAtRectangleInvalidBottomRight() {
+		board.putPieceAtRectangle(new Position(5, 0), new Position(-1, 6), Piece.WATER_PIECE);
+	}
+	
+	@Test(expected=RuntimeException.class)
+	public void testPutPieceAtRectangleVerticesOutOfOrder() {
+		board.putPieceAtRectangle(new Position(0, 5), new Position(5, 0), Piece.WATER_PIECE);
+	}
+	
+	@Test
+	public void testPutPieceAtOneByOneRectangle() {
+		board.putPieceAtRectangle(new Position(3, 3), new Position(3, 3), Piece.WATER_PIECE);
+		assertEquals(Piece.WATER_PIECE, board.getPieceAt(new Position(3, 3)));
+		assertEquals(Piece.NULL_PIECE, board.getPieceAt(new Position(4, 3)));
+		assertEquals(Piece.NULL_PIECE, board.getPieceAt(new Position(3, 4)));
+		assertEquals(Piece.NULL_PIECE, board.getPieceAt(new Position(2, 3)));
+		assertEquals(Piece.NULL_PIECE, board.getPieceAt(new Position(3, 2)));
+	}
+	
+	@Test
+	public void testPutPieceAtTwoByTwoRectangle() {
+		board.putPieceAtRectangle(new Position(4, 3), new Position(3, 5), Piece.WATER_PIECE);
+		assertEquals(Piece.WATER_PIECE, board.getPieceAt(new Position(3, 3)));
+		assertEquals(Piece.WATER_PIECE, board.getPieceAt(new Position(3, 4)));
+		assertEquals(Piece.WATER_PIECE, board.getPieceAt(new Position(3, 5)));
+		assertEquals(Piece.WATER_PIECE, board.getPieceAt(new Position(4, 3)));
+		assertEquals(Piece.WATER_PIECE, board.getPieceAt(new Position(4, 4)));
+		assertEquals(Piece.WATER_PIECE, board.getPieceAt(new Position(4, 5)));
 	}
 
 	@Test
 	public void testIsOccupied() throws StrategyException {
-		assertFalse(board.isOccupied(new Position(0, 0)));
-		board.putPieceAt(new Position(0, 0), new Piece(PieceType.BOMB, PlayerColor.RED));
-		assertTrue(board.isOccupied(new Position(0, 0)));
+		Position pos = new Position(0, 0);
+		assertFalse(board.isOccupied(pos));
+		board.putPieceAt(pos, new Piece(PieceType.BOMB, PlayerColor.RED));
+		assertTrue(board.isOccupied(pos));
+		board.putPieceAt(pos, Piece.WATER_PIECE);
+		assertFalse(board.isOccupied(pos));
 	}
 	
-	@Test(expected=StrategyException.class)
-	public void testIsOccupiedInvalidPosition() throws StrategyException {
+	@Test(expected=ArrayIndexOutOfBoundsException.class)
+	public void testIsOccupiedInvalidPosition() {
 		board.isOccupied(new Position(-1, 0));
 	}
 
@@ -89,18 +128,16 @@ public class RectangularStrategyBoardTest {
 		assertEquals(board.getDistance(new Position(2,2), new Position(4,2)), 2);
 	}
 	
-	@Test(expected=StrategyException.class)
-	public void testGetDistanceDiagonally() throws StrategyException {
-		board.getDistance(new Position(0,0), new Position(1,1));
-	}
-	
 	@Test
-	public void testOccupiedSpaceBetweenPositions() throws StrategyException {
-		assertFalse(board.isOccupiedSpaceBetweenPositions(new Position(3,0), new Position(3,5)));
-		assertFalse(board.isOccupiedSpaceBetweenPositions(new Position(0,3), new Position(5,3)));
+	public void testIsPathValid() throws StrategyException {
+		assertTrue(board.isPathValid(new Position(3,0), new Position(3,5)));
+		assertTrue(board.isPathValid(new Position(0,3), new Position(5,3)));
 		board.putPieceAt(new Position(3,3), new Piece(PieceType.BOMB, PlayerColor.RED));
-		assertTrue(board.isOccupiedSpaceBetweenPositions(new Position(3,0), new Position(3,5)));
-		assertTrue(board.isOccupiedSpaceBetweenPositions(new Position(0,3), new Position(5,3)));
+		assertFalse(board.isPathValid(new Position(3,0), new Position(3,5)));
+		assertFalse(board.isPathValid(new Position(0,3), new Position(5,3)));
+		board.putPieceAt(new Position(3,3), Piece.WATER_PIECE);
+		assertFalse(board.isPathValid(new Position(3,0), new Position(3,5)));
+		assertFalse(board.isPathValid(new Position(0,3), new Position(5,3)));
 	}
 	
 	@Test
@@ -109,26 +146,26 @@ public class RectangularStrategyBoardTest {
 		board.validatePosition(new Position(0, 0));
 	}
 	
-	@Test(expected=StrategyException.class)
-	public void testValidatePositionRowOverflow() throws StrategyException
+	@Test(expected=ArrayIndexOutOfBoundsException.class)
+	public void testValidatePositionRowOverflow()
 	{
 		board.validatePosition(new Position(6, 0));
 	}
 	
-	@Test(expected=StrategyException.class)
-	public void testValidatePositionRowUnderflow() throws StrategyException
+	@Test(expected=ArrayIndexOutOfBoundsException.class)
+	public void testValidatePositionRowUnderflow()
 	{
 		board.validatePosition(new Position(-1, 0));
 	}
 	
-	@Test(expected=StrategyException.class)
-	public void testValidatePositionColumnOverflow() throws StrategyException
+	@Test(expected=ArrayIndexOutOfBoundsException.class)
+	public void testValidatePositionColumnOverflow()
 	{
 		board.validatePosition(new Position(0, 6));
 	}
 	
-	@Test(expected=StrategyException.class)
-	public void testValidatePositionColumnUnderflow() throws StrategyException
+	@Test(expected=ArrayIndexOutOfBoundsException.class)
+	public void testValidatePositionColumnUnderflow()
 	{
 		board.validatePosition(new Position(0, -1));
 	}
@@ -155,6 +192,13 @@ public class RectangularStrategyBoardTest {
 				"NNbNNN\n" + 
 				"NNNNNN\n" +
 				"bNNNNN\n", board.toString());
+		board.putPieceAtRectangle(new Position(1, 4), new Position(0, 5), Piece.WATER_PIECE);
+		assertEquals("NNNNNN\n" + 
+				"NNNNNN\n" +
+				"NNNNNN\n" +
+				"NNbNNN\n" + 
+				"NNNNWW\n" +
+				"bNNNWW\n", board.toString());
 	}
 	
 	@Test
@@ -173,6 +217,28 @@ public class RectangularStrategyBoardTest {
 	public void testHashCode() {
 		int hash = board.hashCode();
 		assertEquals(hash, board.hashCode());  //test consistency
+	}
+	
+	@Test
+	public void testPlacePiecesOnBoardUsingPieceAssociations() {
+		PiecePositionAssociation[] startingRedPieces =  {
+			new PiecePositionAssociation(new Piece(PieceType.FLAG, PlayerColor.RED), new Position(0, 0)),
+		    new PiecePositionAssociation(new Piece(PieceType.BOMB, PlayerColor.RED), new Position(1, 0)),
+		    new PiecePositionAssociation(new Piece(PieceType.BOMB, PlayerColor.RED), new Position(1, 1)),
+		    new PiecePositionAssociation(new Piece(PieceType.BOMB, PlayerColor.RED), new Position(0, 1))
+		};
+		
+		PiecePositionAssociation[] startingBluePieces =  {
+			new PiecePositionAssociation(new Piece(PieceType.FLAG, PlayerColor.BLUE), new Position(9, 9)),
+		    new PiecePositionAssociation(new Piece(PieceType.BOMB, PlayerColor.BLUE), new Position(8, 9)),
+		    new PiecePositionAssociation(new Piece(PieceType.BOMB, PlayerColor.BLUE), new Position(8, 8)),
+		    new PiecePositionAssociation(new Piece(PieceType.BOMB, PlayerColor.BLUE), new Position(9, 8))
+		};
+		
+		RectangularStrategyBoard deltaBoard = new RectangularStrategyBoard(10, 10, startingRedPieces, startingBluePieces);
+		assertEquals(new Piece(PieceType.BOMB, PlayerColor.RED), deltaBoard.getPieceAt(new Position(0, 1)));
+		assertEquals(new Piece(PieceType.BOMB, PlayerColor.BLUE), deltaBoard.getPieceAt(new Position(9, 8)));
+		assertEquals(Piece.NULL_PIECE, deltaBoard.getPieceAt(new Position(5,5)));
 	}
 
 }

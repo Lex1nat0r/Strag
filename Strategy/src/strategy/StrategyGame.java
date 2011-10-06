@@ -20,9 +20,8 @@ public interface StrategyGame
 {
 	/**
 	 * Initialize (reset) the game.
-	 * @throws StrategyException if something goes wrong when initializing
 	 */
-	void initializeGame() throws StrategyException;
+	void initializeGame();
 
 	/**
 	 * @param source
@@ -57,7 +56,6 @@ public interface StrategyGame
 	 * 
 	 * @param position the position to be checked
 	 * @return the piece at that position
-	 * @throws StrategyException if the position is invalid
 	 */
-	Piece getPieceAt(Position position) throws StrategyException;
+	Piece getPieceAt(Position position);
 }

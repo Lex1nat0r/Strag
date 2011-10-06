@@ -24,9 +24,8 @@ public interface StrategyBoard extends Iterable<Piece>
 	 * @param position
 	 *            the coordinate of the selected space
 	 * @return the piece at the coordinate
-	 * @throws StrategyException if the position is invalid
 	 */
-	Piece getPieceAt(Position position) throws StrategyException;
+	Piece getPieceAt(Position position);
 
 	/**
 	 * Place a piece at the specified position.
@@ -35,30 +34,26 @@ public interface StrategyBoard extends Iterable<Piece>
 	 *            the coordinate for the position
 	 * @param piece
 	 * 			  the piece to put at the specified position
-	 * @throws StrategyException if the position is invalid
 	 */
-	void putPieceAt(Position position, Piece piece) throws StrategyException;
+	void putPieceAt(Position position, Piece piece);
 
 	/**
 	 * @param position
 	 * @return true if the specified position is occupied
-	 * @throws StrategyException if the position is invalid
 	 */
-	boolean isOccupied(Position position) throws StrategyException;
+	boolean isOccupied(Position position);
 	
 	/**
 	 * Get the distance between two coordinates.
 	 * @param from the first coordinate
 	 * @param to the second coordinate
 	 * @return the distance between the two coordinates, according to the game rules
-	 * @throws StrategyException if comparison between two points is invalid
 	 */
-	int getDistance(Position from, Position to) throws StrategyException;
+	int getDistance(Position from, Position to);
 	
 	/**
 	 * Makes sure that the given Position is within this board
 	 * @param pos The Position to test
-	 * @throws StrategyException If this is not a valid position for this board
 	 */
-	void validatePosition(Position pos) throws StrategyException;
+	void validatePosition(Position pos);
 }

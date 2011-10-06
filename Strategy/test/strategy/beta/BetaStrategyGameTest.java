@@ -73,7 +73,7 @@ public class BetaStrategyGameTest {
 
 	@Test
 	public void testInitializeGamePlacesCorrectNumberOfPieces() {
-		assertEquals(24, game.getNumPiecesOnBoard());
+		assertEquals(24, game.getState().getBoard().getNumPiecesOnBoard());
 	}
 	
 	@Test
@@ -92,12 +92,12 @@ public class BetaStrategyGameTest {
 		movementTestGame.move(new Position(5,5), new Position(5,4));
 	}
 	
-	@Test(expected=StrategyException.class)
+	@Test(expected=ArrayIndexOutOfBoundsException.class)
 	public void testMoveFromPositionOutOfBounds() throws StrategyException {
 		movementTestGame.move(new Position(6,5), new Position(5,5));
 	}
 	
-	@Test(expected=StrategyException.class)
+	@Test(expected=ArrayIndexOutOfBoundsException.class)
 	public void testMoveToPositionOutOfBounds() throws StrategyException {
 		movementTestGame.move(new Position(0,5), new Position(0,6));
 	}

@@ -54,26 +54,26 @@ public class AlphaStrategyGameTest
 		assertEquals(null, game.getWinner());
 	}
 	
-	@Test(expected=StrategyException.class)
-	public void testGetPieceBoundsHeightOverflow() throws StrategyException
+	@Test(expected=ArrayIndexOutOfBoundsException.class)
+	public void testGetPieceBoundsHeightOverflow() throws ArrayIndexOutOfBoundsException
 	{
 		game.getPieceAt(new Position(3, 0));
 	}
 	
-	@Test(expected=StrategyException.class)
-	public void testGetPieceBoundsHeightUnderflow() throws StrategyException
+	@Test(expected=ArrayIndexOutOfBoundsException.class)
+	public void testGetPieceBoundsHeightUnderflow() throws ArrayIndexOutOfBoundsException
 	{
 		game.getPieceAt(new Position(-1, 0));
 	}
 	
-	@Test(expected=StrategyException.class)
-	public void testGetPieceBoundsWidthOverflow() throws StrategyException
+	@Test(expected=ArrayIndexOutOfBoundsException.class)
+	public void testGetPieceBoundsWidthOverflow() throws ArrayIndexOutOfBoundsException
 	{
 		game.getPieceAt(new Position(0, 3));
 	}
 	
-	@Test(expected=StrategyException.class)
-	public void testGetPieceBoundsWidthUnderflow() throws StrategyException
+	@Test(expected=ArrayIndexOutOfBoundsException.class)
+	public void testGetPieceBoundsWidthUnderflow() throws ArrayIndexOutOfBoundsException
 	{
 		game.getPieceAt(new Position(0, -1));
 	}

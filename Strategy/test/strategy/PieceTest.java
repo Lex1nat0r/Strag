@@ -56,6 +56,10 @@ public class PieceTest {
 		assertFalse(bluScout.equals(new Object()));
 		assertTrue(Piece.NULL_PIECE.equals(Piece.NULL_PIECE));
 		assertFalse(Piece.NULL_PIECE.equals(bluScout));
+		assertFalse(Piece.NULL_PIECE.equals(Piece.WATER_PIECE));
+		assertTrue(Piece.WATER_PIECE.equals(Piece.WATER_PIECE));
+		assertFalse(Piece.WATER_PIECE.equals(bluScout));
+		assertFalse(Piece.WATER_PIECE.equals(Piece.NULL_PIECE));
 	}
 
 	@Test

@@ -41,6 +41,56 @@ public class RectangularStrategyBoard implements StrategyBoard
 		initializeBoard();
 	}
 	
+	/**
+	 * Constructor that initializes the board to a starting configuration.
+	 * @param rows
+	 * @param columns
+	 * @param startingRedPieces the starting configuration of Red pieces
+	 * @param startingBluePieces the starting configuration of Blue pieces
+	 */
+	public RectangularStrategyBoard(int rows, int columns,
+			PiecePositionAssociation[] startingRedPieces,
+			PiecePositionAssociation[] startingBluePieces)
+	{
+		this(rows, columns);
+		initializeBoard(startingRedPieces, startingBluePieces);
+		
+		
+	}
+
+	/**
+	 * Initialize the board to the starting configuration.
+	 * Sets every space on the board to the NULL_PIECE
+	 */
+	public void initializeBoard()
+	{
+		for (int i = 0; i < numRows; i++) {
+			for (int j = 0; j < numCols; j++) {
+				pieces[i][j] = Piece.NULL_PIECE;
+			}
+		}
+	}
+	
+	/**
+	 * Initialize the board to the starting configuration.
+	 * @param startingRedPieces the starting configuration of Red pieces
+	 * @param startingBluePieces the starting configuration of Blue pieces
+	 */
+	public void initializeBoard(PiecePositionAssociation[] startingRedPieces,
+			PiecePositionAssociation[] startingBluePieces)
+	{
+		initializeBoard();
+		
+		for (PiecePositionAssociation i : startingRedPieces) {
+			putPieceAt(i.getPosition(), i.getPiece());
+		}
+		
+		for (PiecePositionAssociation i : startingBluePieces) {
+			putPieceAt(i.getPosition(), i.getPiece());
+		}
+	}
+
+	
 	@Override
 	public Iterator<Piece> iterator()
 	{
@@ -48,53 +98,70 @@ public class RectangularStrategyBoard implements StrategyBoard
 	}
 
 	@Override
-	public Piece getPieceAt(Position position) throws StrategyException
+	public Piece getPieceAt(Position position)
 	{
 		validatePosition(position);
 		return pieces[position.getRow()][position.getColumn()];
 	}
 
 	@Override
-	public void putPieceAt(Position position, Piece piece) throws StrategyException
+	public void putPieceAt(Position position, Piece piece)
 	{
 		validatePosition(position);
 		pieces[position.getRow()][position.getColumn()] = piece;
 	}
+	
+	/**
+	 * Fill the rectangle defined by its top left and bottom right vertices with the given Piece.
+	 * 
+	 * @param topLeft
+	 * @param bottomRight
+	 * @param piece
+	 */
+	public void putPieceAtRectangle(Position topLeft, Position bottomRight, Piece piece) {
+		validatePosition(topLeft);
+		validatePosition(bottomRight);
+		if(topLeft.getRow() < bottomRight.getRow()
+				|| topLeft.getColumn() > bottomRight.getColumn()) {
+			throw new RuntimeException("vertex parameters are out of order");
+		}
+		
+		//fill from the top left to the bottom right, row by row
+		for(int row = topLeft.getRow(); row >= bottomRight.getRow(); row--) {
+			for(int col = topLeft.getColumn(); col <= bottomRight.getColumn(); col++) {
+				putPieceAt(new Position(row, col), piece);
+			}
+		}
+	}
 
 	@Override
-	public boolean isOccupied(Position position) throws StrategyException
+	public boolean isOccupied(Position position)
 	{
-		return (!getPieceAt(position).equals(Piece.NULL_PIECE));
+		final Piece piece = getPieceAt(position);
+		return !piece.equals(Piece.NULL_PIECE) && !piece.equals(Piece.WATER_PIECE);
 	}
 
 	/**
 	 * @see strategy.StrategyBoard#getDistance(strategy.Position, strategy.Position)
-	 * @throws StrategyException if displacement occurs on both axes
 	 */
 	@Override
-	public int getDistance(Position from, Position to) throws StrategyException
+	public int getDistance(Position from, Position to)
 	{
 		final int colDiff = from.getColumn() - to.getColumn();
 		final int rowDiff = from.getRow() - to.getRow();
-		
-		if(colDiff != 0 && rowDiff != 0) {
-			throw new StrategyException("Displacement must occur horizontally OR vertically");
-		}
 		
 		return (int) Math.sqrt(Math.pow(colDiff, 2) + Math.pow(rowDiff, 2));
 	}
 	
 	/**
-	 * Checks each space between source and destination to see if at least one is occupied.
-	 * Does not include source and destination, so adjacent spaces will always return false.
+	 * Checks each space between source and destination to make sure all equal NULL_PIECE.
+	 * DOES NOT include source and destination, so adjacent spaces will always return true.
 	 * 
 	 * @param source The position to start checking after
 	 * @param destination The position to stop checking before
-	 * @return true if at least one space between the positions is occupied, false otherwise
-	 * @throws StrategyException if it checks a position that is invalid
+	 * @return true if all spaces between the positions are NULL_PIECE, false otherwise
 	 */
-	public boolean isOccupiedSpaceBetweenPositions(Position source, Position destination)
-		throws StrategyException
+	public boolean isPathValid(Position source, Position destination)
 	{
 		int horizontalStep = destination.getColumn() - source.getColumn();
 		int verticalStep = destination.getRow() - source.getRow();
@@ -113,34 +180,23 @@ public class RectangularStrategyBoard implements StrategyBoard
 			if(currentPoint.equals(destination)) {
 				keepGoing = false;
 			}
-			else if(isOccupied(currentPoint)) {
-				return true;
+			else if(!getPieceAt(currentPoint).equals(Piece.NULL_PIECE)) {
+				return false;
 			}
 		}
-		return false;
+		return true;
 	}
 	
 	@Override
-	public void validatePosition(Position pos) throws StrategyException
+	public void validatePosition(Position pos)
 	{
 		if(pos.getRow() >= numRows || pos.getRow() < 0) {
-			throw new StrategyException("row must be greater than 0 and less than " + numRows);
+			throw new ArrayIndexOutOfBoundsException(
+					"row must be greater than 0 and less than " + numRows);
 		}
 		if(pos.getColumn() >= numCols || pos.getColumn() < 0) {
-			throw new StrategyException("col must be greater than 0 and less than " + numCols);
-		}
-	}
-	
-	/**
-	 * Initialize the board to the starting configuration.
-	 * Sets every space on the board to the NULL_PIECE
-	 */
-	public void initializeBoard()
-	{
-		for (int i = 0; i < numRows; i++) {
-			for (int j = 0; j < numCols; j++) {
-				pieces[i][j] = Piece.NULL_PIECE;
-			}
+			throw new ArrayIndexOutOfBoundsException(
+					"col must be greater than 0 and less than " + numCols);
 		}
 	}
 	
@@ -165,38 +221,49 @@ public class RectangularStrategyBoard implements StrategyBoard
 	@Override
 	public String toString()
 	{
-		String boardString = "";
-		final String[] boardArr = {"", "", "", "", "", ""};
-		final BoardIterator iter = new BoardIterator(pieces);
-		Piece tempPiece = null;
+		final int length = numRows * (numCols + 1); // + 1 for \n
+		final StringBuilder output = new StringBuilder(length);
+		output.setLength(length);
 		
-		int colCount = 0;
-		int row = 0;
-		
+		final BoardIterator iter = (BoardIterator) iterator();
 		while (iter.hasNext()) {
-			if (!(tempPiece = iter.next()).equals(Piece.NULL_PIECE)) {
-				boardString += tempPiece.getType().getId();
+			Piece piece = iter.next();
+			int outputIndex = (numRows - 1 - iter.getRow()) * (numCols + 1) + iter.getColumn();
+			
+			if (piece.equals(Piece.NULL_PIECE)) {
+				output.setCharAt(outputIndex, 'N');
+			}
+			else if(piece.equals(Piece.WATER_PIECE)) {
+				output.setCharAt(outputIndex, 'W');
 			}
 			else {
-				boardString += "N";
+				output.setCharAt(outputIndex, piece.getType().getId().charAt(0));
 			}
 			
-			colCount++;
-			
-			if (colCount > numCols - 1) {
-				boardString += "\n";
-				colCount = 0;
-				boardArr[row] = boardString;
-				boardString = "";
-				row++;
+			if (iter.getColumn() == numCols - 1) {
+				output.setCharAt(outputIndex + 1, '\n');
 			}
 		}
 		
-		for (int i = 1; i <= 6; i++) {
-			boardString += boardArr[numRows - i];
+		return output.toString();
+	}
+	
+	/**
+	 * Get the number of pieces of both colors currently on the board
+	 * 
+	 * @return numPieces
+	 */
+	public int getNumPiecesOnBoard() {
+		int numPieces = 0;
+		final Iterator<Piece> iter = iterator();
+		
+		while(iter.hasNext()) {
+			if (!iter.next().equals(Piece.NULL_PIECE)) {
+				numPieces++;
+			}
 		}
 		
-		return boardString;
+		return numPieces;
 	}
 	
 	@Override

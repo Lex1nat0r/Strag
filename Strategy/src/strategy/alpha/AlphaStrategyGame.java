@@ -20,38 +20,42 @@ import strategy.*;
  */
 public class AlphaStrategyGame implements StrategyGame
 {
-	private final AlphaRulesStrategy rules;
+	private final GameState state;
+	private final AlphaMovementStrategy movement;
+	private final AlphaInitializationStrategy init;
 	
-	public AlphaStrategyGame() throws StrategyException {
-		rules = new AlphaRulesStrategy();
+	public AlphaStrategyGame() {
+		state = new GameState();
+		movement = new AlphaMovementStrategy(state);
+		init = new AlphaInitializationStrategy(state);
 		initializeGame();
 	}
 
 	@Override
-	public Piece getPieceAt(Position position) throws StrategyException {
-		return rules.getPieceAt(position);
+	public Piece getPieceAt(Position position) {
+		return state.getBoard().getPieceAt(position);
 	}
 
 	@Override
 	public PlayerColor getWinner() {
-		return rules.getWinner();
+		return state.getWinner();
 	}
 
 	@Override
-	public void initializeGame() throws StrategyException {
-		rules.initialize();
+	public void initializeGame() {
+		init.initialize();
 		
 	}
 
 	@Override
 	public boolean isGameOver() {
-		return rules.isOver();
+		return state.isOver();
 	}
 
 	@Override
 	public Piece move(Position source, Position destination)
 			throws StrategyException {
-		return rules.makeMove(source, destination);
+		return movement.makeMove(source, destination);
 	}
 	
 }
