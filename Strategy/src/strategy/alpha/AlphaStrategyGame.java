@@ -12,7 +12,7 @@ package strategy.alpha;
 
 import strategy.common.PlayerColor;
 import strategy.common.StrategyException;
-import strategy.common.StrategyGame;
+import strategy.playeratcahgsr.common.StrategyGame;
 import strategy.playeratcahgsr.common.GameState;
 import strategy.playeratcahgsr.common.Piece;
 import strategy.playeratcahgsr.common.Position;

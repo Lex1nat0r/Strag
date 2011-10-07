@@ -13,7 +13,6 @@
 package strategy.playeratcahgsr.common;
 
 import java.util.Iterator;
-import strategy.common.StrategyBoard;
 
 /**
  *
@@ -142,7 +141,7 @@ public class RectangularStrategyBoard implements StrategyBoard
 	}
 
 	/**
-	 * @see strategy.common.StrategyBoard#getDistance(strategy.playeratcahgsr.common.Position, strategy.playeratcahgsr.common.Position)
+	 * @see strategy.playeratcahgsr.common.StrategyBoard#getDistance(strategy.playeratcahgsr.common.Position, strategy.playeratcahgsr.common.Position)
 	 */
 	@Override
 	public int getDistance(Position from, Position to)

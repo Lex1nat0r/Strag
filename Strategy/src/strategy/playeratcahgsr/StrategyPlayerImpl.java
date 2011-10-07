@@ -22,7 +22,7 @@ import strategy.tournament.*;
  */
 public class StrategyPlayerImpl implements StrategyPlayer
 {
-	private PlayerColor myColor;
+	private final PlayerColor myColor;
 	
 	/**
 	 * Default

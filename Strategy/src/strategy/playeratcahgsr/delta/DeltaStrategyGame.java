@@ -12,14 +12,14 @@
 package strategy.playeratcahgsr.delta;
 
 import strategy.common.PlayerColor;
-import strategy.common.StrategyBoard;
 import strategy.common.StrategyException;
-import strategy.common.StrategyGame;
+import strategy.playeratcahgsr.common.StrategyGame;
 import strategy.playeratcahgsr.common.GameState;
 import strategy.playeratcahgsr.common.Piece;
 import strategy.playeratcahgsr.common.PiecePositionAssociation;
 import strategy.playeratcahgsr.common.Position;
 import strategy.playeratcahgsr.common.RectangularStrategyBoard;
+import strategy.playeratcahgsr.common.StrategyBoard;
 
 /**
  * The main Game for DeltaStrategy. All interactions with the game go through this class.

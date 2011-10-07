@@ -8,7 +8,10 @@
  * 
  * Author: gpollice
  *******************************************************************************/
-package strategy.common;
+package strategy.playeratcahgsr.common;
+
+import strategy.common.StrategyException;
+import strategy.common.PlayerColor;
 
 /**
  * This interface defines the behavior expected of all versions of Strategy, except AlphaStrategy.
@@ -57,10 +60,4 @@ public interface StrategyGame
 	 * @return the piece at that position
 	 */
 	Piece getPieceAt(Position position);
-	
-	/**
-	 * Get a copy, not just a reference, of the board for this game.
-	 * @return the copy of the board
-	 */
-	StrategyBoard getBoardCopy();
 }

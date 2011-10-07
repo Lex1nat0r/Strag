@@ -8,7 +8,8 @@
  * 
  * Author: gpollice
  *******************************************************************************/
-package strategy.common;
+package strategy.playeratcahgsr.common;
+
 
 /**
  * Interface for a Strategy board.
@@ -50,4 +51,10 @@ public interface StrategyBoard extends Iterable<Piece>
 	 * @return the distance between the two coordinates, according to the game rules
 	 */
 	int getDistance(Position from, Position to);
+	
+	/**
+	 * Makes sure that the given Position is within this board
+	 * @param pos The Position to test
+	 */
+	void validatePosition(Position pos);
 }
