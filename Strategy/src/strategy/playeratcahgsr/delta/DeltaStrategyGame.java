@@ -112,4 +112,15 @@ public class DeltaStrategyGame implements StrategyGame {
 		init.setPlayerAsUnknown(color);
 	}
 
+	/**
+	 * @see DeltaMovementStrategy#validateMove(Position, Position)
+	 * 
+	 * @param from
+	 * @param to
+	 * @throws StrategyException
+	 */
+	public void validateMove(Position from, Position to) throws StrategyException {
+		movement.validateMove(from, to);
+	}
+
 }

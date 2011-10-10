@@ -32,16 +32,20 @@ public class DeltaMovementStrategy extends BetaMovementStrategy {
 	}
 
 	@Override
-	public Piece makeMove(Position source, Position destination)
-			throws StrategyException {
-		if(state.getBoard().getPieceAt(destination).equals(Piece.WATER_PIECE)) {
-			throw new StrategyException("cannot move onto water piece");
-		}
+	public Piece makeMove(Position source, Position destination) throws StrategyException {
 		final Piece victor = super.makeMove(source, destination);
 		checkMoveable();
 		return victor;
 	}
 	
+	@Override
+	public void validateMove(Position source, Position destination) throws StrategyException {
+		if(state.getBoard().getPieceAt(destination).equals(Piece.WATER_PIECE)) {
+			throw new StrategyException("cannot move onto water piece");
+		}
+		super.validateMove(source, destination);
+	}
+
 	private void checkMoveable() {
 		boolean redMoveable = false;
 		boolean blueMoveable = false;
