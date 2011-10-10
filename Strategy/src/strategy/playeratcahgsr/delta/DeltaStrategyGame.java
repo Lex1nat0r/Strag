@@ -102,5 +102,14 @@ public class DeltaStrategyGame implements StrategyGame {
 	protected RectangularStrategyBoard getBoard() {
 		return state.getBoard();
 	}
+	
+	/**
+	 * Consider the given color's pieces to be unknown.
+	 * 
+	 * @param color the color to consider unknown
+	 */
+	public void setPlayerAsUnknown(PlayerColor color) {
+		init.setPlayerAsUnknown(color);
+	}
 
 }

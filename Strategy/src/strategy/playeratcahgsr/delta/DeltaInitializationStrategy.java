@@ -159,4 +159,18 @@ public class DeltaInitializationStrategy extends InitializationStrategy {
 		
 	}
 
+	/**
+	 * Fills the given color's deployment zone with the unknown Piece.
+	 * 
+	 * @param color  The color to fill
+	 */
+	public void setPlayerAsUnknown(PlayerColor color) {
+		final DeploymentZone zone = color.equals(PlayerColor.RED)
+			? redDeploymentZone : blueDeploymentZone;
+		final int top = zone.getMaximum();
+		final int bottom = zone.getMinimum();
+		state.getBoard().putPieceAtRectangle(new Position(top, 0), new Position(bottom, width - 1),
+				Piece.UNKNOWN_PIECE);
+	}
+
 }

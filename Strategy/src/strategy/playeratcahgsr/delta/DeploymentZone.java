@@ -38,6 +38,14 @@ public class DeploymentZone {
 		this.color = color;
 	}
 	
+	public int getMinimum() {
+		return minimum;
+	}
+	
+	public int getMaximum() {
+		return maximum;
+	}
+	
 	/**
 	 * @param row The row to test
 	 * @return true if this zone contains number, false otherwise

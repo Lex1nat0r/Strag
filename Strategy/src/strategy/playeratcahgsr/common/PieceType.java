@@ -85,5 +85,12 @@ public enum PieceType
 	{
 		return range != 0;
 	}
+	
+	/**
+	 * @return An instance of strategy.common.PieceType based on this
+	 */
+	public strategy.common.PieceType convert() {
+		return Enum.valueOf(strategy.common.PieceType.class, name());
+	}
 
 }

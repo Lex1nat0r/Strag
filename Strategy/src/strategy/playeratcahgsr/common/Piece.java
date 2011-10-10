@@ -94,4 +94,12 @@ public class Piece
 	public String toString() {
 		return myColor + " " + myType + " Piece";
 	}
+	
+	/**
+	 * @return An instance of strategy.common.Piece based on this
+	 */
+	public strategy.common.Piece convert() {
+		return new strategy.common.Piece(myType.convert(), myColor);
+	}
+	
 }

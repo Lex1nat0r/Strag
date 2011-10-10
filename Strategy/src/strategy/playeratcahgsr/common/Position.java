@@ -132,4 +132,12 @@ public class Position
 		
 		return horizontal && vertical;
 	}
+	
+	/**
+	 * @return An instance of strategy.common.Position based on this
+	 */
+	public strategy.common.Position convert() {
+		return new strategy.common.Position(row, column);
+	}
+	
 }

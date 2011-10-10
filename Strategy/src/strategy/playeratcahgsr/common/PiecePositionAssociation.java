@@ -54,6 +54,30 @@ public class PiecePositionAssociation
 	public String toString() {
 		return piece + " at position " + position;
 	}
+	
+	/**
+	 * @return An instance of strategy.common.PiecePositionAssociation based on this
+	 */
+	public strategy.common.PiecePositionAssociation convert() {
+		return new strategy.common.PiecePositionAssociation(piece.convert(), position.convert());
+	}
+	
+	/**
+	 * @param arr The array of PiecePositionAssociation to convert
+	 * @return An array of strategy.common.PiecePositionAssociation based on the given one
+	 */
+	public static strategy.common.PiecePositionAssociation[]
+			convert(PiecePositionAssociation[] arr) {
+		final strategy.common.PiecePositionAssociation[] result =
+			new strategy.common.PiecePositionAssociation[arr.length];
+		int index = 0;
+		for(PiecePositionAssociation i : arr) {
+			result[index] = i.convert();
+			index++;
+		}
+		return result;
+	}
+	
 }
 
  
