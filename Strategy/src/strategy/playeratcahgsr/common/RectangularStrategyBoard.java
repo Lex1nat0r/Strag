@@ -141,7 +141,7 @@ public class RectangularStrategyBoard implements StrategyBoard
 	}
 
 	/**
-	 * @see strategy.playeratcahgsr.common.StrategyBoard#getDistance(strategy.playeratcahgsr.common.Position, strategy.playeratcahgsr.common.Position)
+	 * @see StrategyBoard#getDistance(Position, Position)
 	 */
 	@Override
 	public int getDistance(Position from, Position to)

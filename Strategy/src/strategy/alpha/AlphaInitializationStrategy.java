@@ -14,6 +14,8 @@ package strategy.alpha;
 import strategy.common.PlayerColor;
 import strategy.playeratcahgsr.common.GameState;
 import strategy.playeratcahgsr.common.InitializationStrategy;
+import strategy.playeratcahgsr.common.Piece;
+import strategy.playeratcahgsr.common.PieceType;
 import strategy.playeratcahgsr.common.Position;
 import strategy.playeratcahgsr.common.RectangularStrategyBoard;
 
@@ -39,13 +41,13 @@ public class AlphaInitializationStrategy extends InitializationStrategy {
 		state.setTurn(PlayerColor.RED);
 		state.setBoard(new RectangularStrategyBoard(height, width));
 		state.getBoard().putPieceAt(new Position(0, 0), 
-				new strategy.playeratcahgsr.common.Piece(strategy.playeratcahgsr.common.PieceType.SCOUT, PlayerColor.RED));
+				new Piece(PieceType.SCOUT, PlayerColor.RED));
 		state.getBoard().putPieceAt(new Position(0, 1), 
-				new strategy.playeratcahgsr.common.Piece(strategy.playeratcahgsr.common.PieceType.FLAG, PlayerColor.RED));
+				new Piece(PieceType.FLAG, PlayerColor.RED));
 		state.getBoard().putPieceAt(new Position(1, 0), 
-				new strategy.playeratcahgsr.common.Piece(strategy.playeratcahgsr.common.PieceType.FLAG, PlayerColor.BLUE));
+				new Piece(PieceType.FLAG, PlayerColor.BLUE));
 		state.getBoard().putPieceAt(new Position(1, 1), 
-				new strategy.playeratcahgsr.common.Piece(strategy.playeratcahgsr.common.PieceType.SCOUT, PlayerColor.BLUE));
+				new Piece(PieceType.SCOUT, PlayerColor.BLUE));
 	}
 
 }
