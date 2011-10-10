@@ -235,6 +235,9 @@ public class RectangularStrategyBoard implements StrategyBoard
 			else if(piece.equals(Piece.WATER_PIECE)) {
 				output.setCharAt(outputIndex, 'W');
 			}
+			else if(piece.equals(Piece.UNKNOWN_PIECE)) {
+				output.setCharAt(outputIndex, 'U');
+			}
 			else {
 				output.setCharAt(outputIndex, piece.getType().getId().charAt(0));
 			}
@@ -257,7 +260,8 @@ public class RectangularStrategyBoard implements StrategyBoard
 		final Iterator<Piece> iter = iterator();
 		
 		while(iter.hasNext()) {
-			if (!iter.next().equals(Piece.NULL_PIECE)) {
+			Piece currentPiece = iter.next();
+			if (!currentPiece.equals(Piece.NULL_PIECE) && !currentPiece.equals(Piece.WATER_PIECE)) {
 				numPieces++;
 			}
 		}

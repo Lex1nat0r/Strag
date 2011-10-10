@@ -193,4 +193,14 @@ public class DeltaStrategyGameTest
 		testInitialState();
 	}
 	
+	@Test
+	public void testMoveUnknownPiece() throws StrategyException {
+		game.getBoard().putPieceAt(new Position(3,9), Piece.UNKNOWN_PIECE);
+		game.move(new Position(3,9), new Position(4,9));
+		
+		assertEquals(Piece.UNKNOWN_PIECE, game.getPieceAt(new Position(4,9)));
+		assertFalse(game.isGameOver());
+		assertNull(game.getWinner());
+	}
+	
 }

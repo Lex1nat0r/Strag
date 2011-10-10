@@ -118,6 +118,8 @@ public class RectangularStrategyBoardTest {
 		assertTrue(board.isOccupied(pos));
 		board.putPieceAt(pos, Piece.WATER_PIECE);
 		assertFalse(board.isOccupied(pos));
+		board.putPieceAt(pos, Piece.UNKNOWN_PIECE);
+		assertTrue(board.isOccupied(pos));
 	}
 	
 	@Test(expected=ArrayIndexOutOfBoundsException.class)
@@ -143,6 +145,9 @@ public class RectangularStrategyBoardTest {
 		assertFalse(board.isPathValid(new Position(3,0), new Position(3,5)));
 		assertFalse(board.isPathValid(new Position(0,3), new Position(5,3)));
 		board.putPieceAt(new Position(3,3), Piece.WATER_PIECE);
+		assertFalse(board.isPathValid(new Position(3,0), new Position(3,5)));
+		assertFalse(board.isPathValid(new Position(0,3), new Position(5,3)));
+		board.putPieceAt(new Position(3,3), Piece.UNKNOWN_PIECE);
 		assertFalse(board.isPathValid(new Position(3,0), new Position(3,5)));
 		assertFalse(board.isPathValid(new Position(0,3), new Position(5,3)));
 	}
@@ -201,6 +206,13 @@ public class RectangularStrategyBoardTest {
 				"bNNNNN\n", board.toString());
 		board.putPieceAtRectangle(new Position(1, 4), new Position(0, 5), Piece.WATER_PIECE);
 		assertEquals("NNNNNN\n" + 
+				"NNNNNN\n" +
+				"NNNNNN\n" +
+				"NNbNNN\n" + 
+				"NNNNWW\n" +
+				"bNNNWW\n", board.toString());
+		board.putPieceAt(new Position(5, 0), Piece.UNKNOWN_PIECE);
+		assertEquals("UNNNNN\n" + 
 				"NNNNNN\n" +
 				"NNNNNN\n" +
 				"NNbNNN\n" + 

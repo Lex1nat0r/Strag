@@ -1,4 +1,4 @@
-package strategy;
+package strategy.playeratcahgsr.common;
 
 import static org.junit.Assert.*;
 
@@ -60,6 +60,9 @@ public class PieceTest {
 		assertTrue(Piece.WATER_PIECE.equals(Piece.WATER_PIECE));
 		assertFalse(Piece.WATER_PIECE.equals(bluScout));
 		assertFalse(Piece.WATER_PIECE.equals(Piece.NULL_PIECE));
+		assertTrue(Piece.UNKNOWN_PIECE.equals(Piece.UNKNOWN_PIECE));
+		assertFalse(Piece.UNKNOWN_PIECE.equals(bluScout));
+		assertFalse(Piece.UNKNOWN_PIECE.equals(Piece.NULL_PIECE));
 	}
 
 	@Test

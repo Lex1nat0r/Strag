@@ -26,6 +26,7 @@ public class Piece
 	
 	public static final Piece NULL_PIECE = new Piece(null, null);
 	public static final Piece WATER_PIECE = new Piece(null, null);
+	public static final Piece UNKNOWN_PIECE = new Piece(null, null);
 
 	/**
 	 * Constructor that takes the type and color of this piece.

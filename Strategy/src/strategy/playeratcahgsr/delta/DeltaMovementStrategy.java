@@ -49,7 +49,12 @@ public class DeltaMovementStrategy extends BetaMovementStrategy {
 		
 		while(iter.hasNext()) {
 			Piece tempPiece = iter.next();
-			if(!tempPiece.equals(Piece.NULL_PIECE) && 
+			if(tempPiece.equals(Piece.UNKNOWN_PIECE)) {
+				//all bets are off, assume everyone's moveable
+				redMoveable = true;
+				blueMoveable = true;
+			}
+			else if(!tempPiece.equals(Piece.NULL_PIECE) && 
 					!tempPiece.equals(Piece.WATER_PIECE)) {
 				if(tempPiece.getType().isMoveable()) {
 					if(tempPiece.getColor().equals(PlayerColor.RED)) {

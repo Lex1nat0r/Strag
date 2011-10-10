@@ -55,8 +55,11 @@ public class BetaMovementStrategy extends MovementStrategy {
 			throw new StrategyException("Game is already over");
 		}
 		
+		final Piece sourcePiece = state.getBoard().getPieceAt(source);
+		final Piece destinationPiece = state.getBoard().getPieceAt(destination);
+		
 		//change turn/dont double move
-		if(state.getBoard().getPieceAt(source).getColor() != state.getTurn()){
+		if(!sourcePiece.equals(Piece.UNKNOWN_PIECE) && sourcePiece.getColor() != state.getTurn()) {
 			throw new StrategyException("not your turn");
 		}
 		
@@ -67,17 +70,16 @@ public class BetaMovementStrategy extends MovementStrategy {
 			state.setTurn(PlayerColor.RED);
 		}
 		
-		final Piece sourcePiece = state.getBoard().getPieceAt(source);
-		final Piece destinationPiece = state.getBoard().getPieceAt(destination);
-		
-		final int distance = state.getBoard().getDistance(source, destination);
-		final int range = sourcePiece.getType().getRange();
-		if(range >= 0 && distance > range) {
-			throw new StrategyException("Cannot move piece farther than its range");
-		}
-		
-		if (sourcePiece.getColor().equals(destinationPiece.getColor())) {
-			throw new StrategyException("Cannot move onto a friendly piece");
+		if(!sourcePiece.equals(Piece.UNKNOWN_PIECE)) {
+			final int distance = state.getBoard().getDistance(source, destination);
+			final int range = sourcePiece.getType().getRange();
+			if(range >= 0 && distance > range) {
+				throw new StrategyException("Cannot move piece farther than its range");
+			}
+			
+			if (sourcePiece.getColor().equals(destinationPiece.getColor())) {
+				throw new StrategyException("Cannot move onto a friendly piece");
+			}
 		}
 
 		if (!state.getBoard().isPathValid(source, destination)) {
