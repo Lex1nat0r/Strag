@@ -16,10 +16,13 @@ import strategy.common.StrategyException;
 import strategy.playeratcahgsr.common.StrategyGame;
 import strategy.playeratcahgsr.common.GameState;
 import strategy.playeratcahgsr.common.Piece;
+import strategy.playeratcahgsr.common.PieceType;
 import strategy.playeratcahgsr.common.PiecePositionAssociation;
 import strategy.playeratcahgsr.common.Position;
 import strategy.playeratcahgsr.common.RectangularStrategyBoard;
 import strategy.playeratcahgsr.common.StrategyBoard;
+import strategy.tournament.MoveResult;
+import strategy.tournament.PlayerMove;
 
 /**
  * The main Game for DeltaStrategy. All interactions with the game go through this class.
@@ -121,6 +124,30 @@ public class DeltaStrategyGame implements StrategyGame {
 	 */
 	public void validateMove(Position from, Position to) throws StrategyException {
 		movement.validateMove(from, to);
+	}
+
+	/**
+	 * Make moves on the board according to our last move and the opponent's move.
+	 * 
+	 * @param lastMove Our last move
+	 * @param gameUpdate The opponent's last move and other info
+	 * @param myColor Our color
+	 * @throws StrategyException If a move is invalid
+	 */
+	public void update(PlayerMove lastMove, MoveResult gameUpdate, PlayerColor myColor)
+			throws StrategyException {
+		state.setTurn(myColor);  //it should always be my turn
+		if(gameUpdate.getMyLastTarget() != null) {
+			state.getBoard().putPieceAt( (Position)lastMove.getTo(),
+					new Piece(PieceType.convert(gameUpdate.getMyLastTarget()), myColor));
+		}
+		move((Position)lastMove.getFrom(), (Position)lastMove.getTo());
+		if(gameUpdate.getOpponentsAttacker() != null) {
+			state.getBoard().putPieceAt( (Position)gameUpdate.getOpponentsLastMove().getFrom(),
+					new Piece(PieceType.convert(gameUpdate.getOpponentsAttacker()), myColor));
+		}
+		move((Position)gameUpdate.getOpponentsLastMove().getFrom(),
+				(Position)gameUpdate.getOpponentsLastMove().getTo());
 	}
 
 }

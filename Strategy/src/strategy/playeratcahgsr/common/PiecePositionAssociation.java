@@ -59,7 +59,7 @@ public class PiecePositionAssociation
 	 * @return An instance of strategy.common.PiecePositionAssociation based on this
 	 */
 	public strategy.common.PiecePositionAssociation convert() {
-		return new strategy.common.PiecePositionAssociation(piece.convert(), position.convert());
+		return new strategy.common.PiecePositionAssociation(piece.convert(), position);
 	}
 	
 	/**

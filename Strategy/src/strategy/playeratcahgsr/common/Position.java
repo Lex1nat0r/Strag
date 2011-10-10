@@ -52,10 +52,8 @@ package strategy.playeratcahgsr.common;
  * @author gpollice, Alex Thornton-Clark, Andrew Hurle, Gabriel Stern-Robbins
  * @version Aug 1, 2011
  */
-public class Position
+public class Position extends strategy.common.Position
 {
-	private final int row;
-	private final int column;
 	
 	/**
 	 * Constructor for a rectangular coordinate.
@@ -65,59 +63,7 @@ public class Position
 	 */
 	public Position(int row, int column)
 	{
-		this.row = row;
-		this.column = column;
-	}
-
-	
-	/**
-	 * @return the row
-	 */
-	public int getRow()
-	{
-		return row;
-	}
-
-	/**
-	 * @return the column
-	 */
-	public int getColumn()
-	{
-		return column;
-	}
-	
-	@Override
-	public String toString()
-	{
-		return "(" + row + ',' + column + ')';
-	}
-	
-	/**
-	 * @see java.lang.Object#hashCode()
-	 */
-	@Override
-	public int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		result = prime * result + column;
-		result = prime * result + row;
-		return result;
-	}
-
-
-	/**
-	 * @see java.lang.Object#equals(java.lang.Object)
-	 */
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj) {
-			return true;
-		}
-		if (obj instanceof Position) {
-			final Position other = (Position) obj;
-			return column == other.column && row == other.row;
-		}
-		return false;
+		super(row, column);
 	}
 	
 	/**
@@ -127,17 +73,10 @@ public class Position
 	 * 			true if this Position is diagonal from Position other, otherwise false
 	 */
 	public boolean isDiagonal(Position other) {
-		final boolean horizontal = column != other.getColumn();
-		final boolean vertical = row != other.getRow();
+		final boolean horizontal = getColumn() != other.getColumn();
+		final boolean vertical = getRow() != other.getRow();
 		
 		return horizontal && vertical;
-	}
-	
-	/**
-	 * @return An instance of strategy.common.Position based on this
-	 */
-	public strategy.common.Position convert() {
-		return new strategy.common.Position(row, column);
 	}
 	
 }

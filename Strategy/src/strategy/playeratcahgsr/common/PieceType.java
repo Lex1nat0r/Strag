@@ -93,4 +93,12 @@ public enum PieceType
 		return Enum.valueOf(strategy.common.PieceType.class, name());
 	}
 
+	/**
+	 * @param other The strategy.common.PieceType to copy from
+	 * @return An instance of PieceType based on other
+	 */
+	public static PieceType convert(strategy.common.PieceType other) {
+		return Enum.valueOf(PieceType.class, other.name());
+	}
+
 }

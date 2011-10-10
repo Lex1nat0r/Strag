@@ -56,6 +56,7 @@ public class StrategyPlayerImpl implements StrategyPlayer
 	private final PiecePositionAssociation[] startingBlueConfig;
 	
 	private final DeltaStrategyGame game;
+	private PlayerMove lastMove;
 	
 	/**
 	 * The starting configuration of the red player.
@@ -140,10 +141,17 @@ public class StrategyPlayerImpl implements StrategyPlayer
 	 * @see strategy.tournament.StrategyPlayer#move(strategy.tournament.MoveResult)
 	 */
 	@Override
-	public PlayerMove move(MoveResult gameUpdate)
-	{
-		// TODO Auto-generated method stub
-		return null;
+	public PlayerMove move(MoveResult gameUpdate) {
+		try {
+			game.update(lastMove, gameUpdate,
+					myColor == PlayerColor.RED ? PlayerColor.BLUE : PlayerColor.RED);
+		} catch(Exception e) {
+			//oh poop oh poop oh poop
+			throw new RuntimeException("playeratcahgsr screwed up while trying to move", e);
+		}
+		
+		//TODO: this
+		return new PlayerMove(null, null);
 	}
 	
 	protected DeltaStrategyGame getGame() {
