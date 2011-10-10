@@ -42,48 +42,16 @@ public class BetaMovementStrategy extends MovementStrategy {
 	@Override
 	public Piece makeMove(Position source, Position destination)
 			throws StrategyException {
-		if(source.equals(destination)) {
-			throw new StrategyException("destination must be different from source");
-		}
-		if(source.isDiagonal(destination)) {
-			throw new StrategyException("Pieces cannot move diagonally");
-		}
-		if(!state.getBoard().isOccupied(source)) {
-			throw new StrategyException("source must be occupied by a piece");
-		}
-		if(state.isOver()){
-			throw new StrategyException("Game is already over");
-		}
+		validateMove(source, destination);
 		
 		final Piece sourcePiece = state.getBoard().getPieceAt(source);
 		final Piece destinationPiece = state.getBoard().getPieceAt(destination);
-		
-		//change turn/dont double move
-		if(!sourcePiece.equals(Piece.UNKNOWN_PIECE) && sourcePiece.getColor() != state.getTurn()) {
-			throw new StrategyException("not your turn");
-		}
-		
+
 		if(state.getTurn() == PlayerColor.RED){
 			state.setTurn(PlayerColor.BLUE);
 		}
 		else{
 			state.setTurn(PlayerColor.RED);
-		}
-		
-		if(!sourcePiece.equals(Piece.UNKNOWN_PIECE)) {
-			final int distance = state.getBoard().getDistance(source, destination);
-			final int range = sourcePiece.getType().getRange();
-			if(range >= 0 && distance > range) {
-				throw new StrategyException("Cannot move piece farther than its range");
-			}
-			
-			if (sourcePiece.getColor().equals(destinationPiece.getColor())) {
-				throw new StrategyException("Cannot move onto a friendly piece");
-			}
-		}
-
-		if (!state.getBoard().isPathValid(source, destination)) {
-			throw new StrategyException("Cannot move through occupied spaces or water");
 		}
 
 		BattleResult result = BattleResult.VICTORY;
@@ -110,13 +78,73 @@ public class BetaMovementStrategy extends MovementStrategy {
 		}
 		return state.getBoard().getPieceAt(destination);
 	}
+	
+	/**
+	 * Throws an exception if the given move is invalid.
+	 * Does not change the state of the game.
+	 * @see BetaMovementStrategy#makeMove(Position, Position)
+	 * 
+	 * @param source
+	 * @param destination
+	 * @throws StrategyException
+	 */
+	public void validateMove(Position source, Position destination) throws StrategyException {
+		if(source.equals(destination)) {
+			throw new StrategyException("destination must be different from source");
+		}
+		if(source.isDiagonal(destination)) {
+			throw new StrategyException("Pieces cannot move diagonally");
+		}
+		if(!state.getBoard().isOccupied(source)) {
+			throw new StrategyException("source must be occupied by a piece");
+		}
+		if(state.isOver()){
+			throw new StrategyException("Game is already over");
+		}
+		
+		final Piece sourcePiece = state.getBoard().getPieceAt(source);
+		final Piece destinationPiece = state.getBoard().getPieceAt(destination);
+		
+		//change turn/dont double move
+		if(!sourcePiece.equals(Piece.UNKNOWN_PIECE) && sourcePiece.getColor() != state.getTurn()) {
+			throw new StrategyException("not your turn");
+		}
+		
+		if(!sourcePiece.equals(Piece.UNKNOWN_PIECE)) {
+			final int distance = state.getBoard().getDistance(source, destination);
+			final int range = sourcePiece.getType().getRange();
+			if(range >= 0 && distance > range) {
+				throw new StrategyException("Cannot move piece farther than its range");
+			}
+			
+			if (sourcePiece.getColor().equals(destinationPiece.getColor())) {
+				throw new StrategyException("Cannot move onto a friendly piece");
+			}
+		}
+
+		if (!state.getBoard().isPathValid(source, destination)) {
+			throw new StrategyException("Cannot move through occupied spaces or water");
+		}
+	}
 
 	@Override
 	public BattleResult resolveBattle(Piece attacker, Piece defender) {
 		if(defender.getType().equals(PieceType.FLAG)){
 			state.setWinner(attacker.getColor());
-			return BattleResult.VICTORY;
 		}
+		return determineBattleResult(attacker, defender);
+	}
+	
+	/**
+	 * Determines the result of a battle between the two pieces.
+	 * Does not change the state of the board.
+	 * @see BetaMovementStrategy#resolveBattle(Piece, Piece)
+	 * 
+	 * @param attacker
+	 * @param defender
+	 * @return The result of the battle
+	 */
+	public static BattleResult determineBattleResult(Piece attacker, Piece defender) {
 		if(attacker.getType().equals(PieceType.MINER)
 				&& defender.getType().equals(PieceType.BOMB)) {
 			return BattleResult.VICTORY;
