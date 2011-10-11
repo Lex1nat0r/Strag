@@ -86,5 +86,20 @@ public class ComparablePlayerMoveTest {
 				new Position(4, 0), game);
 		assertEquals(MoveType.ATTACK_DRAW, moveToWeakerPiece.getType());
 	}
+	
+	@Test
+	public void testBattleVictoryRankDifference() {
+		game.getBoard().putPieceAt(new Position(0,0), new Piece(PieceType.MARSHAL, PlayerColor.RED));
+		game.getBoard().putPieceAt(new Position(0,1), new Piece(PieceType.GENERAL, PlayerColor.BLUE));
+		game.getBoard().putPieceAt(new Position(1,0), new Piece(PieceType.COLONEL, PlayerColor.BLUE));
+		ComparablePlayerMove moveToGeneral = new ComparablePlayerMove(new Position(0, 0), 
+				new Position(0, 1), game);
+		ComparablePlayerMove moveToColonel = new ComparablePlayerMove(new Position(0, 0), 
+				new Position(1, 0), game);
+		
+		assertTrue(moveToGeneral.compareTo(moveToColonel) > 0);
+		assertTrue(moveToColonel.compareTo(moveToGeneral) < 0);
+		assertTrue(moveToGeneral.compareTo(moveToGeneral) == 0);
+	}
 
 }

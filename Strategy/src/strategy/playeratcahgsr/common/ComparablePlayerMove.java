@@ -25,6 +25,7 @@ public class ComparablePlayerMove implements Comparable<ComparablePlayerMove> {
 	private final Position to;
 	private final DeltaStrategyGame game;
 	private MoveType type;
+	private int rankDifference;
 
 	/**
 	 * @param from The Position this move is from
@@ -36,6 +37,7 @@ public class ComparablePlayerMove implements Comparable<ComparablePlayerMove> {
 		this.to = to;
 		this.game = game;
 		makeType();
+		findRankDifference();
 	}
 	
 	private void makeType() {
@@ -50,6 +52,17 @@ public class ComparablePlayerMove implements Comparable<ComparablePlayerMove> {
 		}
 		else {
 			type = MoveType.INVALID;
+		}
+	}
+	
+	private void findRankDifference() {
+		rankDifference = 0;
+		if(!type.equals(MoveType.INVALID)) {
+			final Piece fromPiece = game.getPieceAt(from);
+			final Piece toPiece = game.getPieceAt(to);
+			if(!toPiece.equals(Piece.NULL_PIECE) && !toPiece.equals(Piece.UNKNOWN_PIECE)) {
+				rankDifference = toPiece.getType().getRank() - fromPiece.getType().getRank() ;
+			}
 		}
 	}
 	
@@ -73,7 +86,23 @@ public class ComparablePlayerMove implements Comparable<ComparablePlayerMove> {
 	
 	@Override
 	public int compareTo(ComparablePlayerMove other) {
-		return type.compareTo(other.getType());
+		final int typeComparison = type.compareTo(other.getType());
+		if(typeComparison == 0) {
+			if(rankDifference < other.getRankDifference()) {
+				return 1;
+			}
+			else if(rankDifference == other.getRankDifference()) {
+				return 0;
+			}
+			else {
+				return -1;
+			}
+		}
+		return typeComparison;
+	}
+
+	public int getRankDifference() {
+		return rankDifference;
 	}
 
 	/**
