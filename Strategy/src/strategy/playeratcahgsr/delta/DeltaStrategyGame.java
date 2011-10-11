@@ -102,7 +102,7 @@ public class DeltaStrategyGame implements StrategyGame {
 		state.setBoard((RectangularStrategyBoard) board);
 	}
 	
-	protected RectangularStrategyBoard getBoard() {
+	public RectangularStrategyBoard getBoard() {
 		return state.getBoard();
 	}
 	
@@ -137,17 +137,22 @@ public class DeltaStrategyGame implements StrategyGame {
 	public void update(PlayerMove lastMove, MoveResult gameUpdate, PlayerColor myColor)
 			throws StrategyException {
 		state.setTurn(myColor);  //it should always be my turn
-		if(gameUpdate.getMyLastTarget() != null) {
-			state.getBoard().putPieceAt( (Position)lastMove.getTo(),
-					new Piece(PieceType.convert(gameUpdate.getMyLastTarget()), myColor));
+		if(lastMove != null) {
+			if(gameUpdate.getMyLastTarget() != null) {
+				state.getBoard().putPieceAt( (Position)lastMove.getTo(),
+						new Piece(PieceType.convert(gameUpdate.getMyLastTarget()), myColor));
+			}
+			move((Position)lastMove.getFrom(), (Position)lastMove.getTo());
 		}
-		move((Position)lastMove.getFrom(), (Position)lastMove.getTo());
-		if(gameUpdate.getOpponentsAttacker() != null) {
-			state.getBoard().putPieceAt( (Position)gameUpdate.getOpponentsLastMove().getFrom(),
-					new Piece(PieceType.convert(gameUpdate.getOpponentsAttacker()), myColor));
+		if(gameUpdate != null) {
+			if(gameUpdate.getOpponentsAttacker() != null) {
+				state.getBoard().putPieceAt( (Position)gameUpdate.getOpponentsLastMove().getFrom(),
+						new Piece(PieceType.convert(gameUpdate.getOpponentsAttacker()), myColor));
+			}
+			move((Position)gameUpdate.getOpponentsLastMove().getFrom(),
+					(Position)gameUpdate.getOpponentsLastMove().getTo());
 		}
-		move((Position)gameUpdate.getOpponentsLastMove().getFrom(),
-				(Position)gameUpdate.getOpponentsLastMove().getTo());
+		state.setTurn(myColor);
 	}
 
 }

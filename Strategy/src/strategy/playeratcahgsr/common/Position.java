@@ -12,6 +12,10 @@
  *******************************************************************************/
 package strategy.playeratcahgsr.common;
 
+import java.util.Collection;
+import java.util.HashSet;
+import java.util.Set;
+
 /**
  * <p>
  * This class implements the data structure for board positions. A position
@@ -77,6 +81,18 @@ public class Position extends strategy.common.Position
 		final boolean vertical = getRow() != other.getRow();
 		
 		return horizontal && vertical;
+	}
+	
+	/**
+	 * @return A List of Position containing bordering Positions in the cardinal directions
+	 */
+	public Collection<Position> getCardinalPositions() {
+		final Set<Position> set = new HashSet<Position>();
+		set.add(new Position(getRow() + 1, getColumn()));
+		set.add(new Position(getRow(), getColumn() + 1));
+		set.add(new Position(getRow() - 1, getColumn()));
+		set.add(new Position(getRow(), getColumn() - 1));
+		return set;
 	}
 	
 }

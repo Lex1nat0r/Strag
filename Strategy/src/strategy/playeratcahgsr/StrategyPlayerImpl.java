@@ -25,11 +25,15 @@ import static strategy.playeratcahgsr.common.PieceType.SCOUT;
 import static strategy.playeratcahgsr.common.PieceType.SERGEANT;
 import static strategy.playeratcahgsr.common.PieceType.SPY;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 
 import strategy.common.PlayerColor;
+import strategy.playeratcahgsr.common.BoardIterator;
+import strategy.playeratcahgsr.common.ComparablePlayerMove;
 import strategy.playeratcahgsr.common.Piece;
 import strategy.playeratcahgsr.common.PiecePositionAssociation;
 import strategy.playeratcahgsr.common.PieceType;
@@ -143,15 +147,66 @@ public class StrategyPlayerImpl implements StrategyPlayer
 	@Override
 	public PlayerMove move(MoveResult gameUpdate) {
 		try {
-			game.update(lastMove, gameUpdate,
-					myColor == PlayerColor.RED ? PlayerColor.BLUE : PlayerColor.RED);
+			game.update(lastMove, gameUpdate, myColor);
 		} catch(Exception e) {
 			//oh poop oh poop oh poop
 			throw new RuntimeException("playeratcahgsr screwed up while trying to move", e);
 		}
 		
-		//TODO: this
-		return new PlayerMove(null, null);
+		lastMove = getRandomBestMove();
+		return lastMove;
+	}
+	
+	/**
+	 * @return The best move to make.
+	 */
+	protected PlayerMove getRandomBestMove() {
+		List<ComparablePlayerMove> moves = getAllMoves();
+		moves = getTopMoves(moves);
+		Collections.shuffle(moves);
+		final ComparablePlayerMove move = moves.get(0);
+		
+		return new PlayerMove(move.getFrom(), move.getTo());
+	}
+	
+	/**
+	 * @return A list of all possible moves to be made by myColor, sorted by quality descending
+	 */
+	protected List<ComparablePlayerMove> getAllMoves() {
+		final List<ComparablePlayerMove> allMoves = new ArrayList<ComparablePlayerMove>();
+		final BoardIterator iter = (BoardIterator) game.getBoard().iterator();
+		while(iter.hasNext()) {
+			Piece currentPiece = iter.next();
+			if(myColor.equals(currentPiece.getColor())) {
+				Position currentPosition = new Position(iter.getRow(), iter.getColumn());
+				Collection<Position> cardinals = currentPosition.getCardinalPositions();
+				
+				for(Position p : cardinals) {
+					allMoves.add(new ComparablePlayerMove(currentPosition, p, game));
+				}
+			}
+		}
+		
+		Collections.sort(allMoves); //this is ascending, we want descending
+		Collections.reverse(allMoves);
+		return allMoves;
+	}
+	
+	/**
+	 * Show me your moves!
+	 * 
+	 * @param allMoves A List of moves sorted by bestness descending 
+	 * @return A List of the best moves (moves can have the same bestness)
+	 */
+	protected static List<ComparablePlayerMove> getTopMoves(List<ComparablePlayerMove> allMoves) {
+		int index = 0;
+		for(ComparablePlayerMove i : allMoves) {
+			if(index + 1 >= allMoves.size() || i.compareTo(allMoves.get(index + 1)) != 0) {
+				break;
+			}
+			index++;
+		}
+		return allMoves.subList(0, index + 1); //second argument is exclusive
 	}
 	
 	protected DeltaStrategyGame getGame() {

@@ -1,6 +1,10 @@
 package strategy;
 
 import static org.junit.Assert.*;
+
+import java.util.Collection;
+import java.util.HashSet;
+
 import org.junit.Before;
 import org.junit.Test;
 
@@ -43,6 +47,17 @@ public class PositionTest {
 		assertFalse(pos.equals(differentPos));
 		assertFalse(pos.equals(null));
 		assertFalse(pos.equals(new Object()));
+	}
+	
+	@Test
+	public void testGetCardinalPositions() {
+		Collection<Position> actual = pos.getCardinalPositions();
+		HashSet<Position> expected = new HashSet<Position>();
+		expected.add(new Position(1, 0));
+		expected.add(new Position(0, 1));
+		expected.add(new Position(-1, 0));
+		expected.add(new Position(0, -1));
+		assertEquals(expected, actual);
 	}
 
 }
