@@ -56,7 +56,8 @@ public class Piece
 	@Override
 	public boolean equals(Object other)
 	{
-		return ((this == NULL_PIECE || this == CHOKE_POINT || this == UNKNOWN_OPPONENT) && this == other)
+		return ((this == NULL_PIECE || this == CHOKE_POINT || this == UNKNOWN_OPPONENT) 
+				&& this == other)
 				|| ((this != NULL_PIECE && this != CHOKE_POINT && this != UNKNOWN_OPPONENT) 
 					&& ((other instanceof Piece) 
 						&& (type == ((Piece) other).type) 
