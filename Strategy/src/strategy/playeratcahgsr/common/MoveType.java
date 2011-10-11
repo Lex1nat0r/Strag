@@ -18,5 +18,8 @@ package strategy.playeratcahgsr.common;
  */
 public enum MoveType {
 	INVALID,
-	VALID;
+	ATTACK_DEFEAT,
+	ATTACK_DRAW,
+	VALID,
+	ATTACK_VICTORY;
 }

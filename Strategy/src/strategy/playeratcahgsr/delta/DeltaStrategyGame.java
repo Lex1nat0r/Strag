@@ -13,6 +13,8 @@ package strategy.playeratcahgsr.delta;
 
 import strategy.common.PlayerColor;
 import strategy.common.StrategyException;
+import strategy.playeratcahgsr.beta.BetaMovementStrategy;
+import strategy.playeratcahgsr.common.BattleResult;
 import strategy.playeratcahgsr.common.StrategyGame;
 import strategy.playeratcahgsr.common.GameState;
 import strategy.playeratcahgsr.common.Piece;
@@ -158,5 +160,17 @@ public class DeltaStrategyGame implements StrategyGame {
 		}
 		state.setTurn(myColor);
 	}
+
+	/**
+	 * @see BetaMovementStrategy#determineBattleResult(Piece, Piece)
+	 * @param attacker
+	 * @param defender
+	 * @return the BattleResult of attacker attacking defender
+	 */
+	public static BattleResult determineBattleResult(Piece attacker, Piece defender) {
+		return BetaMovementStrategy.determineBattleResult(attacker, defender);
+	}
+	
+	
 
 }

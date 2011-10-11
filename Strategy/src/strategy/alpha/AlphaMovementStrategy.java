@@ -16,6 +16,7 @@ import strategy.common.PlayerColor;
 import strategy.common.StrategyException;
 import strategy.playeratcahgsr.common.GameState;
 import strategy.playeratcahgsr.common.MovementStrategy;
+import strategy.playeratcahgsr.common.BattleResult;
 import strategy.playeratcahgsr.common.Piece;
 import strategy.playeratcahgsr.common.PieceType;
 import strategy.playeratcahgsr.common.Position;

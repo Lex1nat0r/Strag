@@ -19,6 +19,7 @@ import strategy.playeratcahgsr.common.MovementStrategy;
 import strategy.playeratcahgsr.common.Piece;
 import strategy.playeratcahgsr.common.PieceType;
 import strategy.playeratcahgsr.common.Position;
+import strategy.playeratcahgsr.common.BattleResult;;
 
 /**
  * This class defines the rules of moving pieces 

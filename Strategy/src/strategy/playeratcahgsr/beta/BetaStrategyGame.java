@@ -19,6 +19,7 @@ import strategy.playeratcahgsr.common.GameState;
 import strategy.playeratcahgsr.common.Piece;
 import strategy.playeratcahgsr.common.Position;
 import strategy.playeratcahgsr.common.RectangularStrategyBoard;
+import strategy.playeratcahgsr.common.BattleResult;
 
 /**
  * Implementation of the BetaStrategy game.
@@ -132,6 +133,16 @@ public class BetaStrategyGame implements StrategyGame
 	
 	protected RectangularStrategyBoard getBoard() {
 		return state.getBoard();
+	}
+	
+	/**
+	 * @see BetaMovementStrategy#determineBattleResult(Piece, Piece)
+	 * @param attacker
+	 * @param defender
+	 * @return the BattleResult of attacker attacking defender
+	 */
+	public BattleResult determineBattleResult(Piece attacker, Piece defender) {
+		return BetaMovementStrategy.determineBattleResult(attacker, defender);
 	}
 	
 }

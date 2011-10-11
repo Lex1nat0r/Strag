@@ -47,11 +47,29 @@ public class ComparablePlayerMove implements Comparable<ComparablePlayerMove> {
 			System.err.print('\0');
 		}
 		if(isValid) {
-			type = MoveType.VALID;
+			type = determineValidType();
 		}
 		else {
 			type = MoveType.INVALID;
 		}
+	}
+	
+	private MoveType determineValidType() {
+		final Piece fromPiece = game.getPieceAt(from);
+		final Piece toPiece = game.getPieceAt(to);
+		if(!toPiece.equals(Piece.UNKNOWN_PIECE) && !toPiece.equals(Piece.NULL_PIECE)) {
+			final BattleResult result = game.determineBattleResult(fromPiece, toPiece);
+			if(result.equals(BattleResult.DEFEAT)) {
+				return MoveType.ATTACK_DEFEAT;
+			}
+			else if(result.equals(BattleResult.DRAW)) {
+				return MoveType.ATTACK_DRAW;
+			}
+			else {
+				return MoveType.ATTACK_VICTORY;
+			}
+		}
+		return MoveType.VALID;
 	}
 	
 	@Override

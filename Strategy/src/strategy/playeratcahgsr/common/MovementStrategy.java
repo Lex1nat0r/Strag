@@ -26,13 +26,6 @@ public abstract class MovementStrategy {
 	protected GameState state;
 	
 	/**
-	 * The possible results of a battle.
-	 */
-	public enum BattleResult {
-		DEFEAT, VICTORY, DRAW
-	}
-	
-	/**
 	 * @param state  The GameState this MovementStrategy should modify 
 	 */
 	protected MovementStrategy(GameState state) {

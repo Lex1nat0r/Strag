@@ -11,6 +11,7 @@ import org.junit.Test;
 import static org.junit.Assert.*;
 
 import strategy.PieceConfiguration;
+import strategy.common.PlayerColor;
 import strategy.playeratcahgsr.delta.DeltaStrategyGame;
 
 public class ComparablePlayerMoveTest {
@@ -20,14 +21,16 @@ public class ComparablePlayerMoveTest {
 	private ComparablePlayerMove moveToWater;
 	private ComparablePlayerMove moveToFriendlyPiece;
 	
+	private DeltaStrategyGame game;
+	
 	private List<ComparablePlayerMove> moveList;
 	
 	@Before
 	public void setUp() throws Exception {
-		DeltaStrategyGame game = new DeltaStrategyGame(
+		game = new DeltaStrategyGame(
 				PieceConfiguration.getInstance().getInitialRedConfiguration(),
 				PieceConfiguration.getInstance().getInitialBlueConfiguration());
-		
+
 		moveToEmptySpace = new ComparablePlayerMove(new Position(3,0), new Position(4,0), game);
 		moveOutOfBounds = new ComparablePlayerMove(new Position(3,0), new Position(3,-1), game);
 		moveToWater = new ComparablePlayerMove(new Position(3,2), new Position(4,2), game);
@@ -50,6 +53,38 @@ public class ComparablePlayerMoveTest {
 		assertEquals(MoveType.INVALID, moveOutOfBounds.getType());
 		assertEquals(MoveType.INVALID, moveToWater.getType());
 		assertEquals(MoveType.INVALID, moveToFriendlyPiece.getType());
+	}
+	
+	@Test
+	public void testMoveToUnknownPiece() {
+		game.setPlayerAsUnknown(PlayerColor.BLUE);
+		ComparablePlayerMove moveToUnknownPiece = new ComparablePlayerMove(new Position(3, 1),
+				new Position(6, 1), game);
+		assertEquals(MoveType.VALID, moveToUnknownPiece.getType());
+	}
+	
+	@Test
+	public void testBattleVictory() {
+		game.getBoard().putPieceAt(new Position(4, 0), new Piece(PieceType.SCOUT, PlayerColor.BLUE));
+		ComparablePlayerMove moveToWeakerPiece = new ComparablePlayerMove(new Position(3, 0), 
+				new Position(4, 0), game);
+		assertEquals(MoveType.ATTACK_VICTORY, moveToWeakerPiece.getType());
+	}
+
+	@Test
+	public void testBattleDefeat() {
+		game.getBoard().putPieceAt(new Position(4, 0), new Piece(PieceType.GENERAL, PlayerColor.BLUE));
+		ComparablePlayerMove moveToWeakerPiece = new ComparablePlayerMove(new Position(3, 0), 
+				new Position(4, 0), game);
+		assertEquals(MoveType.ATTACK_DEFEAT, moveToWeakerPiece.getType());
+	}
+	
+	@Test
+	public void testBattleDraw() {
+		game.getBoard().putPieceAt(new Position(4, 0), new Piece(PieceType.MAJOR, PlayerColor.BLUE));
+		ComparablePlayerMove moveToWeakerPiece = new ComparablePlayerMove(new Position(3, 0), 
+				new Position(4, 0), game);
+		assertEquals(MoveType.ATTACK_DRAW, moveToWeakerPiece.getType());
 	}
 
 }
