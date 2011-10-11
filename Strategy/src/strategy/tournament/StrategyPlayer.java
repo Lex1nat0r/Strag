@@ -12,7 +12,6 @@
  *******************************************************************************/
 package strategy.tournament;
 
-import strategy.*;
 import strategy.common.PiecePositionAssociation;
 
 /**
