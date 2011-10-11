@@ -39,12 +39,11 @@ public class ComparablePlayerMove implements Comparable<ComparablePlayerMove> {
 	}
 	
 	private void makeType() {
-		boolean isValid = false;
+		boolean isValid = true;
 		try {
 			game.validateMove(from, to);
-			isValid = true;
 		} catch(Exception e) {
-			System.err.print('\0');
+			isValid = false;
 		}
 		if(isValid) {
 			type = determineValidType();
@@ -58,7 +57,7 @@ public class ComparablePlayerMove implements Comparable<ComparablePlayerMove> {
 		final Piece fromPiece = game.getPieceAt(from);
 		final Piece toPiece = game.getPieceAt(to);
 		if(!toPiece.equals(Piece.UNKNOWN_PIECE) && !toPiece.equals(Piece.NULL_PIECE)) {
-			final BattleResult result = game.determineBattleResult(fromPiece, toPiece);
+			final BattleResult result = DeltaStrategyGame.determineBattleResult(fromPiece, toPiece);
 			if(result.equals(BattleResult.DEFEAT)) {
 				return MoveType.ATTACK_DEFEAT;
 			}
