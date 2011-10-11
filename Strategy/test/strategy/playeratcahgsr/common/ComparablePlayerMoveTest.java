@@ -100,6 +100,23 @@ public class ComparablePlayerMoveTest {
 		assertTrue(moveToGeneral.compareTo(moveToColonel) > 0);
 		assertTrue(moveToColonel.compareTo(moveToGeneral) < 0);
 		assertTrue(moveToGeneral.compareTo(moveToGeneral) == 0);
+		assertTrue(moveToColonel.compareTo(moveToColonel) == 0);
+	}
+	
+	@Test
+	public void testBattleVictoryFlagPreference() {
+		game.getBoard().putPieceAt(new Position(0,0), new Piece(PieceType.MARSHAL, PlayerColor.RED));
+		game.getBoard().putPieceAt(new Position(0,1), new Piece(PieceType.FLAG, PlayerColor.BLUE));
+		game.getBoard().putPieceAt(new Position(1,0), new Piece(PieceType.GENERAL, PlayerColor.BLUE));
+		ComparablePlayerMove moveToFlag = new ComparablePlayerMove(new Position(0, 0), 
+				new Position(0, 1), game);
+		ComparablePlayerMove moveToGeneral = new ComparablePlayerMove(new Position(0, 0), 
+				new Position(1, 0), game);
+		
+		assertEquals(MoveType.CAPTURE_FLAG, moveToFlag.getType());
+		assertTrue(moveToFlag.compareTo(moveToGeneral) > 0);
+		assertTrue(moveToGeneral.compareTo(moveToFlag) < 0);
+		assertTrue(moveToFlag.compareTo(moveToFlag) == 0);
 	}
 
 }

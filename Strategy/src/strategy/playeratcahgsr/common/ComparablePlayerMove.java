@@ -77,6 +77,9 @@ public class ComparablePlayerMove implements Comparable<ComparablePlayerMove> {
 			else if(result.equals(BattleResult.DRAW)) {
 				return MoveType.ATTACK_DRAW;
 			}
+			else if(toPiece.getType().equals(PieceType.FLAG)) {
+				return MoveType.CAPTURE_FLAG;
+			}
 			else {
 				return MoveType.ATTACK_VICTORY;
 			}
