@@ -44,7 +44,7 @@ public class ComparablePlayerMove implements Comparable<ComparablePlayerMove> {
 			game.validateMove(from, to);
 			isValid = true;
 		} catch(Exception e) {
-			System.err.println();
+			System.err.print('\0');
 		}
 		if(isValid) {
 			type = MoveType.VALID;

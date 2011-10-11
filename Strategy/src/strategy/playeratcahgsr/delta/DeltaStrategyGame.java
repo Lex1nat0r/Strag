@@ -140,14 +140,16 @@ public class DeltaStrategyGame implements StrategyGame {
 		if(lastMove != null) {
 			if(gameUpdate.getMyLastTarget() != null) {
 				state.getBoard().putPieceAt( (Position)lastMove.getTo(),
-						new Piece(PieceType.convert(gameUpdate.getMyLastTarget()), myColor));
+						new Piece(PieceType.convert(gameUpdate.getMyLastTarget()), 
+								myColor.equals(PlayerColor.RED) ? PlayerColor.BLUE : PlayerColor.RED));
 			}
 			move((Position)lastMove.getFrom(), (Position)lastMove.getTo());
 		}
 		if(gameUpdate != null) {
 			if(gameUpdate.getOpponentsAttacker() != null) {
 				state.getBoard().putPieceAt( (Position)gameUpdate.getOpponentsLastMove().getFrom(),
-						new Piece(PieceType.convert(gameUpdate.getOpponentsAttacker()), myColor));
+						new Piece(PieceType.convert(gameUpdate.getOpponentsAttacker()), 
+								myColor.equals(PlayerColor.RED) ? PlayerColor.BLUE : PlayerColor.RED));
 			}
 			move((Position)gameUpdate.getOpponentsLastMove().getFrom(),
 					(Position)gameUpdate.getOpponentsLastMove().getTo());

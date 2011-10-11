@@ -71,11 +71,6 @@ public class BetaMovementStrategy extends MovementStrategy {
 			state.getBoard().putPieceAt(source, Piece.NULL_PIECE);
 			break;
 		}
-		//if moves>10 end game
-		state.setNumMoves(state.getNumMoves() + 1);
-		if(state.getNumMoves() >= 10){
-			state.setWinner(PlayerColor.BLUE);
-		}
 		return state.getBoard().getPieceAt(destination);
 	}
 	
