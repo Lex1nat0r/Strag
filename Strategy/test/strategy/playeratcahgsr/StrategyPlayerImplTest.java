@@ -110,6 +110,18 @@ public class StrategyPlayerImplTest {
 	}
 	
 	@Test
+	public void testDetectScouts() {
+		MoveResult result = new MoveResult(new PlayerMove(new Position(6,1), new Position(4,1)),
+				null, null);
+		redPlayer.detectScouts(result);
+		assertEquals(new Piece(PieceType.SCOUT, PlayerColor.BLUE), redGame.getPieceAt(new Position(4,1)));
+		result = new MoveResult(new PlayerMove(new Position(6,0), new Position(5,0)),
+				null, null);
+		redPlayer.detectScouts(result);
+		assertEquals(Piece.NULL_PIECE, redGame.getPieceAt(new Position(5,0)));
+	}
+	
+	@Test
 	public void testPlayerMove() {
 		redPlayer.move(null);
 		bluePlayer.move(null);

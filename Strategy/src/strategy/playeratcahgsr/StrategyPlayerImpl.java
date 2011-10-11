@@ -153,8 +153,29 @@ public class StrategyPlayerImpl implements StrategyPlayer
 			throw new RuntimeException("playeratcahgsr screwed up while trying to move", e);
 		}
 		
+		detectScouts(gameUpdate);
+		
 		lastMove = getRandomBestMove();
 		return lastMove;
+	}
+	
+	/**
+	 * Puts a scout on the opponent's destination position if the distance
+	 * between the source and destination is greater than one.
+	 * 
+	 * @param gameUpdate The gameUpdate for this move
+	 */
+	protected void detectScouts(MoveResult gameUpdate) {
+		if(gameUpdate != null) {
+			final PlayerMove oppMove = gameUpdate.getOpponentsLastMove();
+			if(oppMove != null && game.getBoard().getDistance((Position)oppMove.getFrom(),
+					(Position)oppMove.getTo()) > 1) {
+				//we know that this must be a scout
+				game.getBoard().putPieceAt((Position)oppMove.getTo(),
+						new Piece(PieceType.SCOUT,
+								myColor == PlayerColor.RED ? PlayerColor.BLUE : PlayerColor.RED));
+			}
+		}
 	}
 	
 	/**
