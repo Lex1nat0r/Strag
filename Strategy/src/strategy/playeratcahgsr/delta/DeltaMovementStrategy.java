@@ -75,4 +75,10 @@ public class DeltaMovementStrategy extends BetaMovementStrategy {
 			state.setOver(true);
 		}
 	}
+
+	@Override
+	public int getMaxMoves() {
+		return -1;
+	}
+	
 }

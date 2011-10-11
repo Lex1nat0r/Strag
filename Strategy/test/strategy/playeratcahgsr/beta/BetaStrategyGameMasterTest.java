@@ -196,6 +196,35 @@ public class BetaStrategyGameMasterTest {
         assertTrue(positionIsEmpty(p53));
         assertEquals(blueSergeant,game.getPieceAt(p52));
     }
+    
+    /**
+     * Test #8: make sure that after 5 complete moves, BLUE is the winner.
+     * @throws StrategyException
+     */
+    @Test
+    public void testGameEndsAfterFiveTurns() throws Exception
+    {
+    	RectangularStrategyBoard board = new RectangularStrategyBoard(BOARD_SIZE, BOARD_SIZE);
+        board.putPieceAt(p00, redScout);
+        board.putPieceAt(p53, blueSergeant);
+        game.setBoard(board);
+        game.move(p00, p10);	// Red 1
+        game.move(p53, p52);
+        game.move(p10,  p00);	// Red 2
+        game.move(p52, p53);
+        assertFalse(game.isGameOver());
+        game.move(p00, p10);	// Red 3
+        assertFalse(game.isGameOver());
+        game.move(p53, p52);
+        game.move(p10,  p00);	// Red 4
+        game.move(p52, p53);
+        game.move(p00, p10);	// Red 5
+        assertFalse(game.isGameOver());
+        assertNull(game.getWinner());
+        game.move(p53, p52);
+        assertTrue(game.isGameOver());
+        assertEquals(BLUE, game.getWinner());
+    }
 
     /**
      * Test #9: make sure that the game catches an invalid move from an empty

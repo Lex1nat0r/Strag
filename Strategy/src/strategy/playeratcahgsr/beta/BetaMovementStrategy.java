@@ -71,9 +71,22 @@ public class BetaMovementStrategy extends MovementStrategy {
 			state.getBoard().putPieceAt(source, Piece.NULL_PIECE);
 			break;
 		}
+		//if moves>10 end game
+		state.setNumMoves(state.getNumMoves() + 1);
+		if(getMaxMoves() > -1 && state.getNumMoves() >= getMaxMoves()){
+			state.setWinner(PlayerColor.BLUE);
+		}
 		return state.getBoard().getPieceAt(destination);
 	}
 	
+	/**
+	 * @return The maximum number of moves that can be made in the game
+	 * 			Negative if there is no maximum
+	 */
+	public int getMaxMoves() {
+		return 10;
+	}
+
 	/**
 	 * Throws an exception if the given move is invalid.
 	 * Does not change the state of the game.

@@ -203,4 +203,19 @@ public class DeltaStrategyGameTest
 		assertNull(game.getWinner());
 	}
 	
+	@Test
+	public void testMakeMoreThanTenMoves() throws StrategyException {
+		game.move(new Position(3,0), new Position(4,0));
+		game.move(new Position(6,4), new Position(3,4));
+		game.move(new Position(4,0), new Position(5,0));
+		game.move(new Position(6,5), new Position(3,5));
+		game.move(new Position(5,0), new Position(6,0));
+		game.move(new Position(6,8), new Position(3,8));
+		game.move(new Position(6,0), new Position(7,0));
+		game.move(new Position(6,9), new Position(3,9));
+		game.move(new Position(7,0), new Position(8,0));
+		game.move(new Position(6,1), new Position(3,1));
+		game.move(new Position(8,0), new Position(8,1));
+	}
+	
 }

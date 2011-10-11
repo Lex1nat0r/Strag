@@ -265,6 +265,21 @@ public class BetaStrategyGameTest {
 		gameOverGame.move(new Position(4,5), new Position(4,4));
 	}
 	
+	@Test
+	public void testMorethanFiveMoves() throws StrategyException {
+		gameOverGame.move(new Position(4,4), new Position(4,3));
+		gameOverGame.move(new Position(5,4), new Position(5,3));
+		gameOverGame.move(new Position(4,3), new Position(4,4));
+		gameOverGame.move(new Position(5,3), new Position(5,4));
+		gameOverGame.move(new Position(4,4), new Position(4,3));
+		gameOverGame.move(new Position(5,4), new Position(5,3));
+		gameOverGame.move(new Position(4,3), new Position(4,4));
+		gameOverGame.move(new Position(5,3), new Position(5,4));
+		gameOverGame.move(new Position(4,4), new Position(4,3));
+		gameOverGame.move(new Position(5,4), new Position(5,3));
+		assertEquals(true,gameOverGame.isGameOver());
+	}
+	
 	@Test (expected=StrategyException.class)
 	public void testDoubleMove() throws StrategyException {
 		gameOverGame.move(new Position(4,4), new Position(4,3));
