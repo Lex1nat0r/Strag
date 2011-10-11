@@ -25,6 +25,11 @@ public class PlayerMove
 	private final Position from;
 	private final Position to;
 	
+	/**
+	 * 
+	 * @param from the from
+	 * @param to the to
+	 */
 	public PlayerMove(Position from, Position to)
 	{
 		this.from = from;
