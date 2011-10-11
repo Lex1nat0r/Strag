@@ -10,35 +10,35 @@
  *******************************************************************************/
 package strategy.playeratcahgsr.common;
 
-import strategy.playeratcahgsr.common.Position;
 import strategy.playeratcahgsr.delta.DeltaStrategyGame;
 
 /**
  * Describes a move.  ComparablePlayerMoves can be compared with each other to
  * determine which move is better.
  * 
+ * @version 10 Oct 2011
  * @author Alex Thornton-Clark, Andrew Hurle, Gabriel Stern-Robbins
  */
 public class ComparablePlayerMove implements Comparable<ComparablePlayerMove> {
 
 	private final Position from;
 	private final Position to;
-	private DeltaStrategyGame game;
+	private final DeltaStrategyGame game;
 	private MoveType type;
 
 	/**
 	 * @param from The Position this move is from
 	 * @param to The Position this move is going to
-	 * @param board The game that this movement is occurring on
+	 * @param game The game that this movement is occurring in
 	 */
 	public ComparablePlayerMove(Position from, Position to, DeltaStrategyGame game) {
 		this.from = from;
 		this.to = to;
 		this.game = game;
-		setType();
+		makeType();
 	}
 	
-	private void setType() {
+	private void makeType() {
 		boolean isValid = false;
 		try {
 			game.validateMove(from, to);
