@@ -56,8 +56,10 @@ import java.util.Set;
  * @author gpollice, Alex Thornton-Clark, Andrew Hurle, Gabriel Stern-Robbins
  * @version Aug 1, 2011
  */
-public class Position extends strategy.common.Position
+public class Position
 {
+	private final int row;
+	private final int column;
 	
 	/**
 	 * Constructor for a rectangular coordinate.
@@ -67,7 +69,59 @@ public class Position extends strategy.common.Position
 	 */
 	public Position(int row, int column)
 	{
-		super(row, column);
+		this.row = row;
+		this.column = column;
+	}
+
+	
+	/**
+	 * @return the row
+	 */
+	public int getRow()
+	{
+		return row;
+	}
+
+	/**
+	 * @return the column
+	 */
+	public int getColumn()
+	{
+		return column;
+	}
+	
+	@Override
+	public String toString()
+	{
+		return "(" + row + ',' + column + ')';
+	}
+	
+	/**
+	 * @see java.lang.Object#hashCode()
+	 */
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + column;
+		result = prime * result + row;
+		return result;
+	}
+
+
+	/**
+	 * @see java.lang.Object#equals(java.lang.Object)
+	 */
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj) {
+			return true;
+		}
+		if (obj instanceof Position) {
+			final Position other = (Position) obj;
+			return column == other.column && row == other.row;
+		}
+		return false;
 	}
 	
 	/**
@@ -77,8 +131,8 @@ public class Position extends strategy.common.Position
 	 * 			true if this Position is diagonal from Position other, otherwise false
 	 */
 	public boolean isDiagonal(Position other) {
-		final boolean horizontal = getColumn() != other.getColumn();
-		final boolean vertical = getRow() != other.getRow();
+		final boolean horizontal = column != other.getColumn();
+		final boolean vertical = row != other.getRow();
 		
 		return horizontal && vertical;
 	}
@@ -88,11 +142,27 @@ public class Position extends strategy.common.Position
 	 */
 	public Collection<Position> getCardinalPositions() {
 		final Set<Position> set = new HashSet<Position>();
-		set.add(new Position(getRow() + 1, getColumn()));
-		set.add(new Position(getRow(), getColumn() + 1));
-		set.add(new Position(getRow() - 1, getColumn()));
-		set.add(new Position(getRow(), getColumn() - 1));
+		set.add(new Position(row + 1, column));
+		set.add(new Position(row, column + 1));
+		set.add(new Position(row - 1, column));
+		set.add(new Position(row, column - 1));
 		return set;
+	}
+	
+	/**
+	 * @return An instance of strategy.common.Position based on this
+	 */
+	public strategy.common.Position convert() {
+		return new strategy.common.Position(row, column);
+	}
+
+
+	/**
+	 * @param other The strategy.common.Position to copy
+	 * @return An instance of strategy.player.Position based on other
+	 */
+	public static Position convert(strategy.common.Position other) {
+		return new Position(other.getRow(), other.getColumn());
 	}
 	
 }

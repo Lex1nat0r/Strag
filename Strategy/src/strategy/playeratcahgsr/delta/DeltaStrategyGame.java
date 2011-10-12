@@ -141,22 +141,23 @@ public class DeltaStrategyGame implements StrategyGame {
 		state.setTurn(myColor);  //it should always be my turn
 		if(lastMove != null) {
 			if(gameUpdate.getMyLastTarget() != null) {
-				state.getBoard().putPieceAt( (Position)lastMove.getTo(),
+				state.getBoard().putPieceAt( Position.convert(lastMove.getTo()),
 						new Piece(PieceType.convert(gameUpdate.getMyLastTarget()), 
 								myColor.equals(PlayerColor.RED) ? 
 										PlayerColor.BLUE : PlayerColor.RED));
 			}
-			move((Position)lastMove.getFrom(), (Position)lastMove.getTo());
+			move(Position.convert(lastMove.getFrom()), Position.convert(lastMove.getTo()));
 		}
 		if(gameUpdate != null) {
 			if(gameUpdate.getOpponentsAttacker() != null) {
-				state.getBoard().putPieceAt( (Position)gameUpdate.getOpponentsLastMove().getFrom(),
+				state.getBoard().putPieceAt(
+						Position.convert(gameUpdate.getOpponentsLastMove().getFrom()),
 						new Piece(PieceType.convert(gameUpdate.getOpponentsAttacker()), 
 								myColor.equals(PlayerColor.RED) ? 
 										PlayerColor.BLUE : PlayerColor.RED));
 			}
-			move((Position)gameUpdate.getOpponentsLastMove().getFrom(),
-					(Position)gameUpdate.getOpponentsLastMove().getTo());
+			move(Position.convert(gameUpdate.getOpponentsLastMove().getFrom()),
+					Position.convert(gameUpdate.getOpponentsLastMove().getTo()));
 		}
 		state.setTurn(myColor);
 	}

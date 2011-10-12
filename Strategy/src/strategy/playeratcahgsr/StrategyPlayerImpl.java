@@ -168,10 +168,10 @@ public class StrategyPlayerImpl implements StrategyPlayer
 	protected void detectScouts(MoveResult gameUpdate) {
 		if(gameUpdate != null) {
 			final PlayerMove oppMove = gameUpdate.getOpponentsLastMove();
-			if(oppMove != null && game.getBoard().getDistance((Position)oppMove.getFrom(),
-					(Position)oppMove.getTo()) > 1) {
+			if(oppMove != null && game.getBoard().getDistance(Position.convert(oppMove.getFrom()),
+					Position.convert(oppMove.getTo())) > 1) {
 				//we know that this must be a scout
-				game.getBoard().putPieceAt((Position)oppMove.getTo(),
+				game.getBoard().putPieceAt(Position.convert(oppMove.getTo()),
 						new Piece(PieceType.SCOUT,
 								myColor == PlayerColor.RED ? PlayerColor.BLUE : PlayerColor.RED));
 			}
@@ -187,7 +187,7 @@ public class StrategyPlayerImpl implements StrategyPlayer
 		Collections.shuffle(moves);
 		final ComparablePlayerMove move = moves.get(0);
 		
-		return new PlayerMove(move.getFrom(), move.getTo());
+		return new PlayerMove(move.getFrom().convert(), move.getTo().convert());
 	}
 	
 	/**

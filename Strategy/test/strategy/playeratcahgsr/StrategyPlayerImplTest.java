@@ -111,11 +111,11 @@ public class StrategyPlayerImplTest {
 	
 	@Test
 	public void testDetectScouts() {
-		MoveResult result = new MoveResult(new PlayerMove(new Position(6,1), new Position(4,1)),
+		MoveResult result = new MoveResult(new PlayerMove((new Position(6,1)).convert(), (new Position(4,1)).convert()),
 				null, null);
 		redPlayer.detectScouts(result);
 		assertEquals(new Piece(PieceType.SCOUT, PlayerColor.BLUE), redGame.getPieceAt(new Position(4,1)));
-		result = new MoveResult(new PlayerMove(new Position(6,0), new Position(5,0)),
+		result = new MoveResult(new PlayerMove((new Position(6,0)).convert(), (new Position(5,0)).convert()),
 				null, null);
 		redPlayer.detectScouts(result);
 		assertEquals(Piece.NULL_PIECE, redGame.getPieceAt(new Position(5,0)));
@@ -130,20 +130,20 @@ public class StrategyPlayerImplTest {
 	@Test
 	public void testRedMakeMove() {
 		redPlayer.move(null);
-		MoveResult result = new MoveResult(new PlayerMove(new Position(6,0), new Position(5,0)),
+		MoveResult result = new MoveResult(new PlayerMove((new Position(6,0)).convert(), (new Position(5,0)).convert()),
 				null, null);
 		PlayerMove redMove = redPlayer.move(result);
-		ComparablePlayerMove comp = new ComparablePlayerMove((Position)redMove.getFrom(), (Position)redMove.getTo(), redGame);
+		ComparablePlayerMove comp = new ComparablePlayerMove(Position.convert(redMove.getFrom()), Position.convert(redMove.getTo()), redGame);
 		assertEquals(MoveType.VALID, comp.getType());
 		assertEquals(Piece.UNKNOWN_PIECE, redGame.getBoard().getPieceAt(new Position(5,0)));
 	}
 	
 	@Test
 	public void testBlueReceiveMove() {
-		MoveResult result = new MoveResult(new PlayerMove(new Position(3,0), new Position(4,0)),
+		MoveResult result = new MoveResult(new PlayerMove((new Position(3,0)).convert(), (new Position(4,0)).convert()),
 				null, null);
 		PlayerMove blueMove = bluePlayer.move(result);
-		ComparablePlayerMove comp = new ComparablePlayerMove((Position)blueMove.getFrom(), (Position)blueMove.getTo(), blueGame);
+		ComparablePlayerMove comp = new ComparablePlayerMove(Position.convert(blueMove.getFrom()), Position.convert(blueMove.getTo()), blueGame);
 		assertEquals(MoveType.VALID, comp.getType());
 		assertEquals(Piece.UNKNOWN_PIECE, blueGame.getBoard().getPieceAt(new Position(4,0)));
 	}
