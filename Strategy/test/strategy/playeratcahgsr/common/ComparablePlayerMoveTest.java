@@ -4,6 +4,7 @@ package strategy.playeratcahgsr.common;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
+import java.util.Map;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -12,6 +13,7 @@ import static org.junit.Assert.*;
 
 import strategy.PieceConfiguration;
 import strategy.common.PlayerColor;
+import strategy.playeratcahgsr.StrategyPlayerImpl;
 import strategy.playeratcahgsr.delta.DeltaStrategyGame;
 
 public class ComparablePlayerMoveTest {
@@ -22,7 +24,8 @@ public class ComparablePlayerMoveTest {
 	private ComparablePlayerMove moveToFriendlyPiece;
 	
 	private DeltaStrategyGame game;
-	
+	private StrategyPlayerImpl player;
+	private Map<PieceType, Integer> unknowns; 
 	private List<ComparablePlayerMove> moveList;
 	
 	@Before
@@ -31,10 +34,13 @@ public class ComparablePlayerMoveTest {
 				PieceConfiguration.getInstance().getInitialRedConfiguration(),
 				PieceConfiguration.getInstance().getInitialBlueConfiguration());
 
-		moveToEmptySpace = new ComparablePlayerMove(new Position(3,0), new Position(4,0), game);
-		moveOutOfBounds = new ComparablePlayerMove(new Position(3,0), new Position(3,-1), game);
-		moveToWater = new ComparablePlayerMove(new Position(3,2), new Position(4,2), game);
-		moveToFriendlyPiece = new ComparablePlayerMove(new Position(3,0), new Position(3,1), game);
+		player = new StrategyPlayerImpl(PlayerColor.RED);
+		unknowns = player.getUnknowns();
+		
+		moveToEmptySpace = new ComparablePlayerMove(new Position(3,0), new Position(4,0), unknowns, game);
+		moveOutOfBounds = new ComparablePlayerMove(new Position(3,0), new Position(3,-1), unknowns, game);
+		moveToWater = new ComparablePlayerMove(new Position(3,2), new Position(4,2), unknowns, game);
+		moveToFriendlyPiece = new ComparablePlayerMove(new Position(3,0), new Position(3,1), unknowns, game);
 		
 		ComparablePlayerMove[] temp = {moveOutOfBounds, moveToWater, moveToEmptySpace, moveToFriendlyPiece};
 		moveList = Arrays.asList(temp);
@@ -59,7 +65,7 @@ public class ComparablePlayerMoveTest {
 	public void testMoveToUnknownPiece() {
 		game.setPlayerAsUnknown(PlayerColor.BLUE);
 		ComparablePlayerMove moveToUnknownPiece = new ComparablePlayerMove(new Position(3, 1),
-				new Position(6, 1), game);
+				new Position(6, 1), unknowns, game);
 		assertEquals(MoveType.VALID, moveToUnknownPiece.getType());
 	}
 	
@@ -67,7 +73,7 @@ public class ComparablePlayerMoveTest {
 	public void testBattleVictory() {
 		game.getBoard().putPieceAt(new Position(4, 0), new Piece(PieceType.SCOUT, PlayerColor.BLUE));
 		ComparablePlayerMove moveToWeakerPiece = new ComparablePlayerMove(new Position(3, 0), 
-				new Position(4, 0), game);
+				new Position(4, 0), unknowns, game);
 		assertEquals(MoveType.ATTACK_VICTORY, moveToWeakerPiece.getType());
 	}
 
@@ -75,7 +81,7 @@ public class ComparablePlayerMoveTest {
 	public void testBattleDefeat() {
 		game.getBoard().putPieceAt(new Position(4, 0), new Piece(PieceType.GENERAL, PlayerColor.BLUE));
 		ComparablePlayerMove moveToWeakerPiece = new ComparablePlayerMove(new Position(3, 0), 
-				new Position(4, 0), game);
+				new Position(4, 0), unknowns, game);
 		assertEquals(MoveType.ATTACK_DEFEAT, moveToWeakerPiece.getType());
 	}
 	
@@ -83,7 +89,7 @@ public class ComparablePlayerMoveTest {
 	public void testBattleDraw() {
 		game.getBoard().putPieceAt(new Position(4, 0), new Piece(PieceType.MAJOR, PlayerColor.BLUE));
 		ComparablePlayerMove moveToWeakerPiece = new ComparablePlayerMove(new Position(3, 0), 
-				new Position(4, 0), game);
+				new Position(4, 0), unknowns, game);
 		assertEquals(MoveType.ATTACK_DRAW, moveToWeakerPiece.getType());
 	}
 	
@@ -93,9 +99,9 @@ public class ComparablePlayerMoveTest {
 		game.getBoard().putPieceAt(new Position(0,1), new Piece(PieceType.GENERAL, PlayerColor.BLUE));
 		game.getBoard().putPieceAt(new Position(1,0), new Piece(PieceType.COLONEL, PlayerColor.BLUE));
 		ComparablePlayerMove moveToGeneral = new ComparablePlayerMove(new Position(0, 0), 
-				new Position(0, 1), game);
+				new Position(0, 1), unknowns, game);
 		ComparablePlayerMove moveToColonel = new ComparablePlayerMove(new Position(0, 0), 
-				new Position(1, 0), game);
+				new Position(1, 0), unknowns, game);
 		
 		assertTrue(moveToGeneral.compareTo(moveToColonel) > 0);
 		assertTrue(moveToColonel.compareTo(moveToGeneral) < 0);
@@ -109,9 +115,9 @@ public class ComparablePlayerMoveTest {
 		game.getBoard().putPieceAt(new Position(0,1), new Piece(PieceType.FLAG, PlayerColor.BLUE));
 		game.getBoard().putPieceAt(new Position(1,0), new Piece(PieceType.GENERAL, PlayerColor.BLUE));
 		ComparablePlayerMove moveToFlag = new ComparablePlayerMove(new Position(0, 0), 
-				new Position(0, 1), game);
+				new Position(0, 1), unknowns, game);
 		ComparablePlayerMove moveToGeneral = new ComparablePlayerMove(new Position(0, 0), 
-				new Position(1, 0), game);
+				new Position(1, 0), unknowns, game);
 		
 		assertEquals(MoveType.CAPTURE_FLAG, moveToFlag.getType());
 		assertTrue(moveToFlag.compareTo(moveToGeneral) > 0);

@@ -29,7 +29,9 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.Hashtable;
 import java.util.List;
+import java.util.Map;
 
 import strategy.common.PlayerColor;
 import strategy.playeratcahgsr.common.BoardIterator;
@@ -58,6 +60,7 @@ public class StrategyPlayerImpl implements StrategyPlayer
 	private final PieceType[][] startingBluePieceTypes;
 	private final PiecePositionAssociation[] startingRedConfig;
 	private final PiecePositionAssociation[] startingBlueConfig;
+	private final Hashtable<PieceType, Integer> unknowns;
 	
 	private final DeltaStrategyGame game;
 	private PlayerMove lastMove;
@@ -89,6 +92,7 @@ public class StrategyPlayerImpl implements StrategyPlayer
 	public StrategyPlayerImpl(PlayerColor myColor)
 	{
 		this.myColor = myColor;
+		unknowns = new Hashtable<PieceType, Integer>();
 		
 		//flip the PieceType 2D array vertically to get blue config
 		final List<PieceType[]> temp = Arrays.asList(startingRedPieceTypes.clone());
@@ -104,6 +108,19 @@ public class StrategyPlayerImpl implements StrategyPlayer
 		
 		game.setPlayerAsUnknown(myColor.equals(PlayerColor.RED)
 				? PlayerColor.BLUE : PlayerColor.RED);
+		
+		populateUnknowns();
+	}
+	
+	private void populateUnknowns() {
+		for (Piece i : game.getBoard()) {
+			if (myColor.equals(i.getColor())) {
+				if (!unknowns.containsKey(i.getType())) {
+					unknowns.put(i.getType(), 0);
+				}
+				unknowns.put(i.getType(), unknowns.get(i.getType()) + 1);
+			}
+		}
 	}
 	
 	/**
@@ -146,26 +163,39 @@ public class StrategyPlayerImpl implements StrategyPlayer
 	 */
 	@Override
 	public PlayerMove move(MoveResult gameUpdate) {
+		final List<PieceType> knownPieces;
 		try {
-			game.update(lastMove, gameUpdate, myColor);
+			knownPieces = game.update(lastMove, gameUpdate, myColor);
 		} catch(Exception e) {
 			//oh poop oh poop oh poop
 			throw new RuntimeException("playeratcahgsr screwed up while trying to move", e);
 		}
 		
-		detectScouts(gameUpdate);
+		final PieceType detectedScout = detectScouts(gameUpdate);
+		if (detectedScout != null) {
+			knownPieces.add(detectedScout);
+		}
+		
+		updateUnknowns(knownPieces);
 		
 		lastMove = getRandomBestMove();
 		return lastMove;
 	}
 	
+	private void updateUnknowns(List<PieceType> newKnowns) {
+		for (PieceType i : newKnowns) {
+			unknowns.put(i, unknowns.get(i) - 1);
+		}
+	}
+
 	/**
 	 * Puts a scout on the opponent's destination position if the distance
 	 * between the source and destination is greater than one.
 	 * 
 	 * @param gameUpdate The gameUpdate for this move
+	 * @return Scout if a scout has been detected, otherwise null
 	 */
-	protected void detectScouts(MoveResult gameUpdate) {
+	protected PieceType detectScouts(MoveResult gameUpdate) {
 		if(gameUpdate != null) {
 			final PlayerMove oppMove = gameUpdate.getOpponentsLastMove();
 			if(oppMove != null && game.getBoard().getDistance(Position.convert(oppMove.getFrom()),
@@ -174,8 +204,10 @@ public class StrategyPlayerImpl implements StrategyPlayer
 				game.getBoard().putPieceAt(Position.convert(oppMove.getTo()),
 						new Piece(PieceType.SCOUT,
 								myColor == PlayerColor.RED ? PlayerColor.BLUE : PlayerColor.RED));
+				return PieceType.SCOUT;
 			}
 		}
+		return null;
 	}
 	
 	/**
@@ -203,7 +235,7 @@ public class StrategyPlayerImpl implements StrategyPlayer
 				Collection<Position> cardinals = currentPosition.getCardinalPositions();
 				
 				for(Position p : cardinals) {
-					allMoves.add(new ComparablePlayerMove(currentPosition, p, game));
+					allMoves.add(new ComparablePlayerMove(currentPosition, p, unknowns, game));
 				}
 			}
 		}
@@ -232,6 +264,10 @@ public class StrategyPlayerImpl implements StrategyPlayer
 	
 	protected DeltaStrategyGame getGame() {
 		return game;
+	}
+	
+	public Map<PieceType, Integer> getUnknowns() {
+		return unknowns;
 	}
 
 }

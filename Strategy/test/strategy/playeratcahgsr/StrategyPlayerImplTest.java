@@ -7,6 +7,7 @@ import static org.junit.Assert.assertTrue;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
+import java.util.Map;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -34,6 +35,9 @@ public class StrategyPlayerImplTest {
 	private ComparablePlayerMove moveToWater;
 	private ComparablePlayerMove moveToFriendlyPiece;
 	
+	private Map<PieceType, Integer> redUnknowns;
+	private Map<PieceType, Integer> blueUnknowns;
+	
 	private List<ComparablePlayerMove> moveList;
 	
 	@Before
@@ -42,11 +46,13 @@ public class StrategyPlayerImplTest {
 		redGame = redPlayer.getGame();
 		bluePlayer = new StrategyPlayerImpl(PlayerColor.BLUE);
 		blueGame = bluePlayer.getGame();
+		redUnknowns = redPlayer.getUnknowns();
+		blueUnknowns = bluePlayer.getUnknowns();
 		
-		moveToEmptySpace = new ComparablePlayerMove(new Position(3,0), new Position(4,0), redGame);
-		moveOutOfBounds = new ComparablePlayerMove(new Position(3,0), new Position(3,-1), redGame);
-		moveToWater = new ComparablePlayerMove(new Position(3,2), new Position(4,2), redGame);
-		moveToFriendlyPiece = new ComparablePlayerMove(new Position(3,0), new Position(3,1), redGame);
+		moveToEmptySpace = new ComparablePlayerMove(new Position(3,0), new Position(4,0), redUnknowns, redGame);
+		moveOutOfBounds = new ComparablePlayerMove(new Position(3,0), new Position(3,-1), redUnknowns, redGame);
+		moveToWater = new ComparablePlayerMove(new Position(3,2), new Position(4,2), redUnknowns, redGame);
+		moveToFriendlyPiece = new ComparablePlayerMove(new Position(3,0), new Position(3,1), redUnknowns, redGame);
 		
 		ComparablePlayerMove[] temp = {moveOutOfBounds, moveToWater, moveToEmptySpace, moveToFriendlyPiece};
 		moveList = Arrays.asList(temp);
@@ -133,7 +139,8 @@ public class StrategyPlayerImplTest {
 		MoveResult result = new MoveResult(new PlayerMove((new Position(6,0)).convert(), (new Position(5,0)).convert()),
 				null, null);
 		PlayerMove redMove = redPlayer.move(result);
-		ComparablePlayerMove comp = new ComparablePlayerMove(Position.convert(redMove.getFrom()), Position.convert(redMove.getTo()), redGame);
+		ComparablePlayerMove comp = new ComparablePlayerMove(Position.convert(redMove.getFrom()), Position.convert(redMove.getTo()), redUnknowns, 
+				redGame);
 		assertEquals(MoveType.VALID, comp.getType());
 		assertEquals(Piece.UNKNOWN_PIECE, redGame.getBoard().getPieceAt(new Position(5,0)));
 	}
@@ -143,7 +150,8 @@ public class StrategyPlayerImplTest {
 		MoveResult result = new MoveResult(new PlayerMove((new Position(3,0)).convert(), (new Position(4,0)).convert()),
 				null, null);
 		PlayerMove blueMove = bluePlayer.move(result);
-		ComparablePlayerMove comp = new ComparablePlayerMove(Position.convert(blueMove.getFrom()), Position.convert(blueMove.getTo()), blueGame);
+		ComparablePlayerMove comp = new ComparablePlayerMove(Position.convert(blueMove.getFrom()), Position.convert(blueMove.getTo()), blueUnknowns, 
+				blueGame);
 		assertEquals(MoveType.VALID, comp.getType());
 		assertEquals(Piece.UNKNOWN_PIECE, blueGame.getBoard().getPieceAt(new Position(4,0)));
 	}

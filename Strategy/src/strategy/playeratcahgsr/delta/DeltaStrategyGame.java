@@ -11,6 +11,9 @@
 
 package strategy.playeratcahgsr.delta;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import strategy.common.PlayerColor;
 import strategy.common.StrategyException;
 import strategy.playeratcahgsr.beta.BetaMovementStrategy;
@@ -135,21 +138,31 @@ public class DeltaStrategyGame implements StrategyGame {
 	 * @param gameUpdate The opponent's last move and other info
 	 * @param myColor Our color
 	 * @throws StrategyException If a move is invalid
+	 * @return List of Pieces whose types have been discovered
 	 */
-	public void update(PlayerMove lastMove, MoveResult gameUpdate, PlayerColor myColor)
+	public List<PieceType> update(PlayerMove lastMove, MoveResult gameUpdate, PlayerColor myColor)
 			throws StrategyException {
+		final List<PieceType> knownPieces = new ArrayList<PieceType>();
 		state.setTurn(myColor);  //it should always be my turn
 		if(lastMove != null) {
 			if(gameUpdate.getMyLastTarget() != null) {
+				if(getPieceAt(Position.convert(lastMove.getTo())).equals(Piece.UNKNOWN_PIECE)) {
+					knownPieces.add(PieceType.convert(gameUpdate.getMyLastTarget()));
+				}
 				state.getBoard().putPieceAt( Position.convert(lastMove.getTo()),
 						new Piece(PieceType.convert(gameUpdate.getMyLastTarget()), 
 								myColor.equals(PlayerColor.RED) ? 
 										PlayerColor.BLUE : PlayerColor.RED));
 			}
 			move(Position.convert(lastMove.getFrom()), Position.convert(lastMove.getTo()));
+
 		}
 		if(gameUpdate != null) {
 			if(gameUpdate.getOpponentsAttacker() != null) {
+				if(getPieceAt(Position.convert(gameUpdate.getOpponentsLastMove().getFrom()))
+						.equals(Piece.UNKNOWN_PIECE)) {
+					knownPieces.add(PieceType.convert(gameUpdate.getOpponentsAttacker()));
+				}
 				state.getBoard().putPieceAt(
 						Position.convert(gameUpdate.getOpponentsLastMove().getFrom()),
 						new Piece(PieceType.convert(gameUpdate.getOpponentsAttacker()), 
@@ -160,6 +173,8 @@ public class DeltaStrategyGame implements StrategyGame {
 					Position.convert(gameUpdate.getOpponentsLastMove().getTo()));
 		}
 		state.setTurn(myColor);
+		
+		return knownPieces;
 	}
 
 	/**

@@ -10,6 +10,7 @@
  *******************************************************************************/
 package strategy.playeratcahgsr.common;
 
+import java.util.Map;
 import strategy.playeratcahgsr.delta.DeltaStrategyGame;
 
 /**
@@ -23,18 +24,23 @@ public class ComparablePlayerMove implements Comparable<ComparablePlayerMove> {
 
 	private final Position from;
 	private final Position to;
+	private final Map<PieceType, Integer> unknowns;
 	private final DeltaStrategyGame game;
+	private double winProb;
 	private MoveType type;
 	private int rankDifference;
 
 	/**
 	 * @param from The Position this move is from
 	 * @param to The Position this move is going to
+	 * @param unknowns 
 	 * @param game The game that this movement is occurring in
 	 */
-	public ComparablePlayerMove(Position from, Position to, DeltaStrategyGame game) {
+	public ComparablePlayerMove(Position from, Position to, Map<PieceType, Integer> unknowns, 
+			DeltaStrategyGame game) {
 		this.from = from;
 		this.to = to;
+		this.unknowns = unknowns;
 		this.game = game;
 		makeType();
 		findRankDifference();
@@ -84,7 +90,29 @@ public class ComparablePlayerMove implements Comparable<ComparablePlayerMove> {
 				return MoveType.ATTACK_VICTORY;
 			}
 		}
+		else if(toPiece.equals(Piece.UNKNOWN_PIECE)) {
+			calculateWinProb();
+			if (winProb > 0.9) {
+				return MoveType.POSSIBLE_VICTORY;
+			}
+		}
 		return MoveType.VALID;
+	}
+	
+	private void calculateWinProb() {
+		winProb = 0;
+		int numWins = 0;
+		int numPossible = 0;
+		final Piece thisPiece = game.getPieceAt(from);
+		
+		for (PieceType i : PieceType.values()) {
+			if(DeltaStrategyGame.determineBattleResult(thisPiece, 
+					new Piece(i, thisPiece.getColor())) == BattleResult.VICTORY) {
+				numWins++;
+			}
+			numPossible += unknowns.get(i);
+		}
+		winProb = (float) numWins / (float) numPossible;
 	}
 	
 	@Override
@@ -128,5 +156,4 @@ public class ComparablePlayerMove implements Comparable<ComparablePlayerMove> {
 	public MoveType getType() {
 		return type;
 	}
-
 }
