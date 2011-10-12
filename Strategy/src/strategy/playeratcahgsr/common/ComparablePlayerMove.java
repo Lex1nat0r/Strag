@@ -92,7 +92,7 @@ public class ComparablePlayerMove implements Comparable<ComparablePlayerMove> {
 		}
 		else if(toPiece.equals(Piece.UNKNOWN_PIECE)) {
 			calculateWinProb();
-			if (winProb > 0.9) {
+			if (winProb > 0.95) {
 				return MoveType.POSSIBLE_VICTORY;
 			}
 		}
